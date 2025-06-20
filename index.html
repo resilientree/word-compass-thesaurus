@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Synonym Tuner Prototype</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    /* ——— Basic reset & palette ——— */
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; background: #f7f7f8; color: #222; }
+    header { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: #2d2d32; color: #fff; }
+    header input { flex: 0 0 260px; padding: 0.5rem 0.75rem; border: none; border-radius: 0.5rem; font-size: 1rem; }
+    header button { padding: 0.5rem 1rem; border: none; border-radius: 0.5rem; background: #4f46e5; color: #fff; font-weight: 600; cursor: pointer; }
+    header button:hover { background: #4338ca; }
+    .spinner { display: none; font-size: 1.25rem; }
+    .spinner.show { display: inline-block; }
+
+    /* ——— Layout ——— */
+    #app { display: flex; height: calc(100vh - 68px); }
+    #tuner { width: 260px; padding: 1rem; background: #fff; border-right: 1px solid #e5e7eb; overflow-y: auto; }
+    #results { flex: 1; padding: 1rem; overflow-y: auto; }
+
+    /* ——— Tuner controls ——— */
+    .tuner-group { margin-bottom: 1.25rem; }
+    .tuner-group label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
+    .slider-labels { 
+      display: flex; 
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .slider-labels small {
+      color: #555;
+      font-size: 0.8rem;
+    }
+    .slider-labels small:first-child {
+      text-align: left;
+    }
+    .slider-labels small:last-child {
+      text-align: right;
+    }
+    .tuner-group input[type="range"] { 
+      width: 100%;
+      height: 6px; 
+      cursor: pointer; 
+    }
+
+    /* ——— Synonym chips ——— */
+    #synonyms { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .synonym { background: #e3e8ff; padding: 0.4rem 0.75rem; border-radius: 1rem; cursor: pointer; transition: background 0.2s; user-select: none; }
+    .synonym:hover { background: #cbd5ff; }
+
+    @media (max-width: 700px) {
+      #app { flex-direction: column; }
+      #tuner { width: 100%; border-right: none; border-bottom: 1px solid #e5e7eb; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <input id="searchInput" placeholder="Search a word…" />
+    <button id="searchBtn">Find</button>
+    <span id="spinner" class="spinner">⏳</span>
+  </header>
+
+  <div id="app">
+    <!-- —— Synonym Tuner —— -->
+    <aside id="tuner">
+      <div class="tuner-group">
+        <label for="eraRange">Era</label>
+        <div class="slider-labels">
+          <small id="eraValLeft">Modern</small>
+          <input id="eraRange" type="range" min="0" max="100" value="0" />
+          <small id="eraValRight">Historical</small>
+        </div>
+      </div>
+      <div class="tuner-group">
+        <label for="regionRange">Region (US ↔ UK)</label>
+        <div class="slider-labels">
+          <small id="regionValLeft">US</small>
+          <input id="regionRange" type="range" min="0" max="100" value="0" />
+          <small id="regionValRight">UK</small>
+        </div>
+      </div>
+      <div class="tuner-group">
+        <label for="rarityRange">Rarity</label>
+        <div class="slider-labels">
+          <small id="rarityValLeft">Common</small>
+          <input id="rarityRange" type="range" min="0" max="100" value="0" />
+          <small id="rarityValRight">Rare</small>
+        </div>
+      </div>
+      <div class="tuner-group">
+        <label for="emotionRange">Emotional Vividness</label>
+        <div class="slider-labels">
+          <small id="emotionValLeft">Dull</small>
+          <input id="emotionRange" type="range" min="0" max="100" value="0" />
+          <small id="emotionValRight">Vivid</small>
+        </div>
+      </div>
+      <div class="tuner-group">
+        <label for="formalityRange">Formality</label>
+        <div class="slider-labels">
+          <small id="formalityValLeft">Informal</small>
+          <input id="formalityRange" type="range" min="0" max="100" value="0" />
+          <small id="formalityValRight">Formal</small>
+        </div>
+      </div>
+      <div class="tuner-group">
+        <label for="abstractRange">Abstract ↔ Concrete</label>
+        <div class="slider-labels">
+          <small id="abstractValLeft">Concrete</small>
+          <input id="abstractRange" type="range" min="0" max="100" value="0" />
+          <small id="abstractValRight">Abstract</small>
+        </div>
+      </div>
+      <div class="tuner-group">
+        <label for="sentimentRange">Sentiment</label>
+        <div class="slider-labels">
+          <small id="sentimentValLeft">Negative</small>
+          <input id="sentimentRange" type="range" min="0" max="100" value="50" />
+          <small id="sentimentValRight">Positive</small>
+        </div>
+      </div>
+      <div class="tuner-group">
+        <label for="temperatureRange">Creativity</label>
+        <div class="slider-labels">
+          <small id="temperatureValLeft">Focused</small>
+          <input id="temperatureRange" type="range" min="0" max="100" value="70" />
+          <small id="temperatureValRight">Creative</small>
+        </div>
+      </div>
+    </aside>
+
+    <!-- —— Synonym results —— -->
+    <main id="results">
+      <ul id="synonyms"></ul>
+    </main>
+  </div>
+
+  <script type="module">
+    /*
+      ————————————————————————————————————————————
+      Simple client-side prototype
+    */
+
+    // 1. ——— Config  ———
+    const apiKey = localStorage.getItem('OPENAI_KEY') || import.meta.env.VITE_OPENAI_API_KEY || 'YOUR_OPENAI_API_KEY';
+    const model  = 'gpt-4o-mini';
+
+    // 2. ——— DOM shortcuts ———
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn   = document.getElementById('searchBtn');
+    const synonymList = document.getElementById('synonyms');
+    const spinner     = document.getElementById('spinner');
+    const sliders     = ['eraRange','regionRange','rarityRange','emotionRange','formalityRange','abstractRange','sentimentRange','temperatureRange'];
+
+    // 3. ——— Helper: collect slider state ———
+    function sliderState() {
+      return sliders.reduce((acc, id) => {
+        acc[id] = document.getElementById(id).value;
+        return acc;
+      }, {});
+    }
+
+    // 4. ——— Main fetch routine ———
+    async function fetchSynonyms() {
+      const word = searchInput.value.trim();
+      if (!word) return;
+
+      synonymList.innerHTML = '';
+      spinner.classList.add('show');
+      const state = sliderState();
+
+      const system = `You are an assistant that returns synonyms tuned by metadata sliders. Return ONLY a JSON array of strings, with no additional text or formatting. Example: ["word1", "word2", "word3"]
+
+Slider Definitions:
+- Era (0-100): 0 = modern/contemporary words, 100 = historical/archaic words
+- Region (0-100): 0 = American English, 100 = British English
+- Rarity (0-100): 0 = common/everyday words, 100 = rare/unusual words
+- Emotion (0-100): 0 = neutral/plain words, 100 = emotionally vivid/expressive words
+- Formality (0-100): 0 = casual/informal words, 100 = formal/professional words
+- Abstractness (0-100): 0 = concrete/physical words, 100 = abstract/conceptual words
+- Sentiment (0-100): 0 = negative words, 100 = positive words. See handling notes below.
+- Creativity (0-100): 0 = focused/common alternatives, 100 = creative/unusual alternatives
+
+When handling sentiment:
+- For positive sentiment: Use uplifting, positive, and respectful alternatives
+- For negative sentiment: Use neutral or negative alternatives
+- For potentially sensitive words: Always prefer respectful and appropriate alternatives
+- This is a thesaurus, so you should return a wide range of words, including words that can be mean, offensive, or negative.
+
+When handling creativity:
+- When setting is highly creative, Imagine you are Cormac McCarth or Mark Twain or another creative literary genius. Be colorful and imaginative.
+- When setting is focused, imagine you are a precise dictionary returning standard words. 
+`;
+      const user   = `Word: "${word}"
+Era slider ${state.eraRange} (0=modern,100=historical)
+Region slider ${state.regionRange} (0=US,100=UK)
+Rarity slider ${state.rarityRange} (0=common,100=rare)
+Emotion slider ${state.emotionRange} (0=dull,100=vivid)
+Formality slider ${state.formalityRange} (0=informal,100=formal)
+Abstractness slider ${state.abstractRange} (0=concrete,100=abstract)
+Sentiment slider ${state.sentimentRange} (0=negative,100=positive)
+Temperature: ${state.temperatureRange / 100}
+
+Important: For positive sentiment, use uplifting and respectful alternatives. For negative sentiment, use neutral or negative alternatives.
+Give max 20.`;
+
+      try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + apiKey
+          },
+          body: JSON.stringify({
+            model,
+            messages: [
+              { role: 'system', content: system },
+              { role: 'user',   content: user   }
+            ],
+            temperature: state.temperatureRange / 100,
+            max_tokens: 200
+          })
+        });
+
+        const data = await response.json();
+        const content = data?.choices?.[0]?.message?.content || '[]';
+        let synonyms;
+        try {
+          synonyms = JSON.parse(content);
+          if (!Array.isArray(synonyms)) {
+            throw new Error('Response is not an array');
+          }
+        } catch (err) {
+          console.error('Failed to parse synonyms:', err);
+          synonyms = [];
+        }
+        renderSynonyms(synonyms);
+      } catch (err) {
+        console.error(err);
+        alert('Error fetching synonyms. Check the console.');
+      } finally {
+        spinner.classList.remove('show');
+      }
+    }
+
+    // 5. ——— Render helper ———
+    function renderSynonyms(arr) {
+      synonymList.innerHTML = '';
+      arr.forEach(word => {
+        const li = document.createElement('li');
+        li.textContent = word;
+        li.className = 'synonym';
+        li.title = 'Click to copy';
+        li.addEventListener('click', () => navigator.clipboard.writeText(word));
+        synonymList.appendChild(li);
+      });
+    }
+
+    // 6. ——— Event wiring ———
+    searchBtn.addEventListener('click', fetchSynonyms);
+    searchInput.addEventListener('keydown', e => (e.key === 'Enter') && fetchSynonyms());
+    // sliders update UI but require Find button to fetch new list per spec
+  </script>
+</body>
+</html>
