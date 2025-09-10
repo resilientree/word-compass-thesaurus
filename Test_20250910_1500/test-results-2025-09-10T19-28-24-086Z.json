@@ -1,0 +1,989 @@
+{
+  "timestamp": "2025-09-10T19:28:24.088Z",
+  "models": [
+    {
+      "name": "gpt-4o-mini",
+      "cost": "low",
+      "description": "Current model - fast and cheap"
+    },
+    {
+      "name": "gpt-3.5-turbo",
+      "cost": "low",
+      "description": "Classic fast model"
+    },
+    {
+      "name": "gpt-4o",
+      "cost": "medium",
+      "description": "Latest GPT-4, more capable"
+    },
+    {
+      "name": "gpt-4-turbo",
+      "cost": "high",
+      "description": "Most capable, expensive"
+    }
+  ],
+  "testData": {
+    "words": 15,
+    "scenarios": 5
+  },
+  "results": [
+    {
+      "model": "gpt-4o-mini",
+      "word": "happy",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "cheerful",
+        "content",
+        "joyful",
+        "delighted",
+        "pleased",
+        "merry",
+        "jovial",
+        "elated",
+        "satisfied",
+        "upbeat",
+        "buoyant",
+        "radiant",
+        "gleeful",
+        "glad"
+      ],
+      "responseTime": 15436,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 58,
+        "total_tokens": 352,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"cheerful\", \"content\", \"joyful\", \"delighted\", \"pleased\", \"merry\", \"jovial\", \"elated\", \"satisfied\", \"upbeat\", \"buoyant\", \"radiant\", \"gleeful\", \"glad\"]"
+    },
+    {
+      "model": "gpt-4o-mini",
+      "word": "happy",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "contented",
+        "elated",
+        "jubilant",
+        "cheerful",
+        "satisfied",
+        "delighted",
+        "exultant",
+        "blissful",
+        "gleeful",
+        "radiant",
+        "joyful",
+        "serene",
+        "buoyant",
+        "mirthful",
+        "overjoyed"
+      ],
+      "responseTime": 2480,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 67,
+        "total_tokens": 361,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"contented\", \"elated\", \"jubilant\", \"cheerful\", \"satisfied\", \"delighted\", \"exultant\", \"blissful\", \"gleeful\", \"radiant\", \"joyful\", \"serene\", \"buoyant\", \"mirthful\", \"overjoyed\"]"
+    },
+    {
+      "model": "gpt-4o-mini",
+      "word": "beautiful",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "lovely",
+        "gorgeous",
+        "charming",
+        "stunning",
+        "attractive",
+        "alluring",
+        "striking",
+        "radiant",
+        "appealing",
+        "exquisite",
+        "enchanting",
+        "delightful",
+        "fetching",
+        "captivating"
+      ],
+      "responseTime": 1810,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 59,
+        "total_tokens": 353,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"lovely\", \"gorgeous\", \"charming\", \"stunning\", \"attractive\", \"alluring\", \"striking\", \"radiant\", \"appealing\", \"exquisite\", \"enchanting\", \"delightful\", \"fetching\", \"captivating\"]"
+    },
+    {
+      "model": "gpt-4o-mini",
+      "word": "beautiful",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "comely",
+        "fair",
+        "pulchritudinous",
+        "lovely",
+        "beauteous",
+        "graceful",
+        "charming",
+        "picturesque",
+        "exquisite",
+        "radiant",
+        "resplendent",
+        "adorable",
+        "elegant",
+        "alluring",
+        "fine"
+      ],
+      "responseTime": 4208,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 65,
+        "total_tokens": 359,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"comely\", \"fair\", \"pulchritudinous\", \"lovely\", \"beauteous\", \"graceful\", \"charming\", \"picturesque\", \"exquisite\", \"radiant\", \"resplendent\", \"adorable\", \"elegant\", \"alluring\", \"fine\"]"
+    },
+    {
+      "model": "gpt-4o-mini",
+      "word": "smart",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "clever",
+        "intelligent",
+        "sharp",
+        "bright",
+        "astute",
+        "wise",
+        "brilliant",
+        "quick-witted",
+        "resourceful",
+        "perceptive",
+        "shrewd",
+        "cunning",
+        "savvy",
+        "ingenious"
+      ],
+      "responseTime": 4278,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 56,
+        "total_tokens": 350,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"clever\", \"intelligent\", \"sharp\", \"bright\", \"astute\", \"wise\", \"brilliant\", \"quick-witted\", \"resourceful\", \"perceptive\", \"shrewd\", \"cunning\", \"savvy\", \"ingenious\"]"
+    },
+    {
+      "model": "gpt-4o-mini",
+      "word": "smart",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "intelligent",
+        "sagacious",
+        "astute",
+        "clever",
+        "perceptive",
+        "shrewd",
+        "discerning",
+        "knowledgeable",
+        "insightful",
+        "erudite",
+        "brainy",
+        "canny",
+        "wise",
+        "sophisticated"
+      ],
+      "responseTime": 1874,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 61,
+        "total_tokens": 355,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"intelligent\", \"sagacious\", \"astute\", \"clever\", \"perceptive\", \"shrewd\", \"discerning\", \"knowledgeable\", \"insightful\", \"erudite\", \"brainy\", \"canny\", \"wise\", \"sophisticated\"]"
+    },
+    {
+      "model": "gpt-3.5-turbo",
+      "word": "happy",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "joyful",
+        "delighted",
+        "ecstatic",
+        "elated",
+        "blissful",
+        "overjoyed",
+        "euphoric",
+        "gleeful",
+        "cheerful",
+        "content",
+        "radiant",
+        "exultant"
+      ],
+      "responseTime": 768,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 53,
+        "total_tokens": 350,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"joyful\", \"delighted\", \"ecstatic\", \"elated\", \"blissful\", \"overjoyed\", \"euphoric\", \"gleeful\", \"cheerful\", \"content\", \"radiant\", \"exultant\"]"
+    },
+    {
+      "model": "gpt-3.5-turbo",
+      "word": "happy",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "contented",
+        "joyful",
+        "blissful",
+        "ecstatic",
+        "elated",
+        "euphoric",
+        "exultant",
+        "jubilant",
+        "buoyant",
+        "mirthful",
+        "radiant",
+        "gleeful"
+      ],
+      "responseTime": 1257,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 56,
+        "total_tokens": 353,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"contented\", \"joyful\", \"blissful\", \"ecstatic\", \"elated\", \"euphoric\", \"exultant\", \"jubilant\", \"buoyant\", \"mirthful\", \"radiant\", \"gleeful\"]"
+    },
+    {
+      "model": "gpt-3.5-turbo",
+      "word": "beautiful",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "gorgeous",
+        "lovely",
+        "stunning",
+        "exquisite",
+        "attractive",
+        "charming",
+        "appealing",
+        "captivating",
+        "ravishing",
+        "enchanting",
+        "alluring",
+        "radiant"
+      ],
+      "responseTime": 814,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 51,
+        "total_tokens": 348,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"gorgeous\", \"lovely\", \"stunning\", \"exquisite\", \"attractive\", \"charming\", \"appealing\", \"captivating\", \"ravishing\", \"enchanting\", \"alluring\", \"radiant\"]"
+    },
+    {
+      "model": "gpt-3.5-turbo",
+      "word": "beautiful",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "exquisite",
+        "splendid",
+        "magnificent",
+        "gorgeous",
+        "lovely",
+        "superb",
+        "grand",
+        "elegant",
+        "sumptuous",
+        "opulent",
+        "stately",
+        "resplendent"
+      ],
+      "responseTime": 1167,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 51,
+        "total_tokens": 348,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"exquisite\", \"splendid\", \"magnificent\", \"gorgeous\", \"lovely\", \"superb\", \"grand\", \"elegant\", \"sumptuous\", \"opulent\", \"stately\", \"resplendent\"]"
+    },
+    {
+      "model": "gpt-3.5-turbo",
+      "word": "smart",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "intelligent",
+        "clever",
+        "bright",
+        "astute",
+        "shrewd",
+        "brainy",
+        "sharp-witted",
+        "genius",
+        "quick-witted",
+        "keen",
+        "perceptive",
+        "discerning"
+      ],
+      "responseTime": 925,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 51,
+        "total_tokens": 348,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"intelligent\", \"clever\", \"bright\", \"astute\", \"shrewd\", \"brainy\", \"sharp-witted\", \"genius\", \"quick-witted\", \"keen\", \"perceptive\", \"discerning\"]"
+    },
+    {
+      "model": "gpt-3.5-turbo",
+      "word": "smart",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "intelligent",
+        "astute",
+        "clever",
+        "ingenious",
+        "brilliant",
+        "discerning",
+        "canny",
+        "sagacious",
+        "perceptive",
+        "shrewd",
+        "acute",
+        "wise"
+      ],
+      "responseTime": 1947,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 64,
+        "total_tokens": 361,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\n    \"intelligent\",\n    \"astute\",\n    \"clever\",\n    \"ingenious\",\n    \"brilliant\",\n    \"discerning\",\n    \"canny\",\n    \"sagacious\",\n    \"perceptive\",\n    \"shrewd\",\n    \"acute\",\n    \"wise\"\n]"
+    },
+    {
+      "model": "gpt-4o",
+      "word": "happy",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "joyful",
+        "cheerful",
+        "elated",
+        "content",
+        "gleeful",
+        "satisfied",
+        "merry",
+        "blissful",
+        "radiant",
+        "jubilant",
+        "sunny",
+        "delighted",
+        "buoyant"
+      ],
+      "responseTime": 1041,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 55,
+        "total_tokens": 349,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"joyful\", \"cheerful\", \"elated\", \"content\", \"gleeful\", \"satisfied\", \"merry\", \"blissful\", \"radiant\", \"jubilant\", \"sunny\", \"delighted\", \"buoyant\"]"
+    },
+    {
+      "model": "gpt-4o",
+      "word": "happy",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "contented",
+        "satisfied",
+        "pleased",
+        "gratified",
+        "serene",
+        "tranquil",
+        "composed",
+        "comfortable",
+        "assured",
+        "fulfilled",
+        "untroubled",
+        "blithe",
+        "equanimous"
+      ],
+      "responseTime": 1236,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 53,
+        "total_tokens": 347,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"contented\", \"satisfied\", \"pleased\", \"gratified\", \"serene\", \"tranquil\", \"composed\", \"comfortable\", \"assured\", \"fulfilled\", \"untroubled\", \"blithe\", \"equanimous\"]"
+    },
+    {
+      "model": "gpt-4o",
+      "word": "beautiful",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "gorgeous",
+        "stunning",
+        "lovely",
+        "pretty",
+        "charming",
+        "radiant",
+        "attractive",
+        "fetching",
+        "alluring",
+        "appealing",
+        "dazzling",
+        "exquisite",
+        "enchanting",
+        "graceful",
+        "delightful"
+      ],
+      "responseTime": 1721,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 63,
+        "total_tokens": 357,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"gorgeous\", \"stunning\", \"lovely\", \"pretty\", \"charming\", \"radiant\", \"attractive\", \"fetching\", \"alluring\", \"appealing\", \"dazzling\", \"exquisite\", \"enchanting\", \"graceful\", \"delightful\"]"
+    },
+    {
+      "model": "gpt-4o",
+      "word": "beautiful",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "beauteous",
+        "fair",
+        "comely",
+        "pulchritudinous",
+        "winsome",
+        "lovely",
+        "graceful",
+        "elegant",
+        "pleasing",
+        "charming",
+        "delightful",
+        "sightly",
+        "fine",
+        "exquisite"
+      ],
+      "responseTime": 1492,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 61,
+        "total_tokens": 355,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"beauteous\", \"fair\", \"comely\", \"pulchritudinous\", \"winsome\", \"lovely\", \"graceful\", \"elegant\", \"pleasing\", \"charming\", \"delightful\", \"sightly\", \"fine\", \"exquisite\"]"
+    },
+    {
+      "model": "gpt-4o",
+      "word": "smart",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "clever",
+        "bright",
+        "sharp",
+        "intelligent",
+        "quick-witted",
+        "brilliant",
+        "savvy",
+        "ingenious",
+        "resourceful",
+        "astute",
+        "perceptive",
+        "keen",
+        "able",
+        "brainy"
+      ],
+      "responseTime": 1426,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 54,
+        "total_tokens": 348,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"clever\", \"bright\", \"sharp\", \"intelligent\", \"quick-witted\", \"brilliant\", \"savvy\", \"ingenious\", \"resourceful\", \"astute\", \"perceptive\", \"keen\", \"able\", \"brainy\"]"
+    },
+    {
+      "model": "gpt-4o",
+      "word": "smart",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "erudite",
+        "astute",
+        "sagacious",
+        "perceptive",
+        "discerning",
+        "canny",
+        "judicious",
+        "shrewd",
+        "perspicacious",
+        "sapient",
+        "learned",
+        "wise",
+        "cerebral"
+      ],
+      "responseTime": 1385,
+      "tokenUsage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 57,
+        "total_tokens": 351,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"erudite\", \"astute\", \"sagacious\", \"perceptive\", \"discerning\", \"canny\", \"judicious\", \"shrewd\", \"perspicacious\", \"sapient\", \"learned\", \"wise\", \"cerebral\"]"
+    },
+    {
+      "model": "gpt-4-turbo",
+      "word": "happy",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "joyful",
+        "pleased",
+        "cheerful",
+        "content",
+        "delighted",
+        "glad",
+        "jolly",
+        "merry",
+        "elated",
+        "thrilled",
+        "upbeat",
+        "buoyant",
+        "sunny",
+        "blissful",
+        "beaming"
+      ],
+      "responseTime": 2573,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 62,
+        "total_tokens": 359,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"joyful\", \"pleased\", \"cheerful\", \"content\", \"delighted\", \"glad\", \"jolly\", \"merry\", \"elated\", \"thrilled\", \"upbeat\", \"buoyant\", \"sunny\", \"blissful\", \"beaming\"]"
+    },
+    {
+      "model": "gpt-4-turbo",
+      "word": "happy",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "contented",
+        "pleased",
+        "jubilant",
+        "elated",
+        "cheerful",
+        "joyful",
+        "delighted",
+        "satisfied",
+        "blithe",
+        "buoyant",
+        "glad",
+        "beaming",
+        "gratified",
+        "mirthful",
+        "blissful"
+      ],
+      "responseTime": 2847,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 67,
+        "total_tokens": 364,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"contented\", \"pleased\", \"jubilant\", \"elated\", \"cheerful\", \"joyful\", \"delighted\", \"satisfied\", \"blithe\", \"buoyant\", \"glad\", \"beaming\", \"gratified\", \"mirthful\", \"blissful\"]"
+    },
+    {
+      "model": "gpt-4-turbo",
+      "word": "beautiful",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "pretty",
+        "lovely",
+        "gorgeous",
+        "charming",
+        "attractive",
+        "stunning",
+        "appealing",
+        "handsome",
+        "nice-looking",
+        "pleasing",
+        "alluring",
+        "winsome",
+        "radiant",
+        "fetching"
+      ],
+      "responseTime": 2502,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 56,
+        "total_tokens": 353,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"pretty\", \"lovely\", \"gorgeous\", \"charming\", \"attractive\", \"stunning\", \"appealing\", \"handsome\", \"nice-looking\", \"pleasing\", \"alluring\", \"winsome\", \"radiant\", \"fetching\"]"
+    },
+    {
+      "model": "gpt-4-turbo",
+      "word": "beautiful",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "comely",
+        "fair",
+        "pulchritudinous",
+        "lovely",
+        "handsome",
+        "exquisite",
+        "graceful",
+        "elegant",
+        "ravishing",
+        "winsome",
+        "alluring",
+        "pleasing",
+        "captivating",
+        "charming",
+        "enchanting"
+      ],
+      "responseTime": 2716,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 66,
+        "total_tokens": 363,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"comely\", \"fair\", \"pulchritudinous\", \"lovely\", \"handsome\", \"exquisite\", \"graceful\", \"elegant\", \"ravishing\", \"winsome\", \"alluring\", \"pleasing\", \"captivating\", \"charming\", \"enchanting\"]"
+    },
+    {
+      "model": "gpt-4-turbo",
+      "word": "smart",
+      "scenario": "Modern Casual",
+      "success": true,
+      "synonyms": [
+        "clever",
+        "intelligent",
+        "sharp",
+        "bright",
+        "brilliant",
+        "shrewd",
+        "witty",
+        "astute",
+        "savvy",
+        "brainy",
+        "keen",
+        "quick",
+        "ingenious",
+        "resourceful"
+      ],
+      "responseTime": 2201,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 55,
+        "total_tokens": 352,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"clever\", \"intelligent\", \"sharp\", \"bright\", \"brilliant\", \"shrewd\", \"witty\", \"astute\", \"savvy\", \"brainy\", \"keen\", \"quick\", \"ingenious\", \"resourceful\"]"
+    },
+    {
+      "model": "gpt-4-turbo",
+      "word": "smart",
+      "scenario": "Historical Formal",
+      "success": true,
+      "synonyms": [
+        "intelligent",
+        "astute",
+        "canny",
+        "shrewd",
+        "perspicacious",
+        "sagacious",
+        "erudite",
+        "learned",
+        "acute",
+        "keen",
+        "wise",
+        "clever",
+        "sharp-witted",
+        "quick-witted",
+        "ingenious"
+      ],
+      "responseTime": 1998,
+      "tokenUsage": {
+        "prompt_tokens": 297,
+        "completion_tokens": 64,
+        "total_tokens": 361,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "rawResponse": "[\"intelligent\", \"astute\", \"canny\", \"shrewd\", \"perspicacious\", \"sagacious\", \"erudite\", \"learned\", \"acute\", \"keen\", \"wise\", \"clever\", \"sharp-witted\", \"quick-witted\", \"ingenious\"]"
+    }
+  ],
+  "summary": {
+    "gpt-4o-mini": {
+      "totalTests": 6,
+      "successfulTests": 6,
+      "successRate": 100,
+      "avgResponseTime": 5014.333333333333,
+      "avgSynonyms": 14.333333333333334
+    },
+    "gpt-3.5-turbo": {
+      "totalTests": 6,
+      "successfulTests": 6,
+      "successRate": 100,
+      "avgResponseTime": 1146.3333333333333,
+      "avgSynonyms": 12
+    },
+    "gpt-4o": {
+      "totalTests": 6,
+      "successfulTests": 6,
+      "successRate": 100,
+      "avgResponseTime": 1383.5,
+      "avgSynonyms": 13.666666666666666
+    },
+    "gpt-4-turbo": {
+      "totalTests": 6,
+      "successfulTests": 6,
+      "successRate": 100,
+      "avgResponseTime": 2472.8333333333335,
+      "avgSynonyms": 14.666666666666666
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "wordcompass-model-testing",
+  "version": "1.0.0",
+  "description": "Testing framework for comparing OpenAI models on thesaurus tasks",
+  "main": "test-models.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test-models.js",
+    "test:quick": "node test-models.js --quick",
+    "test:detailed": "node test-models.js --detailed",
+    "analyze": "node analyze-results.js"
+  },
+  "dependencies": {
+    "openai": "^4.20.0",
+    "dotenv": "^16.3.1",
+    "chalk": "^4.1.2",
+    "table": "^6.8.1"
+  }
+}
