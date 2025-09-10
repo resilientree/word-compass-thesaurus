@@ -65,4 +65,4 @@ A web-based thesaurus tool that allows you to tune synonym suggestions using var
 
 - API keys are stored in environment variables
 - Never commit API keys to version control
-- The `.env` file is included in `.gitignore` 
+- The `.env` file is included in `.gitignore` # Trigger deploy
