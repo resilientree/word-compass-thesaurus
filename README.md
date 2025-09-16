@@ -1,68 +1,97 @@
-# Synonym Tuner
+# WordCompass.io
 
-A web-based thesaurus tool that allows you to tune synonym suggestions using various parameters like era, region, formality, and more.
+An AI-powered thesaurus that adapts to your style and context. Find the perfect word with intelligent synonym suggestions powered by OpenAI.
 
-## Setup
+## 🌟 Features
+
+### **Smart Word Discovery**
+- **Thesaurus Mode**: Get 12-15 high-quality synonyms for any word
+- **Creative Phrases**: Discover 2-4 word phrases that describe your concept
+- **Context-Aware**: Add slang, regional dialects, or academic styles for targeted results
+
+### **Model Selection**
+- **Fast Mode**: Uses GPT-3.5-turbo for quick, cost-effective results
+- **Thoughtful Mode**: Uses GPT-4o for higher quality, more nuanced suggestions
+
+### **Advanced Controls** (Optional)
+- **Era Slider**: Modern to historical language
+- **Region Slider**: US to UK English variations
+- **Rarity Slider**: Common to rare vocabulary
+- **Emotion Slider**: Neutral to vivid expressions
+- **Formality Slider**: Casual to formal tone
+- **Sentiment Slider**: Negative to positive alternatives
+
+### **Smart Features**
+- **Find More**: Get additional synonyms without losing previous results
+- **Visual Feedback**: Smooth animations and loading states
+- **Copy to Clipboard**: Click any word to copy it instantly
+- **Mobile Optimized**: Responsive design for all devices
+
+## 🚀 Quick Start
+
+1. **Enter a word** in the search box
+2. **Add context** (optional): Try "Gen Z", "Old English", "Academic", etc.
+3. **Choose your mode**: Thesaurus or Creative Phrases
+4. **Select speed**: Fast (quick) or Thoughtful (quality)
+5. **Click Find** to get your results!
+
+## 💡 Usage Examples
+
+- **Basic**: `money` → cash, currency, funds, capital...
+- **With Context**: `money` + "Hip-hop culture" → bread, cheddar, paper, stacks...
+- **Creative Phrases**: `money` → financial resources, economic capital, monetary assets...
+- **Advanced**: Use sliders to fine-tune era, formality, and emotion
+
+## 🛠️ Technical Setup
 
 ### Local Development
+```bash
+# Clone the repository
+git clone https://github.com/resilientree/word-compass-thesaurus.git
+cd word-compass-thesaurus
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+# Install dependencies
+npm install
 
-2. **Test locally:**
-   - Open `index.html` directly in your browser
-   - The app will work locally (though API calls will fail without the Netlify function)
-   - For full testing, deploy to Netlify or use Netlify CLI
+# Run locally with Netlify CLI
+npm install -g netlify-cli
+netlify dev
+```
 
-3. **Using Netlify CLI (optional):**
-   ```bash
-   npm install -g netlify-cli
-   netlify dev
-   ```
+### Production Deployment (Netlify)
+1. **Connect Repository**: Link your GitHub repo to Netlify
+2. **Set Environment Variables**: Add `OPENAI_API_KEY` in Netlify dashboard
+3. **Deploy**: Netlify automatically deploys on git push
 
-### Netlify Deployment
+## 🔧 Configuration
 
-1. **Connect to Netlify:**
-   - Go to [netlify.com](https://netlify.com)
-   - Click "New site from Git"
-   - Connect your GitHub repository: `resilientree/word-compass-thesaurus`
+### Environment Variables
+- `OPENAI_API_KEY`: Your OpenAI API key (required)
 
-2. **Configure build settings:**
-   - Build command: `npm install` (or leave empty)
-   - Publish directory: `.` (root directory)
-   - Netlify will automatically detect your `netlify.toml` configuration
+### Customization
+- Modify `netlify/functions/synonyms.js` to adjust AI prompts
+- Update `index.html` for UI changes
+- Configure `netlify.toml` for deployment settings
 
-3. **Set up environment variables:**
-   - In Netlify dashboard: Site settings > Environment variables
-   - Add: `OPENAI_API_KEY` = `your_actual_api_key_here`
+## 🎯 Use Cases
 
-4. **Deploy:**
-   - Netlify will automatically deploy your site
-   - The Netlify Functions will handle API calls securely
+- **Writers**: Find the perfect word for your story or article
+- **Students**: Expand vocabulary with context-appropriate synonyms
+- **Content Creators**: Adapt language for different audiences
+- **Language Learners**: Understand word variations and usage
+- **Professionals**: Choose appropriate tone for business communication
 
-5. **Test your deployment:**
-   - Visit your deployed site
-   - Try searching for synonyms to ensure everything works
+## 📱 Live Demo
 
-## Environment Variables
+Visit [wordcompass.netlify.app](https://wordcompass.netlify.app) to try it live!
 
-- `OPENAI_API_KEY`: Your OpenAI API key (required for Netlify Functions)
+## 🤝 Contributing
 
-## Features
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-- **Era Slider**: Modern to historical words
-- **Region Slider**: US to UK English
-- **Rarity Slider**: Common to rare words
-- **Emotion Slider**: Neutral to vivid words
-- **Formality Slider**: Informal to formal words
-- **Abstractness Slider**: Concrete to abstract words
-- **Sentiment Slider**: Negative to positive words
-- **Creativity Slider**: Focused to creative alternatives
+## 📄 License
 
-## Security
-
-- API keys are stored in environment variables
-- Never commit API keys to version control
-- The `.env` file is included in `.gitignore` # Trigger deploy
+MIT License - see [LICENSE](LICENSE) file for details.
