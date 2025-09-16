@@ -4,6 +4,10 @@
 .env.production
 .env*
 
+# Folders
+Test*
+Amadine
+
 
 # Dependencies
 node_modules/
