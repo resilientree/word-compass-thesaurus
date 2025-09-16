@@ -64,7 +64,7 @@
     /* ——— Hero section ——— */
     .hero {
       text-align: center;
-      padding: 1rem 1rem;
+      padding: 0.3rem 0.5rem;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: #fff;
     }
@@ -72,13 +72,13 @@
     .hero h1 {
       font-size: 3rem;
       font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 0.2rem;
       text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
     .hero p {
       font-size: 1.25rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       opacity: 0.9;
     }
     
@@ -87,12 +87,55 @@
       max-width: 600px;
       margin: 0 auto;
       display: flex;
-      gap: 1rem;
-      align-items: center;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .context-input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: box-shadow 0.2s;
+    }
+    
+    .context-input:focus {
+      outline: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .context-label {
+      display: block;
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+    
+    .guidance-tip {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: #64748b;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+    
+    .guidance-tip.show {
+      opacity: 1;
+      transform: translateY(0);
     }
     
     .search-input {
-      flex: 1;
+      width: 100%;
       padding: 1rem 1.5rem;
       border: none;
       border-radius: 12px;
@@ -107,6 +150,7 @@
     }
     
     .search-btn {
+      width: 100%;
       padding: 1rem 2rem;
       background: #3b82f6;
       color: #fff;
@@ -214,6 +258,7 @@
       outline: none;
       cursor: pointer;
       -webkit-appearance: none;
+      appearance: none;
     }
     
     .slider::-webkit-slider-thumb {
@@ -241,7 +286,7 @@
     .results-section {
       background: #fff;
       border-radius: 16px;
-      padding: 2rem;
+      padding: 0.8rem 2rem 2rem 2rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       border: 1px solid #e2e8f0;
       min-height: 120px;
@@ -281,6 +326,204 @@
       box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
     }
     
+    /* New synonyms styling - lighter gray to show they're fresh */
+    .synonym.new {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+      color: #64748b;
+    }
+    
+    /* Original synonyms styling - darker to show they're older */
+    .synonym.original {
+      background: #f1f5f9;
+      border-color: #e2e8f0;
+      color: #475569;
+    }
+    
+    /* Loading placeholder */
+    .loading-placeholder {
+      background: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: 25px;
+      padding: 0.75rem 1.25rem;
+      text-align: center;
+      color: #64748b;
+      font-style: italic;
+      animation: bounce 1s ease-in-out infinite;
+    }
+    
+    /* Visual separator between new and old words */
+    .word-separator {
+      width: 4px;
+      height: 4px;
+      background: #c4b5fd;
+      border-radius: 50%;
+      margin: 0;
+      flex-shrink: 0;
+    }
+    
+    /* Mode toggle */
+    .mode-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 0.75rem 0;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      width: 60px;
+      height: 30px;
+      background: #e2e8f0;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .toggle-switch.active {
+      background: #3b82f6;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .toggle-switch.active .toggle-slider {
+      transform: translateX(30px);
+    }
+    
+    .toggle-label {
+      font-weight: 500;
+      color: #9ca3af;
+      font-size: 1.1rem;
+    }
+    
+    .toggle-label.active {
+      color: #ffffff;
+    }
+    
+    /* Advanced section collapsible */
+    .advanced-section {
+      background: #fff;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .advanced-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .advanced-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      color: #475569;
+      font-size: 0.9rem;
+    }
+    
+    .advanced-arrow {
+      transition: transform 0.3s ease;
+      color: #64748b;
+    }
+    
+    .advanced-section.expanded .advanced-arrow {
+      transform: rotate(90deg);
+    }
+    
+    .advanced-toggle {
+      position: relative;
+      width: 50px;
+      height: 28px;
+      background: #e2e8f0;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .advanced-toggle.active {
+      background: #3b82f6;
+    }
+    
+    .advanced-toggle-slider {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .advanced-toggle.active .advanced-toggle-slider {
+      transform: translateX(22px);
+    }
+    
+    .advanced-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    
+    .advanced-section.expanded .advanced-content {
+      max-height: 1000px;
+    }
+    
+    .advanced-content-inner {
+      padding: 1.5rem;
+    }
+    
+    /* Animations */
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes bounce {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+    
+    @keyframes slideDown {
+      from {
+        transform: translateY(0);
+      }
+      to {
+        transform: translateY(100px);
+      }
+    }
+    
     .empty-state {
       text-align: center;
       color: #64748b;
@@ -294,7 +537,7 @@
       .nav { gap: 1rem; }
       
       .hero {
-        padding: 0.75rem 1rem;
+        padding: 0.375rem 0.5rem;
       }
       
       .hero h1 {
@@ -338,7 +581,7 @@
       
       .results-section {
         min-height: 120px;
-        padding: 1rem;
+        padding: 0.4rem 1rem 1rem 1rem;
       }
       
       .synonyms-grid {
@@ -352,7 +595,6 @@
   <header>
     <a href="index.html" class="logo">WordCompass.io</a>
     <nav class="nav">
-      <a href="index.html">Home</a>
       <a href="about.html">About</a>
     </nav>
   </header>
@@ -368,6 +610,35 @@
         placeholder="Enter a word to get started..." 
         autocomplete="off"
       />
+      
+      <div>
+        <label for="contextInput" class="context-label">Context (optional)</label>
+        <input 
+          id="contextInput" 
+          class="context-input" 
+          placeholder="Optional: Add slang type or context (Gen Z, Old English, Regional, Academic, etc.)" 
+          autocomplete="off"
+        />
+      </div>
+      
+      <!-- Mode Toggle -->
+      <div class="mode-toggle">
+        <span class="toggle-label active" id="thesaurusLabel">Thesaurus</span>
+        <div class="toggle-switch" id="modeToggle">
+          <div class="toggle-slider"></div>
+        </div>
+        <span class="toggle-label" id="phrasesLabel">Creative Phrases</span>
+      </div>
+      
+      <!-- Model Toggle -->
+      <div class="mode-toggle">
+        <span class="toggle-label active" id="fastLabel">Fast</span>
+        <div class="toggle-switch" id="modelToggle">
+          <div class="toggle-slider"></div>
+        </div>
+        <span class="toggle-label" id="thoughtfulLabel">Thoughtful</span>
+      </div>
+      
       <button id="searchBtn" class="search-btn">
         <span id="searchText">Find</span>
         <span id="spinner" class="spinner"></span>
@@ -381,62 +652,79 @@
       <ul id="synonyms" class="synonyms-grid">
         <li class="empty-state">Enter a word above to see synonyms</li>
       </ul>
+      <div id="guidanceTip" class="guidance-tip">
+        💡 Try adding context like "Gen Z" or "Old English" for more specific results
+      </div>
     </div>
 
-    <div class="controls-section">
-      <h2 class="controls-title">Adjust the tone and style</h2>
-      <div class="controls-grid">
-        <div class="control-group">
-          <label class="control-label" for="eraRange">Era</label>
-          <div class="slider-container">
-            <span class="slider-label">Modern</span>
-            <input id="eraRange" type="range" class="slider" min="0" max="100" value="0" />
-            <span class="slider-label">Historical</span>
-          </div>
+    <!-- Advanced Controls Section -->
+    <div class="advanced-section" id="advancedSection">
+      <div class="advanced-header" id="advancedHeader">
+        <div class="advanced-title">
+          <span class="advanced-arrow">▶</span>
+          Advanced: Adjust tone & style
         </div>
-        
-        <div class="control-group">
-          <label class="control-label" for="regionRange">Region</label>
-          <div class="slider-container">
-            <span class="slider-label">US</span>
-            <input id="regionRange" type="range" class="slider" min="0" max="100" value="0" />
-            <span class="slider-label">UK</span>
-          </div>
+        <div class="advanced-toggle" id="advancedToggle">
+          <div class="advanced-toggle-slider"></div>
         </div>
-        
-        <div class="control-group">
-          <label class="control-label" for="formalityRange">Formality</label>
-          <div class="slider-container">
-            <span class="slider-label">Casual</span>
-            <input id="formalityRange" type="range" class="slider" min="0" max="100" value="0" />
-            <span class="slider-label">Formal</span>
-          </div>
-        </div>
-        
-        <div class="control-group">
-          <label class="control-label" for="emotionRange">Emotion</label>
-          <div class="slider-container">
-            <span class="slider-label">Neutral</span>
-            <input id="emotionRange" type="range" class="slider" min="0" max="100" value="0" />
-            <span class="slider-label">Vivid</span>
-          </div>
-        </div>
-        
-        <div class="control-group">
-          <label class="control-label" for="rarityRange">Rarity</label>
-          <div class="slider-container">
-            <span class="slider-label">Common</span>
-            <input id="rarityRange" type="range" class="slider" min="0" max="100" value="0" />
-            <span class="slider-label">Rare</span>
-          </div>
-        </div>
-        
-        <div class="control-group">
-          <label class="control-label" for="sentimentRange">Sentiment</label>
-          <div class="slider-container">
-            <span class="slider-label">Negative</span>
-            <input id="sentimentRange" type="range" class="slider" min="0" max="100" value="50" />
-            <span class="slider-label">Positive</span>
+      </div>
+      
+      <div class="advanced-content" id="advancedContent">
+        <div class="advanced-content-inner">
+          <div class="controls-grid">
+            <div class="control-group">
+              <label class="control-label" for="eraRange">Era</label>
+              <div class="slider-container">
+                <span class="slider-label">Modern</span>
+                <input id="eraRange" type="range" class="slider" min="0" max="100" value="0" />
+                <span class="slider-label">Historical</span>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label" for="regionRange">Region</label>
+              <div class="slider-container">
+                <span class="slider-label">US</span>
+                <input id="regionRange" type="range" class="slider" min="0" max="100" value="0" />
+                <span class="slider-label">UK</span>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label" for="formalityRange">Formality</label>
+              <div class="slider-container">
+                <span class="slider-label">Casual</span>
+                <input id="formalityRange" type="range" class="slider" min="0" max="100" value="0" />
+                <span class="slider-label">Formal</span>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label" for="emotionRange">Emotion</label>
+              <div class="slider-container">
+                <span class="slider-label">Neutral</span>
+                <input id="emotionRange" type="range" class="slider" min="0" max="100" value="0" />
+                <span class="slider-label">Vivid</span>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label" for="rarityRange">Rarity</label>
+              <div class="slider-container">
+                <span class="slider-label">Common</span>
+                <input id="rarityRange" type="range" class="slider" min="0" max="100" value="0" />
+                <span class="slider-label">Rare</span>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label" for="sentimentRange">Sentiment</label>
+              <div class="slider-container">
+                <span class="slider-label">Negative</span>
+                <input id="sentimentRange" type="range" class="slider" min="0" max="100" value="50" />
+                <span class="slider-label">Positive</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -451,6 +739,33 @@
 
     // 1. ——— Config  ———
     const API_ENDPOINT = '/api/synonyms';
+    
+    // Context examples for dynamic placeholder
+    const contextExamples = [
+      "Gen Z slang",
+      "Old English",
+      "Regional dialect", 
+      "Academic writing",
+      "Military jargon",
+      "Tech startup speak",
+      "Medieval language",
+      "Southern drawl",
+      "Internet slang",
+      "Shakespearean",
+      "Boston accent",
+      "Formal business",
+      "TikTok language",
+      "Historical fiction",
+      "Medical terminology"
+    ];
+    
+    // Guidance messages
+    const guidanceMessages = [
+      "💡 Try adding context like \"Gen Z\" or \"Old English\" for more specific results",
+      "🎯 Adjust the sliders or add context to refine your search",
+      "✨ Add context like \"Regional\" or \"Academic\" for targeted synonyms",
+      "🔍 Specify a style like \"Medieval\" or \"Tech\" for better results"
+    ];
 
     // 2. ——— DOM shortcuts ———
     const searchInput = document.getElementById('searchInput');
@@ -458,7 +773,13 @@
     const searchText  = document.getElementById('searchText');
     const synonymList = document.getElementById('synonyms');
     const spinner     = document.getElementById('spinner');
+    const contextInput = document.getElementById('contextInput');
+    const guidanceTip = document.getElementById('guidanceTip');
     const sliders     = ['eraRange','regionRange','rarityRange','emotionRange','formalityRange','sentimentRange'];
+    
+    // Track existing synonyms for "Find More" functionality
+    let existingSynonyms = [];
+    let isFirstSearch = true;
 
     // 3. ——— Helper: collect slider state ———
     function sliderState() {
@@ -467,6 +788,32 @@
         return acc;
       }, {});
     }
+    
+    // 4. ——— Dynamic context examples ———
+    function updateContextPlaceholder() {
+      const randomExample = contextExamples[Math.floor(Math.random() * contextExamples.length)];
+      contextInput.placeholder = `Optional: Add slang type or context (${randomExample}, Old English, Regional, Academic, etc.)`;
+    }
+    
+    // 5. ——— Guidance system ———
+    function showGuidance() {
+      const randomMessage = guidanceMessages[Math.floor(Math.random() * guidanceMessages.length)];
+      guidanceTip.textContent = randomMessage;
+      guidanceTip.classList.add('show');
+      
+      // Hide after 5 seconds
+      setTimeout(() => {
+        guidanceTip.classList.remove('show');
+      }, 5000);
+    }
+    
+    function shouldShowGuidance(results) {
+      // Show guidance if results are generic/common
+      const commonWords = ['good', 'bad', 'big', 'small', 'happy', 'sad', 'fast', 'slow'];
+      const searchWord = searchInput.value.toLowerCase();
+      
+      return commonWords.includes(searchWord) && !contextInput.value.trim();
+    }
 
     // 4. ——— Main fetch routine ———
     async function fetchSynonyms() {
@@ -474,14 +821,32 @@
       if (!word) return;
 
       // Clear results and show loading state
-      synonymList.innerHTML = '<li class="empty-state">Finding synonyms...</li>';
+      if (isFirstSearch) {
+        synonymList.innerHTML = '<li class="empty-state">Finding synonyms...</li>';
+        existingSynonyms = [];
+      } else {
+        // Add "Thinking..." at the top and slide existing words right
+        const thinkingLi = document.createElement('li');
+        thinkingLi.className = 'loading-placeholder';
+        thinkingLi.textContent = 'Thinking...';
+        synonymList.insertBefore(thinkingLi, synonymList.firstChild);
+        
+        // Make existing words slide right and turn darker
+        const existingWords = Array.from(synonymList.children).slice(1);
+        existingWords.forEach(li => {
+          li.classList.add('original');
+          li.style.transition = 'transform 0.2s ease-out';
+          li.style.transform = 'translateX(20px)';
+        });
+      }
+      
       searchBtn.disabled = true;
       searchText.style.display = 'none';
       spinner.classList.add('show');
       
       const state = sliderState();
 
-      const system = `You are an assistant that returns synonyms tuned by metadata sliders. Return ONLY a JSON array of strings, with no additional text or formatting. Example: ["word1", "word2", "word3"]
+      const system = `You are an assistant that returns synonyms tuned by metadata sliders and context. Return ONLY a JSON array of strings, with no additional text or formatting. Example: ["word1", "word2", "word3"]
 
 Slider Definitions:
 - Era (0-100): 0 = modern/contemporary words, 100 = historical/archaic words
@@ -491,22 +856,49 @@ Slider Definitions:
 - Formality (0-100): 0 = casual/informal words, 100 = formal/professional words
 - Sentiment (0-100): 0 = negative words, 100 = positive words
 
+Context Interpretation:
+- If context is specified, prioritize synonyms that match this style/context
+- Examples: 'Gen Z' = modern internet slang, 'Old English' = archaic/Shakespearean, 'Regional' = dialect-specific
+- 'Academic' = scholarly/formal, 'Military' = service-specific jargon, 'Tech' = Silicon Valley speak
+- If no context specified, use standard thesaurus approach
+
+Mode: ${isCreativeMode ? 'CREATIVE PHRASES' : 'THESAURUS'}
+- THESAURUS MODE: Return traditional single-word synonyms
+- CREATIVE PHRASES MODE: Return varied, contextual phrases. Avoid repetitive combinations (e.g., don't return both "personal symbol" and "unique symbol" - pick one creative phrase). Focus on capturing the essence and voice of the context.
+
 When handling sentiment:
 - For positive sentiment: Use uplifting, positive, and respectful alternatives
 - For negative sentiment: Use neutral or negative alternatives
 - For potentially sensitive words: Always prefer respectful and appropriate alternatives
 - This is a thesaurus, so you should return a wide range of words, including words that can be mean, offensive, or negative.
 
-Return 12-15 high-quality synonyms that match the specified parameters.`;
-      const user   = `Word: "${word}"
+Return 12-15 high-quality synonyms that match the specified parameters and context.`;
+      const context = contextInput.value.trim();
+      const existingWords = existingSynonyms.length > 0 ? `\nExisting synonyms to avoid: ${existingSynonyms.join(', ')}` : '';
+      // Build user prompt based on advanced mode
+      let userPrompt = `Word: "${word}"`;
+      
+      if (isAdvancedEnabled) {
+        userPrompt += `
 Era slider ${state.eraRange} (0=modern,100=historical)
 Region slider ${state.regionRange} (0=US,100=UK)
 Rarity slider ${state.rarityRange} (0=common,100=rare)
 Emotion slider ${state.emotionRange} (0=neutral,100=vivid)
 Formality slider ${state.formalityRange} (0=casual,100=formal)
-Sentiment slider ${state.sentimentRange} (0=negative,100=positive)
-
-Important: For positive sentiment, use uplifting and respectful alternatives. For negative sentiment, use neutral or negative alternatives.`;
+Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
+      }
+      
+      if (context) {
+        userPrompt += `\nContext: "${context}"`;
+      }
+      
+      userPrompt += existingWords;
+      userPrompt += '\n\nImportant: For positive sentiment, use uplifting and respectful alternatives. For negative sentiment, use neutral or negative alternatives.';
+      if (existingSynonyms.length > 0) {
+        userPrompt += ' Do not return any of the existing synonyms listed above.';
+      }
+      
+      const user = userPrompt;
 
       try {
         const response = await fetch(API_ENDPOINT, {
@@ -520,7 +912,8 @@ Important: For positive sentiment, use uplifting and respectful alternatives. Fo
               { role: 'user',   content: user   }
             ],
             temperature: 0.7,
-            max_tokens: 200
+            max_tokens: 200,
+            model: isThoughtfulMode ? 'gpt-4o' : 'gpt-3.5-turbo'
           })
         });
 
@@ -540,7 +933,17 @@ Important: For positive sentiment, use uplifting and respectful alternatives. Fo
           console.error('Failed to parse synonyms:', err);
           synonyms = [];
         }
-        renderSynonyms(synonyms);
+        if (isFirstSearch) {
+          existingSynonyms = [...synonyms];
+          renderSynonyms(synonyms);
+          isFirstSearch = false;
+          searchText.textContent = 'Find More';
+        } else {
+          // Filter out duplicates and prepend new synonyms
+          const newSynonyms = synonyms.filter(word => !existingSynonyms.includes(word));
+          existingSynonyms = [...newSynonyms, ...existingSynonyms];
+          renderSynonymsWithAnimation(newSynonyms, existingSynonyms);
+        }
       } catch (err) {
         console.error(err);
         synonymList.innerHTML = '<li class="empty-state">Error fetching synonyms. Please try again.</li>';
@@ -580,12 +983,146 @@ Important: For positive sentiment, use uplifting and respectful alternatives. Fo
         });
         synonymList.appendChild(li);
       });
+      
+      // Show guidance if appropriate
+      if (shouldShowGuidance(arr)) {
+        setTimeout(showGuidance, 1000);
+      }
+    }
+    
+    // 7. ——— Animated render for "Find More" ———
+    function renderSynonymsWithAnimation(newSynonyms, allSynonyms) {
+      // Remove "Thinking..." placeholder
+      const thinkingLi = synonymList.querySelector('.loading-placeholder');
+      if (thinkingLi) {
+        thinkingLi.remove();
+      }
+      
+      // Add new synonyms at the top
+      newSynonyms.forEach(word => {
+        const li = document.createElement('li');
+        li.textContent = word;
+        li.className = 'synonym';
+        li.title = 'Click to copy';
+        
+        li.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(word);
+            li.style.background = '#10b981';
+            li.style.color = '#fff';
+            setTimeout(() => {
+              li.style.background = '';
+              li.style.color = '';
+            }, 1000);
+          } catch (err) {
+            console.error('Failed to copy:', err);
+          }
+        });
+        
+        // Insert at the top
+        synonymList.insertBefore(li, synonymList.firstChild);
+      });
+      
+      // Add purple separator after new words
+      const separator = document.createElement('li');
+      separator.className = 'word-separator';
+      synonymList.insertBefore(separator, synonymList.children[newSynonyms.length]);
+      
+      // Show guidance if appropriate
+      if (shouldShowGuidance(allSynonyms)) {
+        setTimeout(showGuidance, 1000);
+      }
     }
 
-    // 6. ——— Event wiring ———
+    // 8. ——— Reset search state when inputs change ———
+    function resetSearchState() {
+      isFirstSearch = true;
+      existingSynonyms = [];
+      searchText.textContent = 'Find';
+    }
+    
+    // 9. ——— Event wiring ———
     searchBtn.addEventListener('click', fetchSynonyms);
     searchInput.addEventListener('keydown', e => (e.key === 'Enter') && fetchSynonyms());
+    contextInput.addEventListener('keydown', e => (e.key === 'Enter') && fetchSynonyms());
+    
+    // Reset when word or context changes
+    searchInput.addEventListener('input', resetSearchState);
+    contextInput.addEventListener('input', resetSearchState);
+    
+    // Mode toggle functionality
+    const modeToggle = document.getElementById('modeToggle');
+    const thesaurusLabel = document.getElementById('thesaurusLabel');
+    const phrasesLabel = document.getElementById('phrasesLabel');
+    let isCreativeMode = false;
+    
+    modeToggle.addEventListener('click', () => {
+      isCreativeMode = !isCreativeMode;
+      modeToggle.classList.toggle('active', isCreativeMode);
+      thesaurusLabel.classList.toggle('active', !isCreativeMode);
+      phrasesLabel.classList.toggle('active', isCreativeMode);
+    });
+    
+    // Model toggle functionality
+    const modelToggle = document.getElementById('modelToggle');
+    const fastLabel = document.getElementById('fastLabel');
+    const thoughtfulLabel = document.getElementById('thoughtfulLabel');
+    let isThoughtfulMode = false; // Default to Fast (gpt-3.5-turbo)
+    
+    modelToggle.addEventListener('click', () => {
+      isThoughtfulMode = !isThoughtfulMode;
+      modelToggle.classList.toggle('active', isThoughtfulMode);
+      fastLabel.classList.toggle('active', !isThoughtfulMode);
+      thoughtfulLabel.classList.toggle('active', isThoughtfulMode);
+    });
+    
+    // Advanced section functionality
+    const advancedSection = document.getElementById('advancedSection');
+    const advancedHeader = document.getElementById('advancedHeader');
+    const advancedToggle = document.getElementById('advancedToggle');
+    const advancedContent = document.getElementById('advancedContent');
+    let isAdvancedEnabled = false;
+    let hasUserInteracted = false;
+    
+    // Toggle advanced section on/off
+    advancedToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      isAdvancedEnabled = !isAdvancedEnabled;
+      advancedToggle.classList.toggle('active', isAdvancedEnabled);
+      
+      if (isAdvancedEnabled) {
+        advancedSection.classList.add('expanded');
+      } else {
+        advancedSection.classList.remove('expanded');
+      }
+    });
+    
+    // Expand/collapse on header click
+    advancedHeader.addEventListener('click', () => {
+      if (!isAdvancedEnabled) {
+        isAdvancedEnabled = true;
+        advancedToggle.classList.add('active');
+      }
+      advancedSection.classList.toggle('expanded');
+    });
+    
+    // Track slider interactions to keep section open
+    const advancedSliders = document.querySelectorAll('.slider');
+    advancedSliders.forEach(slider => {
+      slider.addEventListener('input', () => {
+        hasUserInteracted = true;
+        if (!advancedSection.classList.contains('expanded')) {
+          advancedSection.classList.add('expanded');
+        }
+      });
+    });
+    
     // sliders update UI but require Find button to fetch new list per spec
+    
+    // 10. ——— Initialize dynamic examples ———
+    updateContextPlaceholder();
+    // Update examples every 30 seconds
+    setInterval(updateContextPlaceholder, 30000);
   </script>
 </body>
 </html>
