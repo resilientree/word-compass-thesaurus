@@ -9,7 +9,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="WordCompass.io - Find the Perfect Word" />
   <meta property="og:description" content="AI-powered thesaurus that adapts to your style and context. Find the perfect word with intelligent synonym suggestions." />
-  <meta property="og:image" content="https://wordcompass.netlify.app/thumbnail1.png" />
+  <meta property="og:image" content="https://wordcompass.netlify.app/Thumbnail1.png" />
   <meta property="og:url" content="https://wordcompass.netlify.app" />
   <meta property="og:site_name" content="WordCompass.io" />
   
@@ -17,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="WordCompass.io - Find the Perfect Word" />
   <meta name="twitter:description" content="AI-powered thesaurus that adapts to your style and context. Find the perfect word with intelligent synonym suggestions." />
-  <meta name="twitter:image" content="https://wordcompass.netlify.app/thumbnail1.png" />
+  <meta name="twitter:image" content="https://wordcompass.netlify.app/Thumbnail1.png" />
   
   <!-- Additional Meta Tags -->
   <meta name="description" content="AI-powered thesaurus that adapts to your style and context. Find the perfect word with intelligent synonym suggestions." />
@@ -1420,6 +1420,12 @@
       
       .hero {
         padding: 1.5rem 0.5rem 1.5rem 0.5rem;
+        background: #003087; /* Solid blue background on mobile */
+      }
+      
+      /* Hide waves background on mobile */
+      .waves-background {
+        display: none;
       }
       
       .hero-content h1 {
@@ -1480,6 +1486,13 @@
       .synonyms-grid {
         max-height: 200px;
         overflow-y: auto;
+      }
+    }
+    
+    /* Desktop styles - show waves background on larger screens */
+    @media (min-width: 769px) {
+      .waves-background {
+        display: block;
       }
     }
   </style>
