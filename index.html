@@ -22,12 +22,21 @@
   <!-- Additional Meta Tags -->
   <meta name="description" content="AI-powered thesaurus that adapts to your style and context. Find the perfect word with intelligent synonym suggestions." />
   <meta name="keywords" content="thesaurus, synonyms, AI, word finder, writing tool, vocabulary" />
+  
+  <!-- Three.js for 3D sphere -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+  <!-- Google Fonts - Merriweather -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+  
   <style>
     /* ——— Basic reset & palette ——— */
     * { box-sizing: border-box; }
     body { 
       margin: 0; 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+      font-family: 'Merriweather', Georgia, serif; 
       background: #f8fafc; 
       color: #1e293b; 
       line-height: 1.6;
@@ -38,7 +47,7 @@
       display: flex; 
       align-items: center; 
       justify-content: space-between;
-      padding: 1rem 2rem; 
+      padding: .2rem 2rem; 
       background: #1e293b; 
       color: #fff; 
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -63,22 +72,299 @@
     
     /* ——— Hero section ——— */
     .hero {
+      position: relative;
       text-align: center;
-      padding: 0.3rem 0.5rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 2rem 0.5rem 2rem 0.5rem;
+      background: linear-gradient(135deg, #001F3F 0%, #003087 100%);
       color: #fff;
+      overflow: hidden;
+    }
+    
+    /* Waves Background Layer */
+    .waves-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    
+    .waves-background svg {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: auto;
+      min-width: 100%;
+      /* Preserve aspect ratio but align left */
+      transform-origin: left center;
+    }
+    
+    .wave-text {
+      fill: #FFFFFF;
+      font-size: 28px;
+      font-weight: 400;
+      text-shadow: 0 0 2px rgba(255, 255, 255, 0.9);
+      opacity: 0.8;
+      text-rendering: geometricPrecision;
+      -webkit-font-smoothing: subpixel-antialiased;
+      -moz-osx-font-smoothing: auto;
+      font-family: 'Merriweather', Georgia, serif;
+    }
+    
+    /* Blur Overlay Layer */
+    .hero-blur-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 31, 63, 0.3);
+      backdrop-filter: blur(1px);
+      z-index: 2;
+      pointer-events: none;
+    }
+    
+    /* Hero Content Layer */
+    .hero-content {
+      position: relative;
+      top: -50px;
+      z-index: 3;
+    }
+    
+    /* Hero Text Background Rectangle */
+    .hero-text-background {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 85%;
+      max-width: 680px;
+      height: 476px;
+      background: rgba(0, 31, 63, 0.85);
+      border-radius: 20px;
+      z-index: 2;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Wave Animations */
+    @keyframes wave1 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    @keyframes wave2 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
+    }
+    @keyframes wave3 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    @keyframes wave4 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+    @keyframes wave5 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes wave6 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+    @keyframes wave7 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes wave8 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+    @keyframes wave9 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes wave10 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+    @keyframes wave11 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    @keyframes wave12 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+    @keyframes wave13 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    @keyframes wave14 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+    @keyframes wave15 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+    @keyframes wave16 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+    @keyframes wave17 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    @keyframes wave18 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(2px); }
+    }
+    @keyframes wave19 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+    @keyframes wave20 {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+    @keyframes fade1 {
+      0%, 20% { opacity: 0.6; }
+      25%, 45% { opacity: 0.9; }
+      50%, 100% { opacity: 0.6; }
+    }
+    @keyframes fade2 {
+      0%, 20% { opacity: 0.6; }
+      25%, 45% { opacity: 0.9; }
+      50%, 100% { opacity: 0.6; }
+    }
+    @keyframes fade3 {
+      0%, 30% { opacity: 0.6; }
+      35%, 55% { opacity: 0.9; }
+      60%, 100% { opacity: 0.6; }
+    }
+    @keyframes fade4 {
+      0%, 40% { opacity: 0.6; }
+      45%, 65% { opacity: 0.9; }
+      70%, 100% { opacity: 0.6; }
+    }
+    @keyframes fade5 {
+      0%, 50% { opacity: 0.6; }
+      55%, 75% { opacity: 0.9; }
+      80%, 100% { opacity: 0.6; }
+    }
+    @keyframes fade6 {
+      0%, 60% { opacity: 0.6; }
+      65%, 85% { opacity: 0.9; }
+      90%, 100% { opacity: 0.6; }
+    }
+    @keyframes fade7 {
+      0%, 70% { opacity: 0.6; }
+      75%, 95% { opacity: 0.9; }
+      100% { opacity: 0.6; }
+    }
+    @keyframes fade8 {
+      0%, 80% { opacity: 0.6; }
+      85%, 100% { opacity: 0.9; }
+      100% { opacity: 0.6; }
+    }
+    
+    .wave1 {
+      animation: wave1 12s ease-in-out infinite;
+    }
+    .wave2 {
+      animation: wave2 12s ease-in-out infinite;
+    }
+    .wave3 {
+      animation: wave3 12s ease-in-out infinite;
+    }
+    .wave4 {
+      animation: wave4 12s ease-in-out infinite;
+    }
+    .wave5 {
+      animation: wave5 12s ease-in-out infinite;
+    }
+    .wave6 {
+      animation: wave6 12s ease-in-out infinite;
+    }
+    .wave7 {
+      animation: wave7 12s ease-in-out infinite;
+    }
+    .wave8 {
+      animation: wave8 12s ease-in-out infinite;
+    }
+    .wave9 {
+      animation: wave9 12s ease-in-out infinite;
+    }
+    .wave10 {
+      animation: wave10 12s ease-in-out infinite;
+    }
+    .wave11 {
+      animation: wave11 12s ease-in-out infinite;
+    }
+    .wave12 {
+      animation: wave12 12s ease-in-out infinite;
+    }
+    .wave13 {
+      animation: wave13 12s ease-in-out infinite;
+    }
+    .wave14 {
+      animation: wave14 12s ease-in-out infinite;
+    }
+    .wave15 {
+      animation: wave15 12s ease-in-out infinite;
+    }
+    .wave16 {
+      animation: wave16 12s ease-in-out infinite;
+    }
+    .wave17 {
+      animation: wave17 12s ease-in-out infinite;
+    }
+    .wave18 {
+      animation: wave18 12s ease-in-out infinite;
+    }
+    .wave19 {
+      animation: wave19 12s ease-in-out infinite;
+    }
+    .wave20 {
+      animation: wave20 12s ease-in-out infinite;
+    }
+    
+    /* Wave text animations - now applied to entire text strings */
+    .wave-text {
+      animation: waveTextFade 12s ease-in-out infinite;
+    }
+    
+    @keyframes waveTextFade {
+      0%, 20% { opacity: 0.6; }
+      25%, 45% { opacity: 0.9; }
+      50%, 100% { opacity: 0.6; }
+    }
+    
+    /* Accessibility: Pause animations for reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .wave1, .wave2, .wave3, .wave4, .wave5, .wave6, .wave7, .wave8, .wave9, .wave10, .wave11, .wave12, .wave13, .wave14, .wave15, .wave16, .wave17, .wave18, .wave19, .wave20, .wave-text {
+        animation: none !important;
+      }
     }
     
     .hero h1 {
-      font-size: 3rem;
+      font-size: 2.5rem;
       font-weight: 700;
-      margin-bottom: 0.2rem;
+      margin-top: 2.5rem;
+      margin-bottom: 0.1rem;
       text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
     .hero p {
       font-size: 1.25rem;
-      margin-bottom: 1rem;
+      margin-top: 0.25rem;
+      margin-bottom: 2.5rem;
       opacity: 0.9;
     }
     
@@ -86,8 +372,10 @@
     .search-section {
       max-width: 600px;
       margin: 0 auto;
+      margin-top: 1rem; /*why doesn't this move anything*/
       display: flex;
       flex-direction: column;
+      
       gap: 0.5rem;
     }
     
@@ -133,6 +421,436 @@
       opacity: 1;
       transform: translateY(0);
     }
+    /* ——— 3D View Styles ——— */
+    .view-toggle {
+      margin: 2rem 0;
+      text-align: center;
+    }
+    
+    .sphere-button {
+      flex: 1;
+      background: #6B46C1;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      font-family: 'Merriweather', Georgia, serif;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(107, 70, 193, 0.3);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    .sphere-button:hover {
+      background: #553C9A;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(107, 70, 193, 0.4);
+    }
+    
+    .sphere-button:focus {
+      outline: 2px solid #6B46C1;
+    }
+    
+    .sphere-icon {
+      font-size: 1.2rem;
+    }
+    
+    .sphere-label {
+      font-family: 'Merriweather', Georgia, serif;
+    }
+    
+    .sphere-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(ellipse at center, #0f172a 0%, #020617 50%, #000000 100%);
+      z-index: 999;
+      display: none;
+      cursor: grab;
+      /* Mobile optimizations */
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: none;
+      touch-action: manipulation;
+    }
+    
+    .sphere-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+        radial-gradient(2px 2px at 40px 70px, #ffffff, transparent),
+        radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),
+        radial-gradient(1px 1px at 130px 80px, #ffffff, transparent),
+        radial-gradient(2px 2px at 160px 30px, #ffffff, transparent),
+        radial-gradient(1px 1px at 200px 60px, #ffffff, transparent),
+        radial-gradient(1px 1px at 240px 20px, #ffffff, transparent),
+        radial-gradient(2px 2px at 280px 90px, #ffffff, transparent),
+        radial-gradient(1px 1px at 320px 50px, #ffffff, transparent),
+        radial-gradient(1px 1px at 360px 10px, #ffffff, transparent),
+        radial-gradient(2px 2px at 400px 70px, #ffffff, transparent),
+        radial-gradient(1px 1px at 440px 30px, #ffffff, transparent),
+        radial-gradient(1px 1px at 480px 80px, #ffffff, transparent),
+        radial-gradient(2px 2px at 520px 40px, #ffffff, transparent),
+        radial-gradient(1px 1px at 560px 90px, #ffffff, transparent),
+        radial-gradient(1px 1px at 600px 20px, #ffffff, transparent),
+        radial-gradient(2px 2px at 640px 60px, #ffffff, transparent),
+        radial-gradient(1px 1px at 680px 10px, #ffffff, transparent),
+        radial-gradient(1px 1px at 720px 50px, #ffffff, transparent),
+        radial-gradient(2px 2px at 760px 80px, #ffffff, transparent);
+      background-repeat: repeat;
+      background-size: 800px 100px;
+      opacity: 0.8;
+      animation: twinkle 4s ease-in-out infinite alternate;
+    }
+    
+    @keyframes twinkle {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+    
+    .sphere-container.grabbing {
+      cursor: grabbing;
+    }
+    
+    #sphereCanvas {
+      display: block;
+      background: transparent;
+      border: none;
+      outline: none;
+    }
+    
+    .sphere-close {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      z-index: 1001;
+      transition: all 0.2s;
+    }
+    
+    .sphere-close:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.1);
+    }
+    
+    .sphere-instructions {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+      text-align: center;
+      z-index: 1001;
+    }
+    
+    .sphere-input-controls {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      /* Mobile optimizations */
+      max-width: min(300px, calc(100vw - 4rem));
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .sphere-input-controls {
+        top: 1rem;
+        left: 1rem;
+        right: 1rem;
+        max-width: none;
+        font-size: 13px;
+      }
+    }
+    
+    .sphere-brand {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      letter-spacing: 0.5px;
+    }
+    
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .input-group label {
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      min-width: 60px;
+    }
+    
+    .sphere-input {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      color: #ffffff;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.9rem;
+      min-width: 120px;
+      backdrop-filter: blur(10px);
+      /* Mobile optimizations */
+      font-size: 16px; /* Prevents zoom on iOS */
+      -webkit-appearance: none;
+      border-radius: 8px;
+    }
+    
+    @media (max-width: 768px) {
+      .sphere-input {
+        padding: 0.75rem;
+        font-size: 16px;
+        min-width: 100px;
+      }
+    }
+    
+    .sphere-input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.6);
+      background: rgba(0, 0, 0, 0.8);
+    }
+    
+    .sphere-input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .sphere-search-btn {
+      background: rgba(59, 130, 246, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      color: #ffffff;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      font-family: 'Merriweather', Georgia, serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0.5rem;
+      align-self: flex-start;
+      /* Mobile optimizations */
+      min-height: 44px; /* iOS touch target */
+      touch-action: manipulation;
+    }
+    
+    @media (max-width: 768px) {
+      .sphere-search-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        min-height: 48px;
+        width: 100%;
+      }
+    }
+    
+    .sphere-search-btn:hover {
+      background: rgba(59, 130, 246, 1);
+      transform: translateY(-1px);
+    }
+    
+    .sphere-controls-dropdown {
+      margin: 0.5rem 0;
+    }
+    
+    .sphere-controls-toggle {
+      width: 40px;
+      height: 32px;
+      padding: 0;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      backdrop-filter: blur(10px);
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+    
+    .sphere-controls-toggle:hover {
+      background: rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .dropdown-arrow {
+      transition: transform 0.2s ease;
+      font-size: 0.7rem;
+      opacity: 0.7;
+    }
+    
+    .sphere-controls-toggle.expanded .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+    
+    .sphere-controls {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sphere-controls .control-group {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sphere-controls .control-group:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* Sphere mode toggle (always visible) */
+    .sphere-mode-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 0.75rem 0;
+      padding: 0.5rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .sphere-controls .control-label {
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+    
+    .ios-toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .ios-toggle-container .toggle-label {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.7rem;
+      min-width: 60px;
+      text-align: center;
+    }
+    
+    .ios-toggle {
+      width: 50px;
+      height: 30px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .ios-toggle.active {
+      background: #3b82f6;
+      border-color: #3b82f6;
+    }
+    
+    .ios-toggle-slider {
+      width: 26px;
+      height: 26px;
+      background: #ffffff;
+      border-radius: 50%;
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .ios-toggle.active .ios-toggle-slider {
+      transform: translateX(20px);
+    }
+    
+    .btn-loading {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    .sphere-pause {
+      position: absolute;
+      bottom: 2rem;
+      left: 2rem;
+      background: rgba(0, 0, 0, 0.7);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      color: #ffffff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 1001;
+    }
+    
+    .sphere-pause:hover {
+      background: rgba(0, 0, 0, 0.9);
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: scale(1.1);
+    }
+    
+    .sphere-pause.paused .pause-icon {
+      transform: rotate(0deg); /* No rotation needed - ▶ already points right */
+    }
+    
+    .pause-icon {
+      transition: transform 0.3s ease;
+    }
+    
+    .sphere-note {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.75rem;
+      line-height: 1.2;
+      backdrop-filter: blur(4px);
+      z-index: 10;
+    }
+    
+    .sphere-note small {
+      color: inherit;
+      font-size: inherit;
+    }
+    
+    .search-section {
+      margin-top: -30px;
+    }
     
     .search-input {
       width: 100%;
@@ -149,8 +867,28 @@
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
     
-    .search-btn {
+    /* Button Container: 2/3 + 1/3 Layout */
+    .button-container {
+      display: flex;
+      gap: 0.75rem;
       width: 100%;
+    }
+    
+    @media (max-width: 768px) {
+      .button-container {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .search-btn,
+      .sphere-button {
+        flex: 1;
+        width: 100%;
+      }
+    }
+    
+    .search-btn {
+      flex: 2;
       padding: 1rem 2rem;
       background: #3b82f6;
       color: #fff;
@@ -158,19 +896,23 @@
       border-radius: 12px;
       font-size: 1.1rem;
       font-weight: 600;
+      font-family: 'Merriweather', Georgia, serif;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.2s;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
     
     .search-btn:hover {
       background: #2563eb;
+      transform: translateY(-1px);
     }
     
     .search-btn:disabled {
       background: #94a3b8;
       cursor: not-allowed;
+      transform: none;
     }
+    
     
     .spinner {
       display: none;
@@ -183,7 +925,7 @@
     }
     
     .spinner.show { display: inline-block; }
-    
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
@@ -219,7 +961,7 @@
     }
     
     .control-group {
-      display: flex;
+      display: flex; 
       flex-direction: column;
       gap: 0.5rem;
     }
@@ -252,11 +994,11 @@
     
     .slider {
       flex: 1;
-      height: 6px;
+      height: 6px; 
       border-radius: 3px;
       background: #e2e8f0;
       outline: none;
-      cursor: pointer;
+      cursor: pointer; 
       -webkit-appearance: none;
       appearance: none;
     }
@@ -286,7 +1028,7 @@
     .results-section {
       background: #fff;
       border-radius: 16px;
-      padding: 0.8rem 2rem 2rem 2rem;
+      padding: 0.8rem 2rem 1rem 2rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       border: 1px solid #e2e8f0;
       min-height: 120px;
@@ -319,12 +1061,57 @@
       border: 1px solid #e2e8f0;
     }
     
+    .synonym-word {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    
     .synonym:hover {
       background: #3b82f6;
       color: #fff;
       transform: translateY(-1px);
       box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
     }
+    
+    /* Mobile explanation styles */
+    .synonym.mobile-explanation {
+      background: #1e40af !important;
+      color: #fff !important;
+      transform: scale(1.05);
+      z-index: 10;
+      position: relative;
+    }
+    
+    .synonym-explanation-mobile {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: #fff;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      margin-top: 0.25rem;
+      max-width: 200px;
+      white-space: normal;
+      text-align: center;
+    }
+    
+    .synonym-explanation-mobile::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 4px solid #1e293b;
+    }
+    
     
     /* New synonyms styling - lighter gray to show they're fresh */
     .synonym.new {
@@ -382,7 +1169,7 @@
     }
     
     .toggle-switch.active {
-      background: #3b82f6;
+      background: #1e40af;
     }
     
     .toggle-slider {
@@ -409,6 +1196,101 @@
     
     .toggle-label.active {
       color: #ffffff;
+    }
+    
+    /* Preferences Menu */
+    .preferences-container {
+      margin: 0.25rem 0;
+      position: relative;
+    }
+    
+    .preferences-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(59, 130, 246, 1);
+      border: 1px solid rgba(59, 130, 246, 1);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #ffffff;
+      box-shadow: none;
+      overflow: hidden;
+    }
+    
+    .preferences-toggle.expanded {
+      border-radius: 8px 8px 0 0;
+      box-shadow: none;
+      overflow: hidden;
+    }
+    
+    .preferences-toggle:hover {
+      background: rgba(59, 130, 246, 1);
+      border-color: rgba(59, 130, 246, 1);
+    }
+    
+    .gear-icon {
+      font-size: 1rem;
+    }
+    
+    .dropdown-arrow {
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .preferences-toggle.expanded .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+    
+    .preferences-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      background: rgba(59, 130, 246, 1);
+      border: none;
+      border-radius: 0 0 8px 8px;
+      margin-top: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .preferences-menu.expanded {
+      max-height: 300px;
+    }
+    
+    .preferences-menu .mode-toggle {
+      margin: 0.75rem 1rem;
+      align-items: center;
+      justify-content: space-between;
+      display: flex;
+      height: 2rem;
+    }
+    
+    .preferences-menu .mode-toggle:last-child {
+      margin-bottom: 1rem;
+    }
+    
+    .preferences-menu .toggle-switch {
+      margin: 0;
+      flex-shrink: 0;
+      align-self: center;
+    }
+    
+    .preferences-menu .toggle-label {
+      font-size: 1.1rem;
+      font-weight: 500;
+      white-space: nowrap;
+      line-height: 1;
+      display: flex;
+      align-items: center;
     }
     
     /* Advanced section collapsible */
@@ -537,15 +1419,26 @@
       .nav { gap: 1rem; }
       
       .hero {
-        padding: 0.375rem 0.5rem;
+        padding: 1.5rem 0.5rem 1.5rem 0.5rem;
       }
       
-      .hero h1 {
+      .hero-content h1 {
         font-size: 2rem;
       }
       
-      .hero p {
+      .hero-content p {
         font-size: 1rem;
+      }
+      
+      .wave-text {
+        font-size: 20px;
+      }
+      
+      .hero-text-background {
+        top: 30px;
+        width: 95%;
+        height: 418px;
+        border-radius: 15px;
       }
       
       .search-section {
@@ -581,7 +1474,7 @@
       
       .results-section {
         min-height: 120px;
-        padding: 0.4rem 1rem 1rem 1rem;
+        padding: 0.4rem 1rem 0.1rem 1rem;
       }
       
       .synonyms-grid {
@@ -595,13 +1488,82 @@
   <header>
     <a href="index.html" class="logo">WordCompass.io</a>
     <nav class="nav">
+      <a href="how-to-use.html">How to Use</a>
       <a href="about.html">About</a>
     </nav>
   </header>
 
   <section class="hero">
-    <h1>Find the Perfect Word</h1>
-    <p>AI-powered thesaurus that adapts to your style and context</p>
+    <!-- Waves Background Layer -->
+    <div class="waves-background">
+      <svg viewBox="-300 0 1600 600" preserveAspectRatio="xMinYMid slice">
+        <!-- Left Side Waves (1-9, evenly spaced every 70px) -->
+        <!-- Wave 1: Excited/Thrilled -->
+        <path id="wavePath1" d="M-300,50 Q-50,20 150,50 T600,50 T1050,50 T1500,50" fill="none" />
+        <text class="wave-text wave1">
+          <textPath href="#wavePath1" startOffset="3%">'excited' <tspan style="font-style: italic;">thrilled</tspan>:  eager • enthusiastic • pumped • electrified • animated • exhilarated • energized • stirred • fired up • psyched • amped</textPath>
+        </text>
+        
+        <!-- Wave 2: Happy Gen Z Style -->
+        <path id="wavePath2" d="M-300,120 Q-50,90 150,120 T600,120 T1050,120 T1500,120" fill="none" />
+        <text class="wave-text wave2">
+          <textPath href="#wavePath2" startOffset="3%">'happy' <tspan style="font-style: italic;">Gen Z</tspan>:  stoked • hyped • vibing • blessed • living • lowkey elated • thriving • slaying • crushing it • no cap joyful</textPath>
+        </text>
+        
+        <!-- Wave 3: Smart Victorian Era -->
+        <path id="wavePath3" d="M-300,190 Q-50,160 150,190 T600,190 T1050,190 T1500,190" fill="none" />
+        <text class="wave-text wave3">
+          <textPath href="#wavePath3" startOffset="3%">'smart' <tspan style="font-style: italic;">Victorian era</tspan>:  sagacious • erudite • learned • astute • perspicacious • judicious • discerning • cultured • enlightened • cerebral</textPath>
+        </text>
+        
+        <!-- Wave 4: Walk Old English -->
+        <path id="wavePath4" d="M-300,260 Q-50,230 150,260 T600,260 T1050,260 T1500,260" fill="none" />
+        <text class="wave-text wave4">
+          <textPath href="#wavePath4" startOffset="3%">'walk' <tspan style="font-style: italic;">Old English</tspan>:  saunter • amble • perambulate • promenade • traipse • mosey • meander • stroll • wander • ramble</textPath>
+        </text>
+        
+        <!-- Wave 5: Delicious French Cuisine -->
+        <path id="wavePath5" d="M-300,330 Q-50,300 150,330 T600,330 T1050,330 T1500,330" fill="none" />
+        <text class="wave-text wave5">
+          <textPath href="#wavePath5" startOffset="3%">'delicious' <tspan style="font-style: italic;">French cuisine</tspan>:  délectable • savoureux • exquis • succulent • appétissant • délicieux • magnifique • formidable • superbe</textPath>
+        </text>
+        
+        <!-- Wave 6: Brave Shakespearean -->
+        <path id="wavePath6" d="M-300,400 Q-50,370 150,400 T600,400 T1050,400 T1500,400" fill="none" />
+        <text class="wave-text wave6">
+          <textPath href="#wavePath6" startOffset="3%">'brave' <tspan style="font-style: italic;">Shakespearean</tspan>:  valiant • dauntless • intrepid • gallant • stalwart • lionhearted • stout-hearted • bold • fearless • courageous</textPath>
+        </text>
+        
+        <!-- Wave 7: Prosperous Wall Street -->
+        <path id="wavePath7" d="M-300,470 Q-50,440 150,470 T600,470 T1050,470 T1500,470" fill="none" />
+        <text class="wave-text wave7">
+          <textPath href="#wavePath7" startOffset="3%">'prosperous' <tspan style="font-style: italic;">Wall Street</tspan>:  thriving • flourishing • booming • lucrative • profitable • affluent • bullish • robust • expanding • growth-oriented</textPath>
+        </text>
+        
+        <!-- Wave 8: Beautiful Poetic -->
+        <path id="wavePath8" d="M-300,540 Q-50,510 150,540 T600,540 T1050,540 T1500,540" fill="none" />
+        <text class="wave-text wave8">
+          <textPath href="#wavePath8" startOffset="3%">'beautiful' <tspan style="font-style: italic;">poetic</tspan>:  ethereal • sublime • resplendent • luminous • exquisite • radiant • celestial • divine • transcendent • magnificent</textPath>
+        </text>
+        
+        <!-- Wave 9: Fast Automotive -->
+        <path id="wavePath9" d="M-300,610 Q-50,580 150,610 T600,610 T1050,610 T1500,610" fill="none" />
+        <text class="wave-text wave9">
+          <textPath href="#wavePath9" startOffset="3%">'fast' <tspan style="font-style: italic;">automotive</tspan>:  blazing • turbocharged • supersonic • lightning-quick • aerodynamic • high-octane • rocket-powered • breakneck • velocity-driven</textPath>
+        </text>
+      </svg>
+        </div>
+    
+    <!-- Blur Overlay Layer -->
+    <div class="hero-blur-overlay"></div>
+    
+    <!-- Hero Text Background Rectangle -->
+    <div class="hero-text-background"></div>
+    
+    <!-- Hero Content Layer -->
+    <div class="hero-content">
+      <h1>Find the Perfect Word</h1>
+      <p>AI-powered thesaurus that adapts to your style and context</p>
     
     <div class="search-section">
       <input 
@@ -616,58 +1578,96 @@
         <input 
           id="contextInput" 
           class="context-input" 
-          placeholder="Optional: Add slang type or context (Gen Z, Old English, Regional, Academic, etc.)" 
+          placeholder="Suggested: Add context (example text string)" 
           autocomplete="off"
         />
       </div>
       
-      <!-- Mode Toggle -->
+      <!-- Synonyms/Antonyms Toggle (always visible) -->
       <div class="mode-toggle">
-        <span class="toggle-label active" id="thesaurusLabel">Thesaurus</span>
-        <div class="toggle-switch" id="modeToggle">
+        <span class="toggle-label active" id="synonymsLabel">Synonyms</span>
+        <div class="toggle-switch" id="synonymsToggle">
           <div class="toggle-slider"></div>
         </div>
-        <span class="toggle-label" id="phrasesLabel">Creative Phrases</span>
+        <span class="toggle-label" id="antonymsLabel">Antonyms</span>
       </div>
       
-      <!-- Model Toggle -->
-      <div class="mode-toggle">
-        <span class="toggle-label active" id="fastLabel">Fast</span>
-        <div class="toggle-switch" id="modelToggle">
-          <div class="toggle-slider"></div>
+      <!-- Preferences Menu (collapsible) -->
+      <div class="preferences-container">
+        <button class="preferences-toggle" id="preferencesToggle">
+          <span class="gear-icon">⚙️</span>
+          <span class="preferences-label">Preferences</span>
+          <span class="dropdown-arrow">▼</span>
+        </button>
+        
+        <div class="preferences-menu" id="preferencesMenu">
+          <!-- Mode Toggle -->
+          <div class="mode-toggle">
+            <span class="toggle-label active" id="thesaurusLabel">Thesaurus</span>
+            <div class="toggle-switch" id="modeToggle">
+              <div class="toggle-slider"></div>
+            </div>
+            <span class="toggle-label" id="phrasesLabel">Creative Phrases</span>
+          </div>
+          
+          <!-- Model Toggle -->
+          <div class="mode-toggle">
+            <span class="toggle-label active" id="fastLabel">Fast</span>
+            <div class="toggle-switch" id="modelToggle">
+              <div class="toggle-slider"></div>
+            </div>
+            <span class="toggle-label" id="thoughtfulLabel">Thoughtful</span>
+          </div>
+          
+          <!-- Definitions Toggle -->
+          <div class="mode-toggle">
+            <span class="toggle-label active" id="wordsLabel">Words</span>
+            <div class="toggle-switch" id="definitionsToggle">
+              <div class="toggle-slider"></div>
+            </div>
+            <span class="toggle-label" id="definitionsLabel">Include Definitions</span>
+          </div>
         </div>
-        <span class="toggle-label" id="thoughtfulLabel">Thoughtful</span>
       </div>
       
-      <button id="searchBtn" class="search-btn">
-        <span id="searchText">Find</span>
-        <span id="spinner" class="spinner"></span>
-      </button>
-    </div>
+      <!-- Button Container: 2/3 Find + 1/3 Sphere -->
+      <div class="button-container">
+        <button id="searchBtn" class="search-btn">
+          <span id="searchText">Find</span>
+          <span id="spinner" class="spinner"></span>
+        </button>
+        
+        <button class="sphere-button" id="sphereButtonHero">
+          <span class="sphere-icon">🌐</span>
+          <span class="sphere-label">Sphere</span>
+        </button>
+        </div>
+      </div>
+    </div> <!-- Close hero-content -->
   </section>
 
   <div class="main-content">
     <div class="results-section">
-      <h2 class="results-title">Synonyms</h2>
+      <h2 class="results-title" id="resultsTitle">Synonyms</h2>
       <ul id="synonyms" class="synonyms-grid">
-        <li class="empty-state">Enter a word above to see synonyms</li>
+        <li class="empty-state" id="emptyState">Enter a word above to see synonyms</li>
       </ul>
       <div id="guidanceTip" class="guidance-tip">
         💡 Try adding context like "Gen Z" or "Old English" for more specific results
+        </div>
       </div>
-    </div>
 
     <!-- Advanced Controls Section -->
     <div class="advanced-section" id="advancedSection">
       <div class="advanced-header" id="advancedHeader">
         <div class="advanced-title">
           <span class="advanced-arrow">▶</span>
-          Advanced: Adjust tone & style
+          Optional: Adjust tone & style
         </div>
         <div class="advanced-toggle" id="advancedToggle">
           <div class="advanced-toggle-slider"></div>
-        </div>
       </div>
+        </div>
       
       <div class="advanced-content" id="advancedContent">
         <div class="advanced-content-inner">
@@ -678,8 +1678,8 @@
                 <span class="slider-label">Modern</span>
                 <input id="eraRange" type="range" class="slider" min="0" max="100" value="0" />
                 <span class="slider-label">Historical</span>
-              </div>
-            </div>
+      </div>
+        </div>
             
             <div class="control-group">
               <label class="control-label" for="regionRange">Region</label>
@@ -687,7 +1687,7 @@
                 <span class="slider-label">US</span>
                 <input id="regionRange" type="range" class="slider" min="0" max="100" value="0" />
                 <span class="slider-label">UK</span>
-              </div>
+      </div>
             </div>
             
             <div class="control-group">
@@ -728,6 +1728,14 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- 3D View Toggle -->
+    <div class="view-toggle">
+               <button class="sphere-button" id="sphereButton">
+                 <span class="sphere-icon">🌐</span>
+                 <span class="sphere-label">Serendipity Sphere</span>
+               </button>
     </div>
   </div>
 
@@ -777,9 +1785,14 @@
     const guidanceTip = document.getElementById('guidanceTip');
     const sliders     = ['eraRange','regionRange','rarityRange','emotionRange','formalityRange','sentimentRange'];
     
-    // Track existing synonyms for "Find More" functionality
-    let existingSynonyms = [];
+    // Track existing results (synonyms or antonyms) for "Find More" functionality
+    let existingResults = [];
     let isFirstSearch = true;
+    let lastSearchedWord = ''; // Track the last word searched
+    
+    // Single source of truth for inputs - tracks most recently updated values
+    let Input1 = ''; // Either MainInput1 or SphereInput1, whichever was most recently updated
+    let Context1 = ''; // Either MainContext1 or SphereContext1, whichever was most recently updated
 
     // 3. ——— Helper: collect slider state ———
     function sliderState() {
@@ -789,10 +1802,23 @@
       }, {});
     }
     
+    // 4. ——— Sync inputs to single source of truth ———
+    function syncInputs() {
+      // Update Input1 and Context1 with most recent values
+      Input1 = document.getElementById('searchInput').value.trim();
+      Context1 = document.getElementById('contextInput').value.trim();
+      
+      // Sync both displays to show the same values
+      document.getElementById('searchInput').value = Input1;
+      document.getElementById('contextInput').value = Context1;
+      document.getElementById('sphereWordInput').value = Input1;
+      document.getElementById('sphereContextInput').value = Context1 || 'Normal';
+    }
+    
     // 4. ——— Dynamic context examples ———
     function updateContextPlaceholder() {
       const randomExample = contextExamples[Math.floor(Math.random() * contextExamples.length)];
-      contextInput.placeholder = `Optional: Add slang type or context (${randomExample}, Old English, Regional, Academic, etc.)`;
+      contextInput.placeholder = `Suggested: Add context (${randomExample}, Old English, Regional, Academic, etc.)`;
     }
     
     // 5. ——— Guidance system ———
@@ -815,15 +1841,20 @@
       return commonWords.includes(searchWord) && !contextInput.value.trim();
     }
 
-    // 4. ——— Main fetch routine ———
+    // 5. ——— Main fetch routine ———
     async function fetchSynonyms() {
-      const word = searchInput.value.trim();
+      const word = Input1; // Use single source of truth
       if (!word) return;
 
+      // Check if this is a new word (different from last search)
+      const isNewWord = word !== lastSearchedWord;
+      
       // Clear results and show loading state
-      if (isFirstSearch) {
-        synonymList.innerHTML = '<li class="empty-state">Finding synonyms...</li>';
-        existingSynonyms = [];
+      if (isFirstSearch || isNewWord) {
+        const wordType = appState.isAntonymMode ? 'antonyms' : 'synonyms';
+        synonymList.innerHTML = `<li class="empty-state">Finding ${wordType}...</li>`;
+        existingResults = [];
+        lastSearchedWord = word; // Update the tracked word
       } else {
         // Add "Thinking..." at the top and slide existing words right
         const thinkingLi = document.createElement('li');
@@ -846,7 +1877,35 @@
       
       const state = sliderState();
 
-      const system = `You are an assistant that returns synonyms tuned by metadata sliders and context. Return ONLY a JSON array of strings, with no additional text or formatting. Example: ["word1", "word2", "word3"]
+      // Build dynamic system prompt based on toggle states
+      const wordType = appState.isAntonymMode ? 'antonyms' : 'synonyms';
+      const returnFormat = appState.includeDefinitions ? 
+        'Each object should have "word" and "explanation" properties.' : 
+        'Each object should have only a "word" property.';
+      const exampleFormat = appState.includeDefinitions ? 
+        (appState.isAntonymMode ? 
+          '[{"word": "intelligent", "explanation": "mentally sharp"}, {"word": "bright", "explanation": "quick-witted"}]' :
+          '[{"word": "ecstatic", "explanation": "overwhelming celebration"}, {"word": "thrilled", "explanation": "excited anticipation"}]') :
+        (appState.isAntonymMode ? 
+          '[{"word": "intelligent"}, {"word": "bright"}, {"word": "clever"}]' :
+          '[{"word": "ecstatic"}, {"word": "thrilled"}, {"word": "blissful"}]');
+
+      const system = `You are an assistant that returns ${wordType}${appState.includeDefinitions ? ' with brief explanations' : ''}. Return ONLY a JSON array of objects, with no additional text or formatting. ${returnFormat}
+
+${appState.isAntonymMode ? `ANTONYM GUIDELINES:
+- Return words that are OPPOSITES in meaning to the input word
+- For "dumb" return words like "smart", "intelligent", "bright", "clever"
+- For "happy" return words like "sad", "miserable", "depressed", "gloomy"
+- Focus on direct opposites, not just different words
+
+` : ''}${appState.includeDefinitions ? `EXPLANATION GUIDELINES:
+- Avoid circular definitions (don't define "happy" as "full of happiness")
+- Use specific contexts, emotions, or situations
+- Include brief usage examples when helpful
+- Focus on nuances and subtle differences
+- Keep explanations 2-4 words or short phrases
+
+` : ''}Example: ${exampleFormat}
 
 Slider Definitions:
 - Era (0-100): 0 = modern/contemporary words, 100 = historical/archaic words
@@ -862,7 +1921,7 @@ Context Interpretation:
 - 'Academic' = scholarly/formal, 'Military' = service-specific jargon, 'Tech' = Silicon Valley speak
 - If no context specified, use standard thesaurus approach
 
-Mode: ${isCreativeMode ? 'CREATIVE PHRASES' : 'THESAURUS'}
+Mode: ${appState.isCreativeMode ? 'CREATIVE PHRASES' : 'THESAURUS'}
 - THESAURUS MODE: Return traditional single-word synonyms
 - CREATIVE PHRASES MODE: Return varied, contextual phrases. Avoid repetitive combinations (e.g., don't return both "personal symbol" and "unique symbol" - pick one creative phrase). Focus on capturing the essence and voice of the context.
 
@@ -872,9 +1931,11 @@ When handling sentiment:
 - For potentially sensitive words: Always prefer respectful and appropriate alternatives
 - This is a thesaurus, so you should return a wide range of words, including words that can be mean, offensive, or negative.
 
-Return 12-15 high-quality synonyms that match the specified parameters and context.`;
-      const context = contextInput.value.trim();
-      const existingWords = existingSynonyms.length > 0 ? `\nExisting synonyms to avoid: ${existingSynonyms.join(', ')}` : '';
+const wordType = appState.isAntonymMode ? 'antonyms' : 'synonyms';
+Return 12-15 high-quality ${wordType} with brief explanations that match the specified parameters and context. Avoid circular definitions - instead provide specific contexts, emotions, or usage situations that distinguish each word from the original and from each other.`;
+      const context = Context1; // Use single source of truth
+      const wordTypeLabel = appState.isAntonymMode ? 'antonyms' : 'synonyms';
+      const existingWords = existingResults.length > 0 ? `\nExisting ${wordTypeLabel} to avoid: ${existingResults.map(item => typeof item === 'string' ? item : item.word).join(', ')}` : '';
       // Build user prompt based on advanced mode
       let userPrompt = `Word: "${word}"`;
       
@@ -894,11 +1955,19 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
       
       userPrompt += existingWords;
       userPrompt += '\n\nImportant: For positive sentiment, use uplifting and respectful alternatives. For negative sentiment, use neutral or negative alternatives.';
-      if (existingSynonyms.length > 0) {
-        userPrompt += ' Do not return any of the existing synonyms listed above.';
+      if (existingResults.length > 0) {
+        userPrompt += ` Do not return any of the existing ${wordTypeLabel} listed above.`;
       }
       
       const user = userPrompt;
+
+      // Debug logging for antonyms
+      if (appState.isAntonymMode) {
+        console.log('🔍 ANTONYM REQUEST:');
+        console.log('System prompt:', system.substring(0, 200) + '...');
+        console.log('User prompt:', user);
+        console.log('Existing words to avoid:', existingResults.map(item => typeof item === 'string' ? item : item.word));
+      }
 
       try {
         const response = await fetch(API_ENDPOINT, {
@@ -912,8 +1981,8 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
               { role: 'user',   content: user   }
             ],
             temperature: 0.7,
-            max_tokens: 200,
-            model: isThoughtfulMode ? 'gpt-4o' : 'gpt-3.5-turbo'
+            max_tokens: 500,
+            model: appState.isThoughtfulMode ? 'gpt-4o' : 'gpt-3.5-turbo'
           })
         });
 
@@ -925,28 +1994,92 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
         const content = data?.choices?.[0]?.message?.content || '[]';
         let synonyms;
         try {
-          synonyms = JSON.parse(content);
+          // Check if content looks like incomplete JSON
+          if (content.trim().length === 0) {
+            throw new Error('Empty response');
+          }
+          
+          // Try to fix common JSON issues
+          let cleanContent = content.trim();
+          
+          // If it doesn't start with [ or end with ], try to fix it
+          if (!cleanContent.startsWith('[')) {
+            cleanContent = '[' + cleanContent;
+          }
+          if (!cleanContent.endsWith(']')) {
+            cleanContent = cleanContent + ']';
+          }
+          
+          synonyms = JSON.parse(cleanContent);
           if (!Array.isArray(synonyms)) {
             throw new Error('Response is not an array');
           }
+          
+          // Handle both old format (strings) and new format (objects)
+          synonyms = synonyms.map(item => {
+            if (typeof item === 'string') {
+              return { word: item, explanation: '' };
+            }
+            return item;
+          });
         } catch (err) {
           console.error('Failed to parse synonyms:', err);
-          synonyms = [];
+          console.error('Raw content:', content);
+          
+          // Fallback: try to extract words manually if JSON parsing fails
+          const fallbackWords = [];
+          const wordMatches = content.match(/"word":\s*"([^"]+)"/g);
+          if (wordMatches) {
+            wordMatches.forEach(match => {
+              const word = match.match(/"word":\s*"([^"]+)"/)[1];
+              fallbackWords.push({ word: word, explanation: '' });
+            });
+          }
+          
+          synonyms = fallbackWords.length > 0 ? fallbackWords : [];
         }
-        if (isFirstSearch) {
-          existingSynonyms = [...synonyms];
-          renderSynonyms(synonyms);
+        
+        // Debug logging for antonyms
+        if (appState.isAntonymMode) {
+          console.log('📥 ANTONYM RESPONSE:');
+          console.log('Received words:', synonyms.map(item => typeof item === 'string' ? item : item.word));
+          console.log('Total received:', synonyms.length);
+        }
+        
+        if (isFirstSearch || isNewWord) {
+          existingResults = [...synonyms];
+        renderSynonyms(synonyms);
           isFirstSearch = false;
-          searchText.textContent = 'Find More';
+          
+          updateButtonText();
         } else {
-          // Filter out duplicates and prepend new synonyms
-          const newSynonyms = synonyms.filter(word => !existingSynonyms.includes(word));
-          existingSynonyms = [...newSynonyms, ...existingSynonyms];
-          renderSynonymsWithAnimation(newSynonyms, existingSynonyms);
+          // Filter out duplicates and prepend new synonyms (context change)
+          const newSynonyms = synonyms.filter(item => {
+            const word = typeof item === 'string' ? item : item.word;
+            return !existingResults.some(existing => {
+              const existingWord = typeof existing === 'string' ? existing : existing.word;
+              return existingWord === word;
+            });
+          });
+          
+          // Debug logging for antonyms
+          if (appState.isAntonymMode) {
+            console.log('✅ NEW ANTONYMS (after filtering):', newSynonyms.map(item => typeof item === 'string' ? item : item.word));
+            console.log('Total new:', newSynonyms.length);
+          }
+          
+          existingResults = [...newSynonyms, ...existingResults];
+          renderSynonymsWithAnimation(newSynonyms, existingResults);
         }
+        
+        // Update sphere if it's currently visible
+        updateSphereIfVisible();
+        
+        return synonyms;
       } catch (err) {
         console.error(err);
-        synonymList.innerHTML = '<li class="empty-state">Error fetching synonyms. Please try again.</li>';
+        synonymList.innerHTML = '<li class="empty-state">Error fetching synonyms. Please try again.';
+        return []; // Return empty array on error
       } finally {
         searchBtn.disabled = false;
         searchText.style.display = 'inline';
@@ -954,22 +2087,112 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
       }
     }
 
-    // 5. ——— Render helper ———
+    // 5. ——— Mobile explanation helper ———
+    function showMobileExplanation(element, explanation) {
+      // Remove any existing mobile explanations
+      document.querySelectorAll('.synonym-explanation-mobile').forEach(el => el.remove());
+      document.querySelectorAll('.synonym.mobile-explanation').forEach(el => el.classList.remove('mobile-explanation'));
+      
+      // Add mobile explanation class
+      element.classList.add('mobile-explanation', 'showing-explanation');
+      
+      // Create explanation tooltip
+      const tooltip = document.createElement('div');
+      tooltip.className = 'synonym-explanation-mobile';
+      tooltip.textContent = explanation;
+      
+      // Add to DOM
+      element.appendChild(tooltip);
+      
+      // Auto-hide after 3 seconds
+      setTimeout(() => {
+        if (tooltip.parentNode) {
+          tooltip.remove();
+        }
+        element.classList.remove('mobile-explanation', 'showing-explanation');
+      }, 3000);
+      
+      // Hide on any touch elsewhere
+      const hideOnTouch = (e) => {
+        if (!element.contains(e.target)) {
+          if (tooltip.parentNode) {
+            tooltip.remove();
+          }
+          element.classList.remove('mobile-explanation', 'showing-explanation');
+          document.removeEventListener('touchstart', hideOnTouch);
+        }
+      };
+      
+      setTimeout(() => {
+        document.addEventListener('touchstart', hideOnTouch);
+      }, 100);
+    }
+
+    // 6. ——— Render helper ———
     function renderSynonyms(arr) {
       synonymList.innerHTML = '';
       if (arr.length === 0) {
-        synonymList.innerHTML = '<li class="empty-state">No synonyms found. Try a different word.</li>';
+        const wordType = appState.isAntonymMode ? 'antonyms' : 'synonyms';
+        synonymList.innerHTML = `<li class="empty-state">No ${wordType} found. Try a different word.</li>`;
         return;
       }
       
-      arr.forEach(word => {
+      arr.forEach(item => {
         const li = document.createElement('li');
-        li.textContent = word;
         li.className = 'synonym';
-        li.title = 'Click to copy';
-        li.addEventListener('click', async () => {
+        
+        // Create the word display
+        const wordSpan = document.createElement('span');
+        wordSpan.textContent = item.word || item;
+        wordSpan.className = 'synonym-word';
+        
+        // Assemble the content
+        li.appendChild(wordSpan);
+        
+        // Set title for hover with explanation
+        const explanation = item.explanation && item.explanation.trim() ? item.explanation : '';
+        li.title = explanation || '';
+        
+        // Mobile-friendly explanation display
+        let explanationTimeout;
+        
+        // Long press for mobile (show explanation)
+        li.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          const explanation = item.explanation && item.explanation.trim();
+          if (explanation) {
+            explanationTimeout = setTimeout(() => {
+              // Show explanation on mobile
+              showMobileExplanation(li, explanation);
+            }, 500); // 500ms long press
+          }
+        });
+        
+        li.addEventListener('touchend', () => {
+          if (explanationTimeout) {
+            clearTimeout(explanationTimeout);
+            explanationTimeout = null;
+          }
+        });
+        
+        li.addEventListener('touchmove', () => {
+          if (explanationTimeout) {
+            clearTimeout(explanationTimeout);
+            explanationTimeout = null;
+          }
+        });
+        
+        // Click handler (copy word)
+        li.addEventListener('click', async (e) => {
+          // Prevent click if we just showed an explanation
+          if (li.classList.contains('showing-explanation')) {
+            li.classList.remove('showing-explanation');
+            return;
+          }
+          
           try {
-            await navigator.clipboard.writeText(word);
+            const wordToCopy = item.word || item;
+            await navigator.clipboard.writeText(wordToCopy);
             // Visual feedback
             li.style.background = '#10b981';
             li.style.color = '#fff';
@@ -981,6 +2204,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
             console.error('Failed to copy:', err);
           }
         });
+        
         synonymList.appendChild(li);
       });
       
@@ -999,11 +2223,22 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
       }
       
       // Add new synonyms at the top
-      newSynonyms.forEach(word => {
+      newSynonyms.forEach(item => {
+        // Handle both old format (string) and new format (object with word/explanation)
+        const word = typeof item === 'string' ? item : item.word;
+        const explanation = typeof item === 'object' ? item.explanation : '';
+        
         const li = document.createElement('li');
-        li.textContent = word;
         li.className = 'synonym';
-        li.title = 'Click to copy';
+        
+        // Create word span
+        const wordSpan = document.createElement('span');
+        wordSpan.textContent = word;
+        wordSpan.className = 'synonym-word';
+        li.appendChild(wordSpan);
+        
+        // Set tooltip with explanation
+        li.title = explanation || '';
         
         li.addEventListener('click', async () => {
           try {
@@ -1037,8 +2272,9 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
     // 8. ——— Reset search state when inputs change ———
     function resetSearchState() {
       isFirstSearch = true;
-      existingSynonyms = [];
-      searchText.textContent = 'Find';
+      existingResults = [];
+      lastSearchedWord = ''; // Reset tracked word
+      updateButtonText();
     }
     
     // 9. ——— Event wiring ———
@@ -1046,35 +2282,128 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
     searchInput.addEventListener('keydown', e => (e.key === 'Enter') && fetchSynonyms());
     contextInput.addEventListener('keydown', e => (e.key === 'Enter') && fetchSynonyms());
     
-    // Reset when word or context changes
-    searchInput.addEventListener('input', resetSearchState);
-    contextInput.addEventListener('input', resetSearchState);
+    // Reset when word or context changes and update single source of truth
+    searchInput.addEventListener('input', () => {
+      Input1 = searchInput.value.trim();
+      resetSearchState();
+    });
+    contextInput.addEventListener('input', () => {
+      Context1 = contextInput.value.trim();
+      resetSearchState();
+    });
     
+    // Centralized state management - single source of truth
+    const appState = {
+      isAntonymMode: false,
+      isThoughtfulMode: false,
+      isCreativeMode: false,
+      includeDefinitions: false
+    };
+
+    // Helper function to sync all toggles with centralized state
+    function syncAllToggles() {
+      // Main page toggles
+      document.getElementById('synonymsToggle').classList.toggle('active', appState.isAntonymMode);
+      document.getElementById('synonymsLabel').classList.toggle('active', !appState.isAntonymMode);
+      document.getElementById('antonymsLabel').classList.toggle('active', appState.isAntonymMode);
+      
+      document.getElementById('modelToggle').classList.toggle('active', appState.isThoughtfulMode);
+      document.getElementById('fastLabel').classList.toggle('active', !appState.isThoughtfulMode);
+      document.getElementById('thoughtfulLabel').classList.toggle('active', appState.isThoughtfulMode);
+      
+      document.getElementById('modeToggle').classList.toggle('active', appState.isCreativeMode);
+      document.getElementById('thesaurusLabel').classList.toggle('active', !appState.isCreativeMode);
+      document.getElementById('phrasesLabel').classList.toggle('active', appState.isCreativeMode);
+      
+      document.getElementById('definitionsToggle').classList.toggle('active', appState.includeDefinitions);
+      document.getElementById('wordsLabel').classList.toggle('active', !appState.includeDefinitions);
+      document.getElementById('definitionsLabel').classList.toggle('active', appState.includeDefinitions);
+      
+      // Sphere toggles
+      document.getElementById('sphereSynonymsToggle').classList.toggle('active', appState.isAntonymMode);
+      document.getElementById('sphereSynonymsLabel').classList.toggle('active', !appState.isAntonymMode);
+      document.getElementById('sphereAntonymsLabel').classList.toggle('active', appState.isAntonymMode);
+      document.getElementById('sphereSpeedToggle').classList.toggle('active', appState.isThoughtfulMode);
+      document.getElementById('sphereStyleToggle').classList.toggle('active', appState.isCreativeMode);
+      document.getElementById('sphereDefinitionsToggle').classList.toggle('active', appState.includeDefinitions);
+    }
+
+    // Update state and sync all toggles
+    function updateState(key, value) {
+      appState[key] = value;
+      syncAllToggles();
+    }
+
     // Mode toggle functionality
     const modeToggle = document.getElementById('modeToggle');
     const thesaurusLabel = document.getElementById('thesaurusLabel');
     const phrasesLabel = document.getElementById('phrasesLabel');
-    let isCreativeMode = false;
     
     modeToggle.addEventListener('click', () => {
-      isCreativeMode = !isCreativeMode;
-      modeToggle.classList.toggle('active', isCreativeMode);
-      thesaurusLabel.classList.toggle('active', !isCreativeMode);
-      phrasesLabel.classList.toggle('active', isCreativeMode);
+      updateState('isCreativeMode', !appState.isCreativeMode);
     });
     
     // Model toggle functionality
     const modelToggle = document.getElementById('modelToggle');
     const fastLabel = document.getElementById('fastLabel');
     const thoughtfulLabel = document.getElementById('thoughtfulLabel');
-    let isThoughtfulMode = false; // Default to Fast (gpt-3.5-turbo)
     
     modelToggle.addEventListener('click', () => {
-      isThoughtfulMode = !isThoughtfulMode;
-      modelToggle.classList.toggle('active', isThoughtfulMode);
-      fastLabel.classList.toggle('active', !isThoughtfulMode);
-      thoughtfulLabel.classList.toggle('active', isThoughtfulMode);
+      updateState('isThoughtfulMode', !appState.isThoughtfulMode);
     });
+    
+    // Synonyms/Antonyms toggle functionality
+    const synonymsToggle = document.getElementById('synonymsToggle');
+    const synonymsLabel = document.getElementById('synonymsLabel');
+    const antonymsLabel = document.getElementById('antonymsLabel');
+    
+    synonymsToggle.addEventListener('click', () => {
+      updateState('isAntonymMode', !appState.isAntonymMode);
+      // Clear results when switching between synonyms/antonyms
+      resetSearchState();
+    });
+    
+    // Definitions toggle functionality
+    const definitionsToggle = document.getElementById('definitionsToggle');
+    const wordsLabel = document.getElementById('wordsLabel');
+    const definitionsLabel = document.getElementById('definitionsLabel');
+    
+    definitionsToggle.addEventListener('click', () => {
+      updateState('includeDefinitions', !appState.includeDefinitions);
+    });
+    
+    // Preferences menu toggle functionality
+    const preferencesToggle = document.getElementById('preferencesToggle');
+    const preferencesMenu = document.getElementById('preferencesMenu');
+    
+    preferencesToggle.addEventListener('click', () => {
+      const isExpanded = preferencesMenu.classList.contains('expanded');
+      preferencesMenu.classList.toggle('expanded', !isExpanded);
+      preferencesToggle.classList.toggle('expanded', !isExpanded);
+    });
+    
+    // Function to update button text and results title based on toggle states
+    function updateButtonText() {
+      const wordType = appState.isAntonymMode ? 'Antonyms' : 'Synonyms';
+      const action = isFirstSearch ? 'Find' : 'Find More';
+      searchText.textContent = `${action} ${wordType}`;
+      
+      // Also update the results section title
+      const resultsTitle = document.getElementById('resultsTitle');
+      if (resultsTitle) {
+        resultsTitle.textContent = wordType;
+      }
+      
+      // Update the empty state message
+      const emptyState = document.getElementById('emptyState');
+      if (emptyState && emptyState.classList.contains('empty-state')) {
+        emptyState.textContent = `Enter a word above to see ${wordType.toLowerCase()}`;
+      }
+    }
+    
+    // Update button text when toggles change
+    synonymsToggle.addEventListener('click', updateButtonText);
+    preferencesToggle.addEventListener('click', updateButtonText);
     
     // Advanced section functionality
     const advancedSection = document.getElementById('advancedSection');
@@ -1123,6 +2452,985 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
     updateContextPlaceholder();
     // Update examples every 30 seconds
     setInterval(updateContextPlaceholder, 30000);
+
+    // 11. ——— 3D Sphere View ———
+    let scene, camera, renderer, sphere, wordSprites = [];
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    let sphereRotation = { x: 0, y: 0 };
+    let isTouch = false;
+    let autoRotation = { x: 0, y: 0 };
+    let isPaused = false;
+    let lastInteractionTime = 0;
+    let rotationMomentum = { x: 0, y: 0 };
+    let animationId;
+    let raycaster = new THREE.Raycaster();
+    let mouse = new THREE.Vector2();
+
+    // Performance detection
+    function isDeviceCapable() {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      return !!gl; // Just require WebGL support
+    }
+
+    // Initialize 3D scene
+    function initSphere() {
+      if (!isDeviceCapable()) {
+        console.log('Device not capable of 3D rendering');
+        return false;
+      }
+
+      const container = document.getElementById('sphereContainer');
+      const canvas = document.getElementById('sphereCanvas');
+      
+      // Scene setup
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 0); // Transparent background
+
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+      scene.add(ambientLight);
+      
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      directionalLight.position.set(5, 5, 5);
+      scene.add(directionalLight);
+
+      // No sphere - just words floating in space
+
+      // Starry background is now handled by CSS
+
+      // Camera position - adjusted for sphere size
+      camera.position.z = 1.4; // Even closer - sphere appears 50% larger than original
+
+      // Add event listeners
+      setupSphereControls();
+      
+      return true;
+    }
+
+    // Create cheerful starry background with colors
+    // Star field is now handled by CSS background
+
+    // Nebula effect is now handled by CSS background
+
+    // Generate evenly distributed points on sphere using Fibonacci spiral
+    function generateSphereVertices(count) {
+      const vertices = [];
+      const goldenRatio = (1 + Math.sqrt(5)) / 2;
+      
+      for (let i = 0; i < count; i++) {
+        const theta = 2 * Math.PI * i / goldenRatio;
+        const phi = Math.acos(1 - 2 * (i + 0.5) / count);
+        
+        const x = Math.cos(theta) * Math.sin(phi);
+        const y = Math.sin(theta) * Math.sin(phi);
+        const z = Math.cos(phi);
+        
+        vertices.push([x, y, z]);
+      }
+      
+      return vertices;
+    }
+
+    // Setup mouse/touch controls
+    // Setup controls
+    function setupSphereControls() {
+      const container = document.getElementById('sphereContainer');
+      
+      // Mouse events
+      container.addEventListener('mousedown', onMouseDown);
+      container.addEventListener('mousemove', onMouseMove);
+      container.addEventListener('mouseup', onMouseUp);
+      container.addEventListener('wheel', onMouseWheel);
+      container.addEventListener('click', onMouseClick);
+
+      // Touch events
+      container.addEventListener('touchstart', onTouchStart);
+      container.addEventListener('touchmove', onTouchMove);
+      container.addEventListener('touchend', onTouchEnd);
+    }
+    
+    // Handle mouse clicks on words
+    function onMouseClick(event) {
+      if (isDragging) return; // Don't click if we were dragging
+      
+      const canvas = document.getElementById('sphereCanvas');
+      const rect = canvas.getBoundingClientRect();
+      
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(wordSprites);
+      
+      if (intersects.length > 0) {
+        const clickedSprite = intersects[0].object;
+        if (clickedSprite.userData.clickable) {
+          // Don't pause on word click - let words be clickable without stopping rotation
+          // Toggle pause state only for pause button
+          // isPaused = !isPaused;
+          
+          // Update pause button appearance
+          const pauseButton = document.getElementById('spherePause');
+          const pauseIcon = pauseButton.querySelector('.pause-icon');
+          
+          // Keep rotation running when clicking words
+          // if (isPaused) {
+          //   pauseButton.classList.add('paused');
+          //   pauseIcon.textContent = '▶';
+          //   pauseButton.title = 'Resume rotation';
+          // } else {
+          //   pauseButton.classList.remove('paused');
+          //   pauseIcon.textContent = '⏸';
+          //   pauseButton.title = 'Pause rotation';
+          // }
+        }
+      }
+    }
+
+    // Mouse controls
+    function onMouseDown(event) {
+      isDragging = true;
+      previousMousePosition = { x: event.clientX, y: event.clientY };
+      document.getElementById('sphereContainer').classList.add('grabbing');
+    }
+
+    function onMouseMove(event) {
+      if (!isDragging) return;
+      
+      const deltaX = event.clientX - previousMousePosition.x;
+      const deltaY = event.clientY - previousMousePosition.y;
+      
+      sphereRotation.y += deltaX * 0.01;
+      sphereRotation.x += deltaY * 0.01;
+      
+      // Set momentum based on mouse movement (like rolling a ball)
+      rotationMomentum.y = deltaX * 0.01; // Stronger momentum
+      rotationMomentum.x = deltaY * 0.01;
+      lastInteractionTime = Date.now();
+      
+      previousMousePosition = { x: event.clientX, y: event.clientY };
+    }
+
+    function onMouseUp() {
+      isDragging = false;
+      document.getElementById('sphereContainer').classList.remove('grabbing');
+    }
+
+    function onMouseWheel(event) {
+      event.preventDefault();
+      camera.position.z += event.deltaY * 0.01;
+      camera.position.z = Math.max(0.8, Math.min(6, camera.position.z)); // Allow closer zoom
+    }
+
+    // Touch controls
+    function onTouchStart(event) {
+      event.preventDefault();
+      isTouch = true;
+      if (event.touches.length === 1) {
+        isDragging = true;
+        previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+        isPaused = true; // Pause auto-rotation on touch
+      }
+    }
+
+    function onTouchMove(event) {
+      event.preventDefault();
+      if (!isDragging || event.touches.length !== 1) return;
+      
+      const deltaX = event.touches[0].clientX - previousMousePosition.x;
+      const deltaY = event.touches[0].clientY - previousMousePosition.y;
+      
+      // Mobile-optimized sensitivity with better touch response
+      const isMobile = window.innerWidth < 768;
+      const sensitivity = isMobile ? 0.012 : 0.01; // Increased mobile sensitivity
+      sphereRotation.y += deltaX * sensitivity;
+      sphereRotation.x += deltaY * sensitivity;
+      
+      // Set momentum based on touch movement (like rolling a ball)
+      rotationMomentum.y = deltaX * sensitivity * 0.1; // Stronger momentum
+      rotationMomentum.x = deltaY * sensitivity * 0.1;
+      lastInteractionTime = Date.now();
+      
+      previousMousePosition = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+    }
+
+    function onTouchEnd(event) {
+      event.preventDefault();
+      isDragging = false;
+      isTouch = false;
+      // Resume auto-rotation after a delay
+      setTimeout(() => {
+        if (!isDragging && !isTouch) {
+          isPaused = false;
+        }
+      }, 2000);
+    }
+
+    // Create word sprites on sphere
+    function createWordSprites(words) {
+      console.log('Creating word sprites for:', words);
+      
+      // Clear existing sprites
+      wordSprites.forEach(sprite => scene.remove(sprite));
+      wordSprites = [];
+      
+      if (words.length === 0) {
+        console.log('No words to display');
+        return;
+      }
+      
+      // Get word data with definitions from the synonym list
+      const wordData = Array.from(document.querySelectorAll('#synonyms li:not(.empty-state):not(.loading-placeholder)'))
+        .map(li => {
+          const wordSpan = li.querySelector('.synonym-word');
+          const word = wordSpan ? wordSpan.textContent.trim() : li.textContent.trim();
+          
+          // Get explanation from title attribute
+          let explanation = '';
+          if (li.title) {
+            const parts = li.title.split('\n\n');
+            if (parts.length >= 2) {
+              explanation = parts[0].trim(); // First part is the explanation
+            }
+          }
+          
+          console.log(`Word: ${word}, Explanation: ${explanation}`); // Debug log
+          return { word, explanation };
+        })
+        .filter(item => item.word && item.word !== '');
+      
+      console.log('Words parameter passed:', words); // Debug log
+      console.log('WordData extracted from DOM:', wordData); // Debug log
+      
+      console.log('WordData extracted:', wordData); // Debug log
+      
+      const wordCount = Math.min(wordData.length, 20);
+      const vertices = generateSphereVertices(wordCount); // Generate exactly as many vertices as words
+      const radius = 0.8; // Larger sphere for better visibility
+      
+      wordData.slice(0, wordCount).forEach((item, index) => {
+        const word = item.word;
+        const explanation = item.explanation;
+        console.log(`Processing sprite ${index}: word="${word}", explanation="${explanation}"`); // Debug log
+        const vertex = vertices[index]; // No more modulo - each word gets its own vertex
+        
+        const x = radius * vertex[0];
+        const y = radius * vertex[1];
+        const z = radius * vertex[2];
+
+        // Mobile detection first
+        const isMobile = window.innerWidth < 768;
+        
+        // Create ultra-high-density canvas with device pixel ratio and super sampling
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const devicePixelRatio = window.devicePixelRatio || 1;
+        const superSampling = 3; // 3x super sampling for ultra-crisp text
+        const totalScale = devicePixelRatio * superSampling; // Combined scaling
+        
+        // Check if definitions should be shown first
+        const toggle = document.getElementById('sphereDefinitionsToggle');
+        const showDefinitions = toggle && toggle.classList.contains('active');
+        
+        // Mobile-optimized canvas size - MASSIVE for definitions
+        let canvasWidth, canvasHeight;
+        if (showDefinitions && explanation) {
+          // MASSIVE canvas for definitions
+          canvasWidth = isMobile ? 500 : 600; // HUGE for definitions
+          canvasHeight = isMobile ? 250 : 300; // HUGE for definitions
+        } else {
+          // Normal size for words only
+          canvasWidth = isMobile ? 160 : 180; 
+          canvasHeight = isMobile ? 80 : 100;
+        }
+        canvas.width = canvasWidth * totalScale;
+        canvas.height = canvasHeight * totalScale;
+        
+        // Scale the context for ultra-high-DPI rendering
+        context.scale(totalScale, totalScale);
+        
+        // High-quality text rendering settings
+        context.imageSmoothingEnabled = false; // Disable smoothing for crisp text
+        
+        // Transparent background
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        
+        // Enhanced text styling for maximum clarity and whiteness
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        
+        // Ultra-bright white text rendering with subtle glow
+        context.shadowColor = '#ffffff';
+        context.shadowBlur = 1;
+        context.shadowOffsetX = 0;
+        context.shadowOffsetY = 0;
+        
+        console.log(`Rendering word: ${word}, showDefinitions: ${showDefinitions}, explanation: "${explanation}", toggle exists: ${!!toggle}`); // Debug log
+        
+        // Remove old rendering code - we only use the new clean sprites now
+
+        // Create clean, polished sprite with word and definition
+        if (showDefinitions && explanation) {
+          // Create clean canvas for word + definition
+          const cleanCanvas = document.createElement('canvas');
+          const cleanContext = cleanCanvas.getContext('2d');
+          const devicePixelRatio = window.devicePixelRatio || 1;
+          const superSampling = 3;
+          const totalScale = devicePixelRatio * superSampling;
+          
+          // Canvas size for word + definition
+          const canvasWidth = isMobile ? 300 : 400;
+          const canvasHeight = isMobile ? 120 : 150;
+          cleanCanvas.width = canvasWidth * totalScale;
+          cleanCanvas.height = canvasHeight * totalScale;
+          cleanContext.scale(totalScale, totalScale);
+          
+          // Transparent background
+          cleanContext.clearRect(0, 0, canvasWidth, canvasHeight);
+          
+          // Text styling
+          cleanContext.textAlign = 'center';
+          cleanContext.textBaseline = 'middle';
+          cleanContext.fillStyle = '#ffffff';
+          cleanContext.shadowColor = '#ffffff';
+          cleanContext.shadowBlur = 1;
+          cleanContext.shadowOffsetX = 0;
+          cleanContext.shadowOffsetY = 0;
+          
+          // Big word on top
+          cleanContext.font = `bold ${isMobile ? '24px' : '28px'} 'Inter', sans-serif`;
+          cleanContext.fillText(word, canvasWidth/2, 40);
+          
+          // Small definition below
+          cleanContext.font = `${isMobile ? '14px' : '16px'} 'Inter', sans-serif`;
+          cleanContext.fillText(explanation, canvasWidth/2, 80);
+          
+          // Create sprite
+          const cleanTexture = new THREE.CanvasTexture(cleanCanvas);
+          cleanTexture.minFilter = THREE.LinearFilter;
+          cleanTexture.magFilter = THREE.LinearFilter;
+          cleanTexture.generateMipmaps = true;
+          cleanTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+          
+          const cleanSprite = new THREE.Sprite(new THREE.SpriteMaterial({ 
+            map: cleanTexture,
+            transparent: true,
+            alphaTest: 0.1
+          }));
+          
+          cleanSprite.position.set(x, y, z);
+          const baseScale = 1 / totalScale;
+          cleanSprite.scale.setScalar(baseScale * 2.0); // Nice size for readability
+          
+          cleanSprite.userData = { 
+            word: word, 
+            originalPosition: { x, y, z },
+            clickable: true
+          };
+          
+          scene.add(cleanSprite);
+          wordSprites.push(cleanSprite);
+        } else {
+          // Fallback: Create word-only sprite when definitions are off
+          const wordOnlyCanvas = document.createElement('canvas');
+          const wordOnlyContext = wordOnlyCanvas.getContext('2d');
+          const devicePixelRatio = window.devicePixelRatio || 1;
+          const superSampling = 3;
+          const totalScale = devicePixelRatio * superSampling;
+          
+          // Canvas size for word only
+          const canvasWidth = isMobile ? 200 : 240;
+          const canvasHeight = isMobile ? 80 : 100;
+          wordOnlyCanvas.width = canvasWidth * totalScale;
+          wordOnlyCanvas.height = canvasHeight * totalScale;
+          wordOnlyContext.scale(totalScale, totalScale);
+          
+          // Transparent background
+          wordOnlyContext.clearRect(0, 0, canvasWidth, canvasHeight);
+          
+          // Text styling
+          wordOnlyContext.textAlign = 'center';
+          wordOnlyContext.textBaseline = 'middle';
+          wordOnlyContext.fillStyle = '#ffffff';
+          wordOnlyContext.shadowColor = '#ffffff';
+          wordOnlyContext.shadowBlur = 1;
+          wordOnlyContext.shadowOffsetX = 0;
+          wordOnlyContext.shadowOffsetY = 0;
+          
+          // Word only
+          wordOnlyContext.font = `bold ${isMobile ? '20px' : '24px'} 'Inter', sans-serif`;
+          wordOnlyContext.fillText(word, canvasWidth/2, canvasHeight/2);
+          
+          // Create sprite
+          const wordOnlyTexture = new THREE.CanvasTexture(wordOnlyCanvas);
+          wordOnlyTexture.minFilter = THREE.LinearFilter;
+          wordOnlyTexture.magFilter = THREE.LinearFilter;
+          wordOnlyTexture.generateMipmaps = true;
+          wordOnlyTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+          
+          const wordOnlySprite = new THREE.Sprite(new THREE.SpriteMaterial({ 
+            map: wordOnlyTexture,
+            transparent: true,
+            alphaTest: 0.1
+          }));
+          
+          wordOnlySprite.position.set(x, y, z);
+          const baseScale = 1 / totalScale;
+          wordOnlySprite.scale.setScalar(baseScale * 1.5); // Normal size for word-only
+          
+          wordOnlySprite.userData = { 
+            word: word, 
+            originalPosition: { x, y, z },
+            clickable: true
+          };
+          
+          scene.add(wordOnlySprite);
+          wordSprites.push(wordOnlySprite);
+        }
+        
+        // Don't add the original sprite - we only want the test sprites with definitions
+      });
+      
+      console.log(`Created ${wordSprites.length} word sprites on sphere`);
+    }
+
+    // Update sprite texture with dynamic font size
+    function updateSpriteTexture(sprite, word, fontSize) {
+      const canvas = document.createElement('canvas');
+      const devicePixelRatio = window.devicePixelRatio || 1;
+      const superSampling = 3; // 3x super sampling for ultra-crisp text
+      const totalScale = devicePixelRatio * superSampling; // Combined scaling
+      
+      // Check if definitions should be shown
+      const toggle = document.getElementById('sphereDefinitionsToggle');
+      const showDefinitions = toggle && toggle.classList.contains('active');
+      
+      // Get explanation for this word
+      const li = Array.from(document.querySelectorAll('#synonyms li')).find(item => {
+        const wordSpan = item.querySelector('.synonym-word');
+        const wordText = wordSpan ? wordSpan.textContent.trim() : item.textContent.trim();
+        return wordText === word;
+      });
+      const explanation = li && li.title ? li.title.split('\n\n')[0] : '';
+      
+      // Canvas size based on whether we're showing definitions
+      const canvasWidth = showDefinitions && explanation ? 240 : 180;
+      const canvasHeight = showDefinitions && explanation ? 140 : 100;
+      
+      canvas.width = canvasWidth * totalScale;
+      canvas.height = canvasHeight * totalScale;
+      const context = canvas.getContext('2d');
+      
+      // Scale the context for ultra-high-DPI rendering
+      context.scale(totalScale, totalScale);
+      
+      // Transparent background
+      context.clearRect(0, 0, canvasWidth, canvasHeight);
+      
+      // Enhanced text styling for maximum clarity and whiteness
+      context.textAlign = 'center';
+      context.textBaseline = 'middle';
+      
+      // Increase main word font size by 10%
+      const mainWordFontSize = Math.round(fontSize * 1.1);
+      context.font = `bold ${mainWordFontSize}px Arial`;
+      
+      // Ultra-bright white text rendering with subtle glow
+      context.fillStyle = '#ffffff';
+      
+      // Add subtle white glow for extra brightness
+      context.shadowColor = '#ffffff';
+      context.shadowBlur = 1;
+      context.shadowOffsetX = 0;
+      context.shadowOffsetY = 0;
+      
+      // Smart text wrapping with enhanced whiteness (fill + stroke)
+      if (word.includes('-')) {
+        // Hyphenated phrase: split at hyphens
+        const words = word.split('-');
+        const line1 = words[0];
+        const line2 = words.slice(1).join('-');
+        context.fillText(line1, 90, 30); // First line
+        context.fillText(line2, 90, 50); // Second line
+      } else if (word.includes(' ')) {
+        // Spaced phrase: split at spaces
+        const words = word.split(' ');
+        if (words.length === 2) {
+          // Two words: one per line
+        context.fillText(words[0], 90, 30); // First line
+        context.fillText(words[1], 90, 50); // Second line
+        } else {
+          // Multiple words: try to balance
+          const mid = Math.ceil(words.length / 2);
+          const line1 = words.slice(0, mid).join(' ');
+          const line2 = words.slice(mid).join(' ');
+        context.fillText(line1, 90, 30); // First line
+        context.fillText(line2, 90, 50); // Second line
+        }
+        } else if (word.length > 15) {
+          // Very long single word: wrap at natural break point (increased threshold)
+          const mid = Math.ceil(word.length / 2);
+          // Try to find a good break point (avoid breaking in middle of syllables)
+          let breakPoint = mid;
+          for (let i = mid - 2; i <= mid + 2; i++) {
+            if (i > 0 && i < word.length && 'aeiou'.includes(word[i].toLowerCase())) {
+              breakPoint = i;
+              break;
+            }
+          }
+          const line1 = word.substring(0, breakPoint);
+          const line2 = word.substring(breakPoint);
+          context.fillText(line1, 90, 30); // First line
+          context.fillText(line2, 90, 50); // Second line
+      } else {
+        // Short word or phrase: single line
+        context.fillText(word, canvasWidth/2, showDefinitions && explanation ? 50 : 50);
+      }
+      
+      // Add definition below if showing definitions
+      if (showDefinitions && explanation) {
+        // Decrease definition font size by 25% (from 14px to ~10px)
+        const definitionFontSize = Math.round(14 * 0.75);
+        context.font = `${definitionFontSize}px Arial`;
+        context.fillText(explanation, canvasWidth/2, 90);
+      }
+      
+      // Update the sprite's texture with enhanced settings
+      const texture = new THREE.CanvasTexture(canvas);
+      // Enhanced texture settings for ultra-crisp text with super sampling
+      texture.minFilter = THREE.LinearFilter; // Linear filtering for smooth scaling
+      texture.magFilter = THREE.LinearFilter; // Linear filtering for smooth scaling
+      texture.generateMipmaps = true; // Enable mipmaps for better quality at different scales
+      texture.anisotropy = renderer.capabilities.getMaxAnisotropy(); // Maximum anisotropy for crispness
+      
+      sprite.material.map = texture;
+      sprite.material.needsUpdate = true;
+    }
+
+    // Dramatic scaling based on distance - prioritize front words
+    function updateWordScaling() {
+      wordSprites.forEach(sprite => {
+        const distance = camera.position.distanceTo(sprite.position);
+        const maxDistance = 2.0; // Adjusted for larger sphere view
+        
+        // Non-linear dramatic scaling - smaller scale for high-DPI
+        const normalizedDistance = Math.min(distance / maxDistance, 1);
+        const scale = Math.pow(1 - normalizedDistance, 1.5) * 1.0 + 0.2; // Scaling for smaller sphere
+        const opacity = Math.pow(1 - normalizedDistance, 1.2); // Higher opacity for better visibility
+        
+        sprite.scale.setScalar(scale);
+        sprite.material.opacity = Math.max(opacity, 0.4); // Minimum opacity for smaller sphere
+        sprite.material.transparent = true;
+        
+        // Set render order to prioritize closer words
+        sprite.renderOrder = -distance; // Negative distance = higher priority
+        
+        // Update font size dynamically based on distance (50% larger)
+        const baseFontSize = 24; // Increased from 16px to 24px (50% increase)
+        const distanceScale = Math.pow(1 - normalizedDistance, 1.5) * 1.0 + 0.2;
+        const dynamicFontSize = Math.max(12, baseFontSize * distanceScale); // Min 12px for smaller sphere
+        
+        // Only update if font size has changed significantly (performance optimization)
+        if (!sprite.userData.lastFontSize || Math.abs(sprite.userData.lastFontSize - dynamicFontSize) > 1) {
+          sprite.userData.lastFontSize = dynamicFontSize;
+          updateSpriteTexture(sprite, sprite.userData.word, dynamicFontSize);
+        }
+      });
+    }
+
+    // Animation loop
+    function animate() {
+      animationId = requestAnimationFrame(animate);
+      
+      // Auto-rotation: continuous rotation with 1.5 second cycle (top to bottom)
+      if (!isPaused) {
+        const autoRotationSpeed = (2 * Math.PI) / 1500; // 1.5 seconds = 1500ms
+        sphereRotation.x += autoRotationSpeed;
+      }
+      
+      // Apply momentum-based rotation when user interacts
+      const timeSinceInteraction = Date.now() - lastInteractionTime;
+      if (timeSinceInteraction < 100) { // User is actively interacting
+        // Apply momentum
+        sphereRotation.y += rotationMomentum.y;
+        sphereRotation.x += rotationMomentum.x;
+      } else if (timeSinceInteraction < 3000) { // Friction phase after interaction
+        // Apply momentum with friction
+        sphereRotation.y += rotationMomentum.y;
+        sphereRotation.x += rotationMomentum.x;
+        
+        // Friction - gradually slow down over 3 seconds
+        const friction = Math.max(0, 1 - (timeSinceInteraction / 3000));
+        rotationMomentum.y *= friction * 0.95;
+        rotationMomentum.x *= friction * 0.95;
+        
+        // Stop momentum after 3 seconds
+        if (timeSinceInteraction > 3000) {
+          rotationMomentum.y = 0;
+          rotationMomentum.x = 0;
+        }
+      }
+      
+      // No sphere to rotate - just words floating in space
+      
+      // Rotate all word sprites as a group
+      wordSprites.forEach(sprite => {
+        // Apply rotation to each sprite's position
+        const originalPos = sprite.userData.originalPosition;
+        const radius = 1.8; // Larger radius for better visibility
+        
+        // Create rotation matrix
+        const cosX = Math.cos(sphereRotation.x);
+        const sinX = Math.sin(sphereRotation.x);
+        const cosY = Math.cos(sphereRotation.y);
+        const sinY = Math.sin(sphereRotation.y);
+
+        // Apply Y rotation first, then X rotation
+        let x = originalPos.x * cosY - originalPos.z * sinY;
+        let y = originalPos.y;
+        let z = originalPos.x * sinY + originalPos.z * cosY;
+
+        // Apply X rotation
+        const newY = y * cosX - z * sinX;
+        const newZ = y * sinX + z * cosX;
+
+        sprite.position.set(x, newY, newZ);
+      });
+
+      updateWordScaling();
+      renderer.render(scene, camera);
+    }
+
+
+    // Show 3D sphere
+    function showSphere() {
+      if (!scene) {
+        if (!initSphere()) {
+          alert('3D view not supported on this device');
+          return;
+        }
+      }
+      
+      // Sync sphere inputs with single source of truth
+      syncInputs();
+      
+      // Sync all toggles with centralized state
+      syncAllToggles();
+      
+      const container = document.getElementById('sphereContainer');
+      container.style.display = 'block';
+      
+      // Create word sprites from current synonyms
+      const currentWords = Array.from(document.querySelectorAll('#synonyms li:not(.empty-state):not(.loading-placeholder)'))
+        .map(li => {
+          const wordSpan = li.querySelector('.synonym-word');
+          return wordSpan ? wordSpan.textContent.trim() : li.textContent.trim();
+        })
+        .filter(word => word && word !== '');
+      
+      if (currentWords.length > 0) {
+        createWordSprites(currentWords);
+      }
+      
+      animate();
+    }
+
+    // Hide 3D sphere
+    function hideSphere() {
+      const container = document.getElementById('sphereContainer');
+      container.style.display = 'none';
+      
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    }
+
+    // Update sphere if it's currently visible
+    function updateSphereIfVisible() {
+      const container = document.getElementById('sphereContainer');
+      if (container.style.display === 'block') {
+        // Sync inputs to show current values
+        syncInputs();
+        
+        // Update sphere sprites with new synonyms
+        const currentWords = Array.from(document.querySelectorAll('#synonyms li:not(.empty-state):not(.loading-placeholder)'))
+          .map(li => li.textContent.trim())
+          .filter(word => word && word !== '');
+        
+        if (currentWords.length > 0) {
+          // Clear existing sprites and create new ones
+          wordSprites.forEach(sprite => scene.remove(sprite));
+          wordSprites = [];
+          createWordSprites(currentWords);
+          
+          // Force immediate render update
+          if (renderer && scene && camera) {
+            renderer.render(scene, camera);
+          }
+        }
+      }
+    }
+
+    // Event listeners for 3D view
+    function setupSphereButtons() {
+      const buttons = ['sphereButton', 'sphereButtonHero'];
+      buttons.forEach(buttonId => {
+        const button = document.getElementById(buttonId);
+        if (button) {
+          button.addEventListener('click', async () => {
+            const sphereContainer = document.getElementById('sphereContainer');
+            
+            // If sphere is already showing, just hide it
+            if (sphereContainer.style.display === 'block') {
+              hideSphere();
+              return;
+            }
+            
+            // Check if we have a word to search
+            const searchInput = document.getElementById('searchInput');
+            if (!searchInput.value.trim()) {
+              alert('Please enter a word to search first');
+              return;
+            }
+            
+            // If no synonyms yet, do a search first, then show sphere
+            const currentWords = Array.from(document.querySelectorAll('#synonyms li:not(.empty-state):not(.loading-placeholder)'))
+              .map(li => li.textContent.trim())
+              .filter(word => word && word !== '');
+            
+            // If no synonyms yet, do a search first
+            if (currentWords.length === 0) {
+              await fetchSynonyms();
+            }
+            
+            // Then show the sphere
+            showSphere();
+          });
+        }
+      });
+    }
+    setupSphereButtons();
+
+    document.getElementById('sphereClose').addEventListener('click', () => {
+      hideSphere();
+    });
+
+    // Pause/Resume button functionality
+    document.getElementById('spherePause').addEventListener('click', () => {
+      isPaused = !isPaused;
+      const pauseButton = document.getElementById('spherePause');
+      const pauseIcon = pauseButton.querySelector('.pause-icon');
+      
+      if (isPaused) {
+        pauseButton.classList.add('paused');
+        pauseIcon.textContent = '▶'; // Play icon when paused (pointing right)
+        pauseButton.title = 'Resume rotation';
+      } else {
+        pauseButton.classList.remove('paused');
+        pauseIcon.textContent = '⏸'; // Pause icon when playing
+        pauseButton.title = 'Pause rotation';
+      }
+    });
+
+    // Dropdown toggle functionality
+    document.getElementById('sphereControlsToggle').addEventListener('click', () => {
+      const controls = document.getElementById('sphereControls');
+      const toggle = document.getElementById('sphereControlsToggle');
+      
+      if (controls.style.display === 'none' || controls.style.display === '') {
+        controls.style.display = 'block';
+        toggle.classList.add('expanded');
+      } else {
+        controls.style.display = 'none';
+        toggle.classList.remove('expanded');
+      }
+    });
+
+    // iOS toggle functionality
+    document.getElementById('sphereSpeedToggle').addEventListener('click', () => {
+      updateState('isThoughtfulMode', !appState.isThoughtfulMode);
+    });
+
+    // Synonyms/Antonyms toggle functionality
+    document.getElementById('sphereSynonymsToggle').addEventListener('click', () => {
+      updateState('isAntonymMode', !appState.isAntonymMode);
+      // Clear results when switching between synonyms/antonyms
+      resetSearchState();
+    });
+
+    document.getElementById('sphereStyleToggle').addEventListener('click', () => {
+      updateState('isCreativeMode', !appState.isCreativeMode);
+    });
+
+    // Definitions toggle functionality
+    document.getElementById('sphereDefinitionsToggle').addEventListener('click', () => {
+      updateState('includeDefinitions', !appState.includeDefinitions);
+      
+      // Refresh word sprites to show/hide definitions
+      if (wordSprites && wordSprites.length > 0) {
+        const currentWords = Array.from(document.querySelectorAll('#synonyms li:not(.empty-state):not(.loading-placeholder)'))
+          .map(li => {
+            const wordSpan = li.querySelector('.synonym-word');
+            return wordSpan ? wordSpan.textContent.trim() : li.textContent.trim();
+          })
+          .filter(word => word && word !== '');
+        
+        if (currentWords.length > 0) {
+          createWordSprites(currentWords);
+        }
+      }
+    });
+
+    // Sphere input event listeners - update single source of truth
+    document.getElementById('sphereWordInput').addEventListener('input', () => {
+      Input1 = document.getElementById('sphereWordInput').value.trim();
+      // Sync to main page input
+      document.getElementById('searchInput').value = Input1;
+    });
+    
+    document.getElementById('sphereContextInput').addEventListener('input', () => {
+      const sphereContext = document.getElementById('sphereContextInput').value.trim();
+      Context1 = sphereContext === 'Normal' ? '' : sphereContext;
+      // Sync to main page input
+      document.getElementById('contextInput').value = Context1;
+    });
+
+    // Search button functionality - search from sphere
+    document.getElementById('sphereSearchBtn').addEventListener('click', async () => {
+      if (!Input1) {
+        alert('Please enter a word to search');
+        return;
+      }
+      
+      // Show loading state
+      const searchBtn = document.getElementById('sphereSearchBtn');
+      const btnText = searchBtn.querySelector('.btn-text');
+      const btnLoading = searchBtn.querySelector('.btn-loading');
+      
+      btnText.style.display = 'none';
+      btnLoading.style.display = 'flex';
+      searchBtn.disabled = true;
+      
+      // Determine if this is a new search or "find more"
+      const isNewWord = Input1 !== lastSearchedWord;
+      
+      try {
+        // Call fetchSynonyms - it will update both main page AND sphere
+        const synonyms = await fetchSynonyms();
+        
+        // Update button text based on whether it's a new word or find more
+        if (isNewWord) {
+          btnText.textContent = 'Search';
+          lastSearchedWord = Input1;
+        } else {
+          btnText.textContent = 'Find More';
+        }
+      } catch (error) {
+        console.error('Error fetching synonyms:', error);
+        alert('Error fetching synonyms. Please try again.');
+      } finally {
+        // Hide loading state
+        btnText.style.display = 'block';
+        btnLoading.style.display = 'none';
+        searchBtn.disabled = false;
+      }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      if (renderer) {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+    });
   </script>
+
+
+  <!-- 3D Sphere Container -->
+    <div class="sphere-container" id="sphereContainer">
+      <button class="sphere-close" id="sphereClose">×</button>
+      <div class="sphere-input-controls" id="sphereInputControls">
+        <div class="sphere-brand">wordcompass.io</div>
+        <div class="input-group">
+          <label>Word:</label>
+          <input type="text" id="sphereWordInput" class="sphere-input" placeholder="Enter word">
+        </div>
+        <div class="input-group">
+          <label>Context:</label>
+          <input type="text" id="sphereContextInput" class="sphere-input" placeholder="Normal">
+        </div>
+        
+        <!-- Synonyms/Antonyms Toggle (always visible) -->
+        <div class="sphere-mode-toggle">
+          <span class="toggle-label active" id="sphereSynonymsLabel">Synonyms</span>
+          <div class="toggle-switch" id="sphereSynonymsToggle">
+            <div class="toggle-slider"></div>
+          </div>
+          <span class="toggle-label" id="sphereAntonymsLabel">Antonyms</span>
+        </div>
+        
+        <!-- Search Mode Controls -->
+        <div class="sphere-controls-dropdown">
+          <button class="sphere-controls-toggle" id="sphereControlsToggle">
+            <span class="dropdown-arrow">▼</span>
+          </button>
+          <div class="sphere-controls" id="sphereControls" style="display: none;">
+            <div class="control-group">
+              <label class="control-label">Speed</label>
+              <div class="ios-toggle-container">
+                <span class="toggle-label">Fast</span>
+                <div class="ios-toggle" id="sphereSpeedToggle">
+                  <div class="ios-toggle-slider"></div>
+                </div>
+                <span class="toggle-label">Thoughtful</span>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">Style</label>
+              <div class="ios-toggle-container">
+                <span class="toggle-label">Thesaurus</span>
+                <div class="ios-toggle" id="sphereStyleToggle">
+                  <div class="ios-toggle-slider"></div>
+                </div>
+                <span class="toggle-label">Creative</span>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">Definitions</label>
+              <div class="ios-toggle-container">
+                <span class="toggle-label">Hide</span>
+                <div class="ios-toggle" id="sphereDefinitionsToggle">
+                  <div class="ios-toggle-slider"></div>
+                </div>
+                <span class="toggle-label">Show</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <button id="sphereSearchBtn" class="sphere-search-btn">
+          <span class="btn-text">Search</span>
+          <span class="btn-loading" style="display: none;">⏳ Searching...</span>
+        </button>
+      </div>
+      
+      <!-- Small note about sphere interaction -->
+      <div class="sphere-note">
+        <small>Drag to rotate • Scroll to zoom</small>
+      </div>
+      
+      <button class="sphere-pause" id="spherePause" title="Pause/Resume rotation">
+        <span class="pause-icon">⏸</span>
+      </button>
+      <canvas id="sphereCanvas"></canvas>
+    </div>
 </body>
 </html>

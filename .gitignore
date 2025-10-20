@@ -7,7 +7,8 @@
 # Folders
 Test*
 Amadine
-
+card-generator
+tools
 
 # Dependencies
 node_modules/
@@ -40,3 +41,14 @@ dist/
 #*.pid.lock 
 # Local Netlify folder
 .netlify
+
+# Development scripts
+restart-server.sh
+restart-server.command
+sphere-view-dormant.js
+
+# Delete folder
+__delete
+
+# Video files
+Videos

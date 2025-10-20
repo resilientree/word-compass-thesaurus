@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>How to Use - WordCompass.io</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  
+  <!-- Google Fonts - Merriweather -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ——— Basic reset & palette ——— */
+    * { box-sizing: border-box; }
+    body { 
+      margin: 0; 
+      font-family: 'Merriweather', Georgia, serif; 
+      background: #f8fafc; 
+      color: #1e293b; 
+      line-height: 1.6;
+    }
+    
+    /* ——— Header ——— */
+    header { 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between;
+      padding: 1rem 2rem; 
+      background: #1e293b; 
+      color: #fff; 
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .logo { 
+      font-size: 1.5rem; 
+      font-weight: 700; 
+      color: #3b82f6; 
+      text-decoration: none;
+    }
+    
+    .nav { display: flex; gap: 1.5rem; }
+    .nav a { 
+      color: #cbd5e1; 
+      text-decoration: none; 
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav a:hover { color: #3b82f6; }
+    
+    /* ——— Main content ——— */
+    main { 
+      max-width: 900px; 
+      margin: 0 auto; 
+      padding: 3rem 2rem; 
+    }
+    
+    h1 { 
+      font-size: 2.5rem; 
+      font-weight: 700; 
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    h2 { 
+      font-size: 1.5rem; 
+      font-weight: 600; 
+      margin: 2rem 0 1rem 0;
+      color: #374151;
+    }
+    
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.5rem 0;
+      color: #1e293b;
+    }
+    
+    p { 
+      margin-bottom: 1.5rem; 
+      color: #64748b; 
+    }
+    
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .example-card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border: 1px solid #e2e8f0;
+    }
+    
+    .example-card h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1e293b;
+    }
+    
+    .example-input {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 0.5rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+    }
+    
+    .example-output {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 6px;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+    }
+    
+    .tip-box {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1.5rem 0;
+    }
+    
+    .tip-box h4 {
+      color: #92400e;
+      margin: 0 0 0.5rem 0;
+      font-weight: 600;
+    }
+    
+    .tip-box p {
+      color: #92400e;
+      margin: 0;
+    }
+    
+    .cta {
+      text-align: center;
+      margin: 3rem 0;
+    }
+    
+    .cta a {
+      display: inline-block;
+      background: #3b82f6;
+      color: #fff;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    
+    .cta a:hover {
+      background: #2563eb;
+    }
+    
+    @media (max-width: 768px) {
+      header { padding: 1rem; }
+      .nav { gap: 1rem; }
+      main { padding: 2rem 1rem; }
+      h1 { font-size: 2rem; }
+      .example-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">WordCompass.io</a>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>How to Use WordCompass.io</h1>
+    
+    <p>You are about to find the perfect word in seconds! </p>
+    <p>Here's how to get the most out of your ai-powered thesaurus:</p>
+    
+    <div class="tip-box">
+      <h4>🚀 Quick Start Guide</h4>
+      <p>1. Type a word → 2. Add context like "Gen Z" or "Academic" → 3. Click Find → 4. Click Find again to add more words to your list!</p>
+    </div>
+    
+    <div class="tip-box">
+      <h4>💡 Pro Tip: Context is Key!</h4>
+      <p>Don't skip the context box! It's the secret sauce that makes WordCompass powerful. Even simple contexts like "formal", "casual", or "creative" can dramatically improve your results.</p>
+    </div>
+    
+    <h2>📋 Contents</h2>
+    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin: 1rem 0;">
+      <p style="margin: 0; font-weight: 600; color: #374151;">Jump to:</p>
+      <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem; color: #64748b;">
+        <li><a href="#basic-usage" style="color: #3b82f6; text-decoration: none;">Basic Usage</a></li>
+        <li><a href="#toggle-controls" style="color: #3b82f6; text-decoration: none;">Preferences</a></li>
+        <li><a href="#context-examples" style="color: #3b82f6; text-decoration: none;">Context Examples</a></li>
+        <li><a href="#advanced-controls" style="color: #3b82f6; text-decoration: none;">Advanced Controls</a></li>
+        <li><a href="#sphere-interface" style="color: #3b82f6; text-decoration: none;">Serendipity Sphere</a></li>
+        <li><a href="#advanced-features" style="color: #3b82f6; text-decoration: none;">Advanced Features</a></li>
+      </ul>
+    </div>
+    
+    <br>
+    <h2 id="basic-usage">🎯 Basic Usage</h2>
+    
+    <div class="example-grid">
+      <div class="example-card">
+        <h4>1. Enter Your Word</h4>
+        <div class="example-input">money</div>
+        <p>Start with any word you want alternatives for.</p>
+      </div>
+      
+      <div class="example-card">
+        <h4>2. Add Context (Optional but Powerful!)</h4>
+        <div class="example-input">Context: "Hip-hop culture"</div>
+        <div class="example-output">Results: bread, cheddar, paper, stacks, dough...</div>
+        <p>Context transforms generic synonyms into targeted alternatives.</p>
+      </div>
+      
+      <div class="example-card">
+        <h4>3. Click Find</h4>
+        <p>You may click Find again to add more words to your list</p>
+        
+      </div>
+    </div>
+    
+    <br>
+    <h2 id="Preferences">🎛️ Preferences/h2>
+    
+    <p>WordCompass has several toggles to customize your search experience. The most common toggles are in the Preferences menu (⚙️ gear icon):</p>
+    
+    <div class="example-grid">
+      <div class="example-card">
+        <h4>Synonyms ↔ Antonyms</h4>
+        <p>Switch between finding similar words or opposite words.</p>
+        <div class="example-input">"good" → Synonyms: great, excellent, wonderful</div>
+        <div class="example-input">"good" → Antonyms: bad, terrible, awful</div>
+      </div>
+      
+      <div class="example-card">
+        <h4>Thesaurus ↔ Creative Phrases</h4>
+        <p>Single words vs. multi-word expressions and phrases.</p>
+        <div class="example-input">"money" → Thesaurus: cash, currency, funds</div>
+        <div class="example-input">"money" → Creative Phrases: financial resources, economic capital</div>
+      </div>
+      
+      <div class="example-card">
+        <h4>Fast ↔ Thoughtful</h4>
+        <p>Switch between quick results or more thoughtful suggestions.</p>
+        <p>Thoughtful mode use a more powerful model and may take longer to generate.</p>
+      </div>
+
+
+      <div class="example-card">
+        <h4>Words ↔ Include Definitions</h4>
+        <p>Show just words or include brief definitions.</p>
+        <p>This must be toggled before you search to include the definitions. Hover over the word to see the definition. Searches take longer when definitions are included.</p>
+        <div class="example-input">Words: happy, joyful, elated</div>
+        <div class="example-input">With Definitions: happy (feeling pleasure), joyful (full of joy), elated (in high spirits)</div>
+      </div>
+    </div>
+    
+    <div class="tip-box">
+      <h4>💡 Pro Tip: Toggle Combinations</h4>
+      <p>Try different toggle combinations! For example: Antonyms + Creative Phrases + Definitions gives you detailed opposite phrases with explanations.</p>
+    </div>
+    
+    <br>
+    <h2 id="context-examples">💡 Context Examples That Work</h2>
+    
+    <div class="example-grid">
+      <div class="example-card">
+        <h4>Generational Slang</h4>
+        <div class="example-input">Word: "good" + Context: "Gen Z"</div>
+        <div class="example-input">Toggles: Synonyms + Thesaurus + Fast</div>
+        <div class="example-output">fire, slaps, bussin', valid, no cap</div>
+      </div>
+      
+      <div class="example-card">
+        <h4>Academic Writing</h4>
+        <div class="example-input">Word: "important" + Context: "Academic"</div>
+        <div class="example-input">Toggles: Synonyms + Thesaurus + Thoughtful + Definitions</div>
+        <div class="example-output">significant (having great meaning), crucial (decisive), paramount (supreme), essential (fundamental), pivotal (central)</div>
+      </div>
+      
+      <div class="example-card">
+        <h4>Historical Periods</h4>
+        <div class="example-input">Word: "beautiful" + Context: "Victorian era"</div>
+        <div class="example-input">Toggles: Synonyms + Creative Phrases + Thoughtful</div>
+        <div class="example-output">comely, fair, lovely, exquisite, charming</div>
+      </div>
+      
+      <div class="example-card">
+        <h4>Regional Dialects</h4>
+        <div class="example-input">Word: "angry" + Context: "Southern US"</div>
+        <div class="example-input">Toggles: Synonyms + Creative Phrases + Fast</div>
+        <div class="example-output">madder than a wet hen, fit to be tied, riled up</div>
+      </div>
+      
+      <div class="example-card">
+        <h4>Professional Email</h4>
+        <div class="example-input">Word: "help" + Context: "Professional email"</div>
+        <div class="example-input">Toggles: Synonyms + Thesaurus + Thoughtful + Definitions</div>
+        <div class="example-output">assist (to help), support (to aid), facilitate (to make easier), enable (to make possible)</div>
+      </div>
+      
+      <div class="example-card">
+        <h4>Creative Writing</h4>
+        <div class="example-input">Word: "dark" + Context: "Gothic novel"</div>
+        <div class="example-input">Toggles: Synonyms + Creative Phrases + Thoughtful</div>
+        <div class="example-output">shadowy depths, inky blackness, stygian darkness, tenebrous gloom</div>
+      </div>
+    </div>
+    
+    <div class="tip-box">
+      <h4>💡 Pro Tip: Context + Toggles = Perfect Results!</h4>
+      <p>Combine context with the right toggles for amazing results! Try "Academic" + Thoughtful + Definitions for scholarly writing, or "Gen Z" + Fast + Creative Phrases for social media content.</p>
+    </div>
+    
+    <br>
+    
+    
+    <br>
+    <h2 id="advanced-controls">🎛️ Advanced Controls (Optional)</h2>
+    
+    <p>The sliders let you fine-tune your results, but they're completely optional. Most users get great results with just context and toggles!</p>
+    
+    <div class="example-grid">
+      <div class="example-card">
+        <h4>Era Slider</h4>
+        <p>Modern → Historical language</p>
+        <div class="example-input">"money" + Historical = "coin", "specie", "lucre"</div>
+        <div class="example-input">Works with: Any toggle combination</div>
+      </div>
+      
+      <div class="example-card">
+        <h4>Emotion Slider</h4>
+        <p>Neutral → Vivid expressions</p>
+        <div class="example-input">"happy" + High emotion = "ecstatic", "thrilled", "overjoyed"</div>
+        <div class="example-input">Great with: Creative Phrases + Thoughtful</div>
+      </div>
+      
+      <div class="example-card">
+        <h4>Formality Slider</h4>
+        <p>Casual → Formal tone</p>
+        <div class="example-input">"big" + Formal = "substantial", "considerable", "significant"</div>
+        <div class="example-input">Perfect for: Professional writing</div>
+      </div>
+      
+      <div class="example-card">
+        <h4>Rarity Slider</h4>
+        <p>Common → Rare words</p>
+        <div class="example-input">"beautiful" + Rare = "pulchritudinous", "comely", "beauteous"</div>
+        <div class="example-input">Try with: Creative Phrases + Definitions</div>
+      </div>
+      
+      <div class="example-card">
+        <h4>Sentiment Slider</h4>
+        <p>Negative → Positive tone</p>
+        <div class="example-input">"change" + Positive = "improvement", "progress", "advancement"</div>
+        <div class="example-input">Useful for: Tone adjustment</div>
+      </div>
+    </div>
+    
+    <div class="tip-box">
+      <h4>💡 Pro Tip: Slider Combinations</h4>
+      <p>Try combining sliders! For creative writing: High Emotion + High Rarity + Creative Phrases. For academic writing: High Formality + Historical + Definitions.</p>
+    </div>
+    
+    <br>
+    <h2 id="sphere-interface">🌐 Serendipity Sphere (3D View)</h2>
+    
+    <p>For a unique visual experience, try the 3D Sphere view! It displays your synonyms as floating words in a 3D space that you can rotate and explore.</p>
+    
+    <div class="example-grid">
+      <div class="example-card">
+        <h4>Interactive 3D Experience</h4>
+        <p>• Drag to rotate the sphere</p>
+        <p>• Scroll to zoom in/out</p>
+        <p>• Click words to explore further</p>
+        <p>• Same toggles and controls as main interface</p>
+      </div>
+      
+      <div class="example-card">
+        <h4>Perfect For</h4>
+        <p>• Creative brainstorming sessions</p>
+        <p>• Visual learners</p>
+        <p>• Exploring word relationships</p>
+        <p>• Making word discovery more engaging</p>
+      </div>
+    </div>
+    
+    <br>
+    <h2 id="advanced-features">🚀 Advanced Features</h2>
+    
+    <p>Once you're comfortable with the basics, explore these powerful features:</p>
+    
+    <div class="example-grid">
+      <div class="example-card">
+        <h4>⚙️ Preferences Menu</h4>
+        <p>Click the gear icon to access advanced toggles:</p>
+        <ul>
+          <li><strong>Thesaurus ↔ Creative Phrases:</strong> Switch between single words and multi-word expressions</li>
+          <li><strong>Fast ↔ Thoughtful:</strong> Choose speed vs. quality</li>
+          <li><strong>Words ↔ Include Definitions:</strong> Show definitions with your results</li>
+        </ul>
+      </div>
+      
+      <div class="example-card">
+        <h4>🌐 3D Sphere View</h4>
+        <p>Click the Sphere button for a unique visual experience:</p>
+        <ul>
+          <li><strong>Interactive 3D space:</strong> Drag to rotate, scroll to zoom</li>
+          <li><strong>Same controls:</strong> All toggles and sliders work in 3D mode</li>
+          <li><strong>Perfect for:</strong> Creative brainstorming and visual exploration</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="tip-box">
+      <h4>💡 Pro Tip: Advanced Workflow</h4>
+      <p>Try this workflow: 1. Start with basic search → 2. Use Preferences to refine → 3. Switch to 3D Sphere for visual exploration → 4. Click Find again to build your word collection!</p>
+    </div>
+    
+    <div class="cta">
+      <a href="index.html">Try WordCompass Now</a>
+    </div>
+  </main>
+</body>
+</html>
