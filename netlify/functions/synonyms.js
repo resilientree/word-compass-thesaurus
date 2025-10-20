@@ -3,14 +3,24 @@ const { OpenAI } = require('openai');
 // Rate limiting storage (in production, use Redis or database)
 const rateLimitStore = new Map();
 
-// Content filtering patterns
+// Content filtering patterns - focused on hateful and sexual content
 const inappropriatePatterns = [
-  /porn|sex|xxx|adult|nsfw/i,
-  /hate|racist|discrimination/i,
-  /violence|kill|murder|suicide/i,
-  /drug|cocaine|heroin|marijuana/i,
-  /gambling|casino|betting/i,
-  /spam|scam|phishing/i
+  // Sexual content
+  /\b(porn|porno|sex|xxx|nsfw|nude|naked)\b/i,
+  
+  // Hate speech and racial slurs (comprehensive patterns)
+  /\b(hate|racist|discrimination|bigot|slur)\b/i,
+  /\b(n[1i]gg[ae]r|n[1i]gg[ae]rs?)\b/i,  // N-word variations
+  /\b(k[1i]ke|k[1i]kes?)\b/i,            // Anti-Semitic slur
+  /\b(ch[1i]nk|ch[1i]nks?)\b/i,          // Anti-Asian slur
+  /\b(sp[1i]c|sp[1i]cs?)\b/i,            // Anti-Hispanic slur
+  /\b(wetback|towelhead|sandn[1i]gger)\b/i, // Other racial slurs
+  
+  // Violence and harm
+  /\b(violence|kill|murder|suicide|harm)\b/i,
+  
+  // Scams and spam
+  /\b(spam|scam|phishing)\b/i
 ];
 
 // Rate limiting: 30 requests per day per IP
