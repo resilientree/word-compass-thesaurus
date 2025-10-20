@@ -40,7 +40,7 @@ dist/
 #*.seed
 #*.pid.lock 
 # Local Netlify folder
-.netlify
+.netlify/
 
 # Development scripts
 restart-server.sh
