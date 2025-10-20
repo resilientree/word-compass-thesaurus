@@ -1963,10 +1963,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
 
       // Debug logging for antonyms
       if (appState.isAntonymMode) {
-        console.log('🔍 ANTONYM REQUEST:');
-        console.log('System prompt:', system.substring(0, 200) + '...');
-        console.log('User prompt:', user);
-        console.log('Existing words to avoid:', existingResults.map(item => typeof item === 'string' ? item : item.word));
+        // Debug logging removed for production
       }
 
       try {
@@ -2023,8 +2020,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
             return item;
           });
         } catch (err) {
-          console.error('Failed to parse synonyms:', err);
-          console.error('Raw content:', content);
+          // Error logging removed for production
           
           // Fallback: try to extract words manually if JSON parsing fails
           const fallbackWords = [];
@@ -2041,9 +2037,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
         
         // Debug logging for antonyms
         if (appState.isAntonymMode) {
-          console.log('📥 ANTONYM RESPONSE:');
-          console.log('Received words:', synonyms.map(item => typeof item === 'string' ? item : item.word));
-          console.log('Total received:', synonyms.length);
+          // Debug logging removed for production
         }
         
         if (isFirstSearch || isNewWord) {
@@ -2064,8 +2058,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
           
           // Debug logging for antonyms
           if (appState.isAntonymMode) {
-            console.log('✅ NEW ANTONYMS (after filtering):', newSynonyms.map(item => typeof item === 'string' ? item : item.word));
-            console.log('Total new:', newSynonyms.length);
+            // Debug logging removed for production
           }
           
           existingResults = [...newSynonyms, ...existingResults];
@@ -2077,7 +2070,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
         
         return synonyms;
       } catch (err) {
-        console.error(err);
+        // Error logging removed for production
         synonymList.innerHTML = '<li class="empty-state">Error fetching synonyms. Please try again.';
         return []; // Return empty array on error
       } finally {
@@ -2201,7 +2194,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
               li.style.color = '';
             }, 1000);
           } catch (err) {
-            console.error('Failed to copy:', err);
+            // Error logging removed for production
           }
         });
         
@@ -2250,7 +2243,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
               li.style.color = '';
             }, 1000);
           } catch (err) {
-            console.error('Failed to copy:', err);
+            // Error logging removed for production
           }
         });
         
@@ -2477,7 +2470,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
     // Initialize 3D scene
     function initSphere() {
       if (!isDeviceCapable()) {
-        console.log('Device not capable of 3D rendering');
+        // Debug logging removed for production
         return false;
       }
 
@@ -2673,14 +2666,14 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
 
     // Create word sprites on sphere
     function createWordSprites(words) {
-      console.log('Creating word sprites for:', words);
+      // Debug logging removed for production
       
       // Clear existing sprites
       wordSprites.forEach(sprite => scene.remove(sprite));
       wordSprites = [];
       
       if (words.length === 0) {
-        console.log('No words to display');
+        // Debug logging removed for production
         return;
       }
       
@@ -2699,15 +2692,14 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
             }
           }
           
-          console.log(`Word: ${word}, Explanation: ${explanation}`); // Debug log
+          // Debug logging removed for production
           return { word, explanation };
         })
         .filter(item => item.word && item.word !== '');
       
-      console.log('Words parameter passed:', words); // Debug log
-      console.log('WordData extracted from DOM:', wordData); // Debug log
+      // Debug logging removed for production
       
-      console.log('WordData extracted:', wordData); // Debug log
+      // Debug logging removed for production
       
       const wordCount = Math.min(wordData.length, 20);
       const vertices = generateSphereVertices(wordCount); // Generate exactly as many vertices as words
@@ -2716,7 +2708,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
       wordData.slice(0, wordCount).forEach((item, index) => {
         const word = item.word;
         const explanation = item.explanation;
-        console.log(`Processing sprite ${index}: word="${word}", explanation="${explanation}"`); // Debug log
+        // Debug logging removed for production
         const vertex = vertices[index]; // No more modulo - each word gets its own vertex
         
         const x = radius * vertex[0];
@@ -2770,7 +2762,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
         context.shadowOffsetX = 0;
         context.shadowOffsetY = 0;
         
-        console.log(`Rendering word: ${word}, showDefinitions: ${showDefinitions}, explanation: "${explanation}", toggle exists: ${!!toggle}`); // Debug log
+        // Debug logging removed for production
         
         // Remove old rendering code - we only use the new clean sprites now
 
@@ -2896,7 +2888,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
         // Don't add the original sprite - we only want the test sprites with definitions
       });
       
-      console.log(`Created ${wordSprites.length} word sprites on sphere`);
+      // Debug logging removed for production
     }
 
     // Update sprite texture with dynamic font size
@@ -3331,7 +3323,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
           btnText.textContent = 'Find More';
         }
       } catch (error) {
-        console.error('Error fetching synonyms:', error);
+        // Error logging removed for production
         alert('Error fetching synonyms. Please try again.');
       } finally {
         // Hide loading state

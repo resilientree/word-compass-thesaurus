@@ -1,9 +1,69 @@
 const { OpenAI } = require('openai');
 
+// Rate limiting storage (in production, use Redis or database)
+const rateLimitStore = new Map();
+
+// Content filtering patterns
+const inappropriatePatterns = [
+  /porn|sex|xxx|adult|nsfw/i,
+  /hate|racist|discrimination/i,
+  /violence|kill|murder|suicide/i,
+  /drug|cocaine|heroin|marijuana/i,
+  /gambling|casino|betting/i,
+  /spam|scam|phishing/i
+];
+
+// Rate limiting: 30 requests per day per IP
+function checkRateLimit(ip) {
+  const now = Date.now();
+  const dayMs = 24 * 60 * 60 * 1000;
+  const key = `rate_${ip}`;
+  
+  if (!rateLimitStore.has(key)) {
+    rateLimitStore.set(key, { count: 1, resetTime: now + dayMs });
+    return true;
+  }
+  
+  const data = rateLimitStore.get(key);
+  
+  if (now > data.resetTime) {
+    data.count = 1;
+    data.resetTime = now + dayMs;
+    return true;
+  }
+  
+  if (data.count >= 30) {
+    return false;
+  }
+  
+  data.count++;
+  return true;
+}
+
+// Content filtering
+function isInappropriateContent(text) {
+  return inappropriatePatterns.some(pattern => pattern.test(text));
+}
+
 exports.handler = async (event, context) => {
-  // CORS headers for all responses
+  // Get client IP for rate limiting
+  const clientIP = event.headers['x-forwarded-for'] || 
+                   event.headers['x-real-ip'] || 
+                   event.connection?.remoteAddress || 
+                   'unknown';
+  
+  // CORS headers for allowed domains
+  const allowedOrigins = [
+    'https://wordcompass.io',
+    'https://wordcompass.netlify.app',
+    'https://wordcompass.netlify.app/'
+  ];
+  
+  const origin = event.headers.origin || event.headers.Origin;
+  const corsOrigin = allowedOrigins.includes(origin) ? origin : 'https://wordcompass.io';
+  
   const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': corsOrigin,
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Max-Age': '86400'
@@ -27,6 +87,21 @@ exports.handler = async (event, context) => {
     };
   }
 
+  // Check rate limiting
+  if (!checkRateLimit(clientIP)) {
+    return {
+      statusCode: 429,
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'application/json',
+        'Retry-After': '86400'
+      },
+      body: JSON.stringify({ 
+        error: 'Rate limit exceeded. Maximum 30 requests per day.' 
+      })
+    };
+  }
+
   try {
     // Get API key from environment variables
     const apiKey = process.env.OPENAI_API_KEY;
@@ -34,15 +109,33 @@ exports.handler = async (event, context) => {
       return {
         statusCode: 500,
         headers: {
-          'Access-Control-Allow-Origin': '*',
+          ...corsHeaders,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ error: 'OpenAI API key not configured' })
+        body: JSON.stringify({ error: 'Service temporarily unavailable' })
       };
     }
 
     // Parse request body
     const { messages, temperature, max_tokens, model } = JSON.parse(event.body);
+
+    // Content filtering - check all messages for inappropriate content
+    if (messages && Array.isArray(messages)) {
+      for (const message of messages) {
+        if (message.content && isInappropriateContent(message.content)) {
+          return {
+            statusCode: 400,
+            headers: {
+              ...corsHeaders,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+              error: 'Content not allowed. Please use appropriate language.' 
+            })
+          };
+        }
+      }
+    }
 
     // Initialize OpenAI client
     const openai = new OpenAI({ apiKey });
@@ -65,7 +158,8 @@ exports.handler = async (event, context) => {
     };
 
   } catch (error) {
-    console.error('Error calling OpenAI API:', error);
+    // Log error server-side only (not exposed to client)
+    console.error('API Error:', error.message);
     
     return {
       statusCode: 500,
@@ -74,8 +168,7 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ 
-        error: 'Failed to fetch synonyms',
-        details: error.message 
+        error: 'Failed to fetch synonyms. Please try again.' 
       })
     };
   }

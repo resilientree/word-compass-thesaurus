@@ -2,16 +2,25 @@
 
 An AI-powered thesaurus that adapts to your style and context. Find the perfect word with intelligent synonym suggestions powered by OpenAI.
 
+> **v1.2.0** - Now with Antonyms, Definitions toggle, and 3D Serendipity Sphere! 🌐
+
 ## 🌟 Features
 
 ### **Smart Word Discovery**
+- **Synonyms & Antonyms**: Switch between similar and opposite words
 - **Thesaurus Mode**: Get 12-15 high-quality synonyms for any word
 - **Creative Phrases**: Discover 2-4 word phrases that describe your concept
 - **Context-Aware**: Add slang, regional dialects, or academic styles for targeted results
+- **Definitions**: Toggle to show brief definitions with your results
 
 ### **Model Selection**
 - **Fast Mode**: Uses GPT-3.5-turbo for quick, cost-effective results
 - **Thoughtful Mode**: Uses GPT-4o for higher quality, more nuanced suggestions
+
+### **3D Visualization**
+- **🌐 Serendipity Sphere**: Interactive 3D space to explore your words
+- **Drag to rotate, scroll to zoom**: Intuitive 3D navigation
+- **Same controls**: All toggles and sliders work in 3D mode
 
 ### **Advanced Controls** (Optional)
 - **Era Slider**: Modern to historical language
@@ -22,7 +31,7 @@ An AI-powered thesaurus that adapts to your style and context. Find the perfect 
 - **Sentiment Slider**: Negative to positive alternatives
 
 ### **Smart Features**
-- **Find More**: Get additional synonyms without losing previous results
+- **Find More**: Click Find again to add more words to your collection
 - **Visual Feedback**: Smooth animations and loading states
 - **Copy to Clipboard**: Click any word to copy it instantly
 - **Mobile Optimized**: Responsive design for all devices
@@ -31,15 +40,19 @@ An AI-powered thesaurus that adapts to your style and context. Find the perfect 
 
 1. **Enter a word** in the search box
 2. **Add context** (optional): Try "Gen Z", "Old English", "Academic", etc.
-3. **Choose your mode**: Thesaurus or Creative Phrases
-4. **Select speed**: Fast (quick) or Thoughtful (quality)
-5. **Click Find** to get your results!
+3. **Click Find** to get your results!
+4. **Click Find again** to add more words to your collection
+5. **Explore the 3D Sphere** (🌐) for a unique visual experience
+6. **Use Preferences menu** (⚙️) to switch between Synonyms/Antonyms, Thesaurus/Creative Phrases, and more!
 
 ## 💡 Usage Examples
 
 - **Basic**: `money` → cash, currency, funds, capital...
 - **With Context**: `money` + "Hip-hop culture" → bread, cheddar, paper, stacks...
+- **Antonyms**: `good` → bad, terrible, awful, horrible...
 - **Creative Phrases**: `money` → financial resources, economic capital, monetary assets...
+- **With Definitions**: `happy` → joyful (full of joy), elated (in high spirits), ecstatic (overwhelmingly happy)...
+- **3D Sphere**: Visual exploration of your word relationships
 - **Advanced**: Use sliders to fine-tune era, formality, and emotion
 
 ## 🛠️ Technical Setup
@@ -83,7 +96,7 @@ netlify dev
 
 ## 📱 Live Demo
 
-Visit [wordcompass.netlify.app](https://wordcompass.netlify.app) to try it live!
+Visit [wordcompass.io](https://wordcompass.io) to try it live!
 
 ## 🤝 Contributing
 
