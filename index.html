@@ -8,7 +8,7 @@
   <!-- Open Graph / Social Media Meta Tags -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="WordCompass.io - Find the Perfect Word" />
-  <meta property="og:description" content="AI-powered thesaurus that adapts to your style and context. Find the perfect word with intelligent synonym suggestions." />
+  <meta property="og:description" content="AI-powered thesaurus that adapts to your style. Find the perfect word with intelligent synonym suggestions." />
   <meta property="og:image" content="https://wordcompass.netlify.app/Thumbnail1.png" />
   <meta property="og:url" content="https://wordcompass.netlify.app" />
   <meta property="og:site_name" content="WordCompass.io" />
@@ -16,11 +16,11 @@
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="WordCompass.io - Find the Perfect Word" />
-  <meta name="twitter:description" content="AI-powered thesaurus that adapts to your style and context. Find the perfect word with intelligent synonym suggestions." />
+  <meta name="twitter:description" content="AI-powered thesaurus that adapts to your style. Find the perfect word with intelligent synonym suggestions." />
   <meta name="twitter:image" content="https://wordcompass.netlify.app/Thumbnail1.png" />
   
   <!-- Additional Meta Tags -->
-  <meta name="description" content="AI-powered thesaurus that adapts to your style and context. Find the perfect word with intelligent synonym suggestions." />
+  <meta name="description" content="AI-powered thesaurus that adapts to your style. Find the perfect word with intelligent synonym suggestions." />
   <meta name="keywords" content="thesaurus, synonyms, AI, word finder, writing tool, vocabulary" />
   
   <!-- Three.js for 3D sphere -->
@@ -407,17 +407,19 @@
       background: #f1f5f9;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
-      padding: 0.5rem 0.75rem;
-      margin-top: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      margin-top: 0.1rem;
       font-size: 0.85rem;
       color: #64748b;
       text-align: center;
       opacity: 0;
       transform: translateY(-10px);
       transition: all 0.3s ease;
+      display: none;
     }
     
     .guidance-tip.show {
+      display: block;
       opacity: 1;
       transform: translateY(0);
     }
@@ -444,6 +446,13 @@
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+    }
+    
+    /* Hide sphere button on mobile */
+    @media (max-width: 768px) {
+      .sphere-button {
+        display: none;
+      }
     }
     
     .sphere-button:hover {
@@ -576,12 +585,273 @@
     }
     
     @media (max-width: 768px) {
+      .sphere-container[style*="display: block"] {
+        display: flex !important;
+        flex-direction: column;
+      }
+      
       .sphere-input-controls {
-        top: 1rem;
-        left: 1rem;
-        right: 1rem;
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
         max-width: none;
-        font-size: 13px;
+        font-size: 14px;
+        height: 33.33vh; /* Top 1/3 of screen */
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      /* Mobile-specific input layout */
+      .sphere-input-controls .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .sphere-input-controls .input-group label {
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+      
+      .sphere-input-controls .sphere-input {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 8px;
+        color: #ffffff;
+      }
+      
+      /* Mobile synonyms/antonyms toggle */
+      .sphere-mode-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      /* Mobile gear icon for preferences */
+      .sphere-mobile-gear {
+        position: absolute;
+        top: 1rem;
+        right: 54px; /* 44px close button + 5px gap = 49px, then 5px from close button */
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1003;
+        transition: all 0.2s ease;
+      }
+      
+      .sphere-mobile-gear:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+      
+      .sphere-mobile-gear-icon {
+        font-size: 1.2rem;
+        color: #ffffff;
+        transition: transform 0.2s ease;
+      }
+      
+      .sphere-mobile-gear.open .sphere-mobile-gear-icon {
+        transform: rotate(0deg);
+      }
+      
+      /* Hide desktop controls on mobile */
+      .sphere-controls-dropdown {
+        display: none;
+      }
+      
+      /* Mobile preferences menu */
+      .sphere-mobile-preferences {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(15px);
+        z-index: 1004;
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 1rem 1rem 1rem;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      
+      .sphere-mobile-preferences.open {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .mobile-prefs-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .mobile-prefs-header h3 {
+        color: #ffffff;
+        font-size: 1.2rem;
+        margin: 0;
+      }
+      
+      .mobile-prefs-close {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        color: #ffffff;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .mobile-prefs-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1rem 0;
+      }
+      
+      .mobile-prefs-content .control-group {
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        min-height: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      .mobile-prefs-content .control-label {
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: block;
+        text-align: center;
+      }
+      
+      .mobile-prefs-content .ios-toggle-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        padding: 0 1rem;
+      }
+      
+      .mobile-prefs-content .toggle-label {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1rem;
+        min-width: 80px;
+        text-align: center;
+        font-weight: 500;
+      }
+      
+      .mobile-prefs-content .ios-toggle {
+        width: 60px;
+        height: 32px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        position: relative;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+      
+      .mobile-prefs-content .ios-toggle.active {
+        background: #3b82f6;
+      }
+      
+      .mobile-prefs-content .ios-toggle-slider {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 28px;
+        height: 28px;
+        background: #ffffff;
+        border-radius: 50%;
+        transition: transform 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      
+      .mobile-prefs-content .ios-toggle.active .ios-toggle-slider {
+        transform: translateX(28px);
+      }
+      
+      .sphere-canvas-container {
+        position: relative;
+        height: 66.67vh; /* Bottom 2/3 of screen */
+        width: 100%;
+        flex: 1;
+      }
+      
+      .sphere-canvas-container canvas {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      
+      /* Adjust other sphere elements for mobile layout */
+      .sphere-close {
+        top: 1rem;
+        right: 5px; /* 5px from edge */
+        z-index: 1002;
+        width: 44px;
+        height: 44px;
+        touch-action: manipulation;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        border-radius: 50%;
+      }
+      
+      .sphere-pause {
+        bottom: 1rem;
+        left: 1rem;
+        z-index: 1002;
+      }
+      
+      .sphere-instructions {
+        bottom: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1002;
+      }
+      
+      .sphere-note {
+        bottom: 1rem;
+        right: 1rem;
+        z-index: 1002;
       }
     }
     
@@ -880,10 +1150,13 @@
         gap: 0.5rem;
       }
       
-      .search-btn,
-      .sphere-button {
+      .search-btn {
         flex: 1;
         width: 100%;
+      }
+      
+      .sphere-button {
+        display: none;
       }
     }
     
@@ -939,19 +1212,19 @@
     }
     
     .controls-section {
-      background: #fff;
+      background: #f8f9fa;
       border-radius: 16px;
       padding: 2rem;
       margin-bottom: 2rem;
+      margin-top: 0.1rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      border: 1px solid #e2e8f0;
     }
     
     .controls-title {
       font-size: 1.5rem;
       font-weight: 600;
       margin-bottom: 1.5rem;
-      color: #374151;
+      color: #1f2937;
     }
     
     .controls-grid {
@@ -968,7 +1241,7 @@
     
     .control-label {
       font-weight: 600;
-      color: #374151;
+      color: #1f2937;
       font-size: 0.9rem;
     }
     
@@ -1037,14 +1310,14 @@
     .results-title {
       font-size: 1.25rem;
       font-weight: 600;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       color: #374151;
     }
     
     .synonyms-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem;
+      gap: 0.5rem;
       list-style: none;
       margin: 0;
       padding: 0;
@@ -1053,7 +1326,7 @@
     .synonym {
       background: #f1f5f9;
       color: #475569;
-      padding: 0.75rem 1.25rem;
+      padding: 0.5rem 1rem;
       border-radius: 25px;
       cursor: pointer;
       transition: all 0.2s;
@@ -1155,21 +1428,21 @@
       align-items: center;
       justify-content: center;
       gap: 1rem;
-      margin: 0.75rem 0;
+      margin: 0.25rem 0;
     }
     
     .toggle-switch {
       position: relative;
       width: 60px;
       height: 30px;
-      background: #e2e8f0;
+      background: #6b7280;
       border-radius: 15px;
       cursor: pointer;
       transition: background 0.3s ease;
     }
     
     .toggle-switch.active {
-      background: #1e40af;
+      background: #3b82f6;
     }
     
     .toggle-slider {
@@ -1195,7 +1468,7 @@
     }
     
     .toggle-label.active {
-      color: #ffffff;
+      color: #3b82f6;
     }
     
     /* Preferences Menu */
@@ -1210,28 +1483,28 @@
       justify-content: center;
       gap: 0.5rem;
       padding: 0.5rem 1rem;
-      background: rgba(59, 130, 246, 1);
-      border: 1px solid rgba(59, 130, 246, 1);
+      background: #e5e7eb;
+      border: 1px solid #d1d5db;
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s ease;
       width: 100%;
       font-size: 1.1rem;
       font-weight: 500;
-      color: #ffffff;
+      color: #1f2937;
       box-shadow: none;
       overflow: hidden;
     }
     
     .preferences-toggle.expanded {
-      border-radius: 8px 8px 0 0;
+      border-radius: 8px;
       box-shadow: none;
       overflow: hidden;
     }
     
     .preferences-toggle:hover {
-      background: rgba(59, 130, 246, 1);
-      border-color: rgba(59, 130, 246, 1);
+      background: #d1d5db;
+      border-color: #9ca3af;
     }
     
     .gear-icon {
@@ -1251,19 +1524,20 @@
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease;
-      background: rgba(59, 130, 246, 1);
-      border: none;
+      background: #e5e7eb;
+      border: 1px solid #d1d5db;
+      border-top: none;
       border-radius: 0 0 8px 8px;
-      margin-top: 0;
+      margin-top: -1px;
       position: absolute;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      left: 1%;
+      right: 1%;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     
     .preferences-menu.expanded {
-      max-height: 300px;
+      max-height: 600px;
     }
     
     .preferences-menu .mode-toggle {
@@ -1275,7 +1549,7 @@
     }
     
     .preferences-menu .mode-toggle:last-child {
-      margin-bottom: 1rem;
+      margin-bottom: calc(1rem - 5px);
     }
     
     .preferences-menu .toggle-switch {
@@ -1419,8 +1693,13 @@
       .nav { gap: 1rem; }
       
       .hero {
-        padding: 1.5rem 0.5rem 1.5rem 0.5rem;
+        padding: 0.5rem 0.5rem calc(1rem + 60px) 0.5rem; /* Add 60px to bottom padding */
         background: #003087; /* Solid blue background on mobile */
+      }
+      
+      .hero-content {
+        position: relative;
+        top: 10px; /* Move content down 10px */
       }
       
       /* Hide waves background on mobile */
@@ -1434,11 +1713,14 @@
       }
       
       .hero-content h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
+        margin-top: 0.25rem;
+        margin-bottom: 0.1rem;
       }
       
       .hero-content p {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
       }
       
       .wave-text {
@@ -1447,7 +1729,7 @@
       
       .search-section {
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.5rem;
       }
       
       .main-content {
@@ -1478,13 +1760,15 @@
       
       .results-section {
         min-height: 120px;
-        padding: 0.4rem 1rem 0.1rem 1rem;
+        padding: 0.1rem 1rem 0.4rem 1rem;
       }
       
       .synonyms-grid {
-        max-height: 200px;
+        max-height: 300px;
         overflow-y: auto;
+        overflow-x: hidden;
       }
+      
     }
     
     /* Desktop styles - show waves background on larger screens */
@@ -1574,7 +1858,7 @@
     <!-- Hero Content Layer -->
     <div class="hero-content">
       <h1>Find the Perfect Word</h1>
-      <p>AI-powered thesaurus that adapts to your style and context</p>
+      <p>AI-powered thesaurus that adapts to your style</p>
     
     <div class="search-section">
       <input 
@@ -1741,13 +2025,6 @@
       </div>
     </div>
 
-    <!-- 3D View Toggle -->
-    <div class="view-toggle">
-               <button class="sphere-button" id="sphereButton">
-                 <span class="sphere-icon">🌐</span>
-                 <span class="sphere-label">Serendipity Sphere</span>
-               </button>
-    </div>
   </div>
 
   <script type="module">
@@ -2211,6 +2488,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
         
         synonymList.appendChild(li);
       });
+      
       
       // Show guidance if appropriate
       if (shouldShowGuidance(arr)) {
@@ -3179,9 +3457,10 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
       }
     }
 
+
     // Event listeners for 3D view
     function setupSphereButtons() {
-      const buttons = ['sphereButton', 'sphereButtonHero'];
+      const buttons = ['sphereButtonHero'];
       buttons.forEach(buttonId => {
         const button = document.getElementById(buttonId);
         if (button) {
@@ -3222,6 +3501,62 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
     document.getElementById('sphereClose').addEventListener('click', () => {
       hideSphere();
     });
+    
+    // Mobile touch support for close button
+    document.getElementById('sphereClose').addEventListener('touchend', (e) => {
+      e.preventDefault();
+      hideSphere();
+    });
+    
+    // Mobile gear icon functionality
+    const sphereMobileGear = document.getElementById('sphereMobileGear');
+    const sphereMobilePreferences = document.getElementById('sphereMobilePreferences');
+    
+    if (sphereMobileGear && sphereMobilePreferences) {
+      // Toggle menu on gear click
+      sphereMobileGear.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMobilePreferences();
+      });
+      
+      sphereMobileGear.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleMobilePreferences();
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!sphereMobileGear.contains(e.target) && !sphereMobilePreferences.contains(e.target)) {
+          closeMobilePreferences();
+        }
+      });
+      
+      // Close menu when clicking on the gear again
+      function toggleMobilePreferences() {
+        if (sphereMobilePreferences.classList.contains('open')) {
+          closeMobilePreferences();
+        } else {
+          openMobilePreferences();
+        }
+      }
+      
+      function openMobilePreferences() {
+        sphereMobilePreferences.classList.add('open');
+        sphereMobileGear.classList.add('open');
+        // Change gear to V when opened
+        const gearIcon = sphereMobileGear.querySelector('.sphere-mobile-gear-icon');
+        gearIcon.textContent = '▼';
+      }
+      
+      function closeMobilePreferences() {
+        sphereMobilePreferences.classList.remove('open');
+        sphereMobileGear.classList.remove('open');
+        // Change V back to gear when closed
+        const gearIcon = sphereMobileGear.querySelector('.sphere-mobile-gear-icon');
+        gearIcon.textContent = '⚙️';
+      }
+    }
 
     // Pause/Resume button functionality
     document.getElementById('spherePause').addEventListener('click', () => {
@@ -3359,6 +3694,11 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
     <div class="sphere-container" id="sphereContainer">
       <button class="sphere-close" id="sphereClose">×</button>
       <div class="sphere-input-controls" id="sphereInputControls">
+        <!-- Mobile gear icon for preferences -->
+        <div class="sphere-mobile-gear" id="sphereMobileGear">
+          <span class="sphere-mobile-gear-icon">⚙️</span>
+        </div>
+        
         <div class="sphere-brand">wordcompass.io</div>
         <div class="input-group">
           <label>Word:</label>
@@ -3378,6 +3718,47 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
           <span class="toggle-label" id="sphereAntonymsLabel">Antonyms</span>
         </div>
         
+        <!-- Mobile Preferences Menu -->
+        <div class="sphere-mobile-preferences" id="sphereMobilePreferences">
+          <div class="mobile-prefs-header">
+            <h3>Preferences</h3>
+          </div>
+          <div class="mobile-prefs-content">
+            <div class="control-group">
+              <label class="control-label">Speed</label>
+              <div class="ios-toggle-container">
+                <span class="toggle-label">Fast</span>
+                <div class="ios-toggle" id="sphereSpeedToggle">
+                  <div class="ios-toggle-slider"></div>
+                </div>
+                <span class="toggle-label">Thoughtful</span>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">Style</label>
+              <div class="ios-toggle-container">
+                <span class="toggle-label">Thesaurus</span>
+                <div class="ios-toggle" id="sphereStyleToggle">
+                  <div class="ios-toggle-slider"></div>
+                </div>
+                <span class="toggle-label">Creative</span>
+              </div>
+            </div>
+            
+            <div class="control-group">
+              <label class="control-label">Include Definitions</label>
+              <div class="ios-toggle-container">
+                <span class="toggle-label">Off</span>
+                <div class="ios-toggle" id="sphereDefinitionsToggle">
+                  <div class="ios-toggle-slider"></div>
+                </div>
+                <span class="toggle-label">On</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Search Mode Controls -->
         <div class="sphere-controls-dropdown">
           <button class="sphere-controls-toggle" id="sphereControlsToggle">
@@ -3433,7 +3814,10 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
       <button class="sphere-pause" id="spherePause" title="Pause/Resume rotation">
         <span class="pause-icon">⏸</span>
       </button>
-      <canvas id="sphereCanvas"></canvas>
+      <div class="sphere-canvas-container">
+        <canvas id="sphereCanvas"></canvas>
+      </div>
     </div>
+    
 </body>
 </html>
