@@ -2270,7 +2270,6 @@ Sentiment slider ${sliderValues.sentimentRange} (0=negative,100=positive)`;
       }
       
       userPrompt += existingWords;
-      userPrompt += '\n\nImportant: For positive sentiment, use uplifting and respectful alternatives. For negative sentiment, use neutral or negative alternatives.';
       if (existingResults.length > 0) {
         userPrompt += ` Do not return any of the existing ${wordTypeLabel} listed above.`;
       }
