@@ -1,5 +1,8 @@
 const { OpenAI } = require('openai');
 
+// Test mode - set to true for unlimited testing, false for production
+const TEST_MODE = false;
+
 // Rate limiting storage (in production, use Redis or database)
 const rateLimitStore = new Map();
 
@@ -23,11 +26,14 @@ const inappropriatePatterns = [
   /\b(spam|scam|phishing)\b/i
 ];
 
-// Rate limiting: 30 requests per day per IP
+// Rate limiting: 30 requests per day per user
 function checkRateLimit(ip) {
   const now = Date.now();
   const dayMs = 24 * 60 * 60 * 1000;
-  const key = `rate_${ip}`;
+  
+  // Use a simple user identifier instead of IP
+  const userKey = 'test_user'; // You can change this to anything
+  const key = `rate_${userKey}`;
   
   if (!rateLimitStore.has(key)) {
     rateLimitStore.set(key, { count: 1, resetTime: now + dayMs });
@@ -97,8 +103,8 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Check rate limiting
-  if (!checkRateLimit(clientIP)) {
+  // Check rate limiting (skip if in test mode)
+  if (!TEST_MODE && !checkRateLimit(clientIP)) {
     return {
       statusCode: 429,
       headers: {

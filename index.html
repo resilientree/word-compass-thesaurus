@@ -643,43 +643,7 @@
         border: 1px solid rgba(255, 255, 255, 0.2);
       }
       
-      /* Mobile gear icon for preferences */
-      .sphere-mobile-gear {
-        position: absolute;
-        top: 1rem;
-        right: 54px; /* 44px close button + 5px gap = 49px, then 5px from close button */
-        width: 44px;
-        height: 44px;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 1003;
-        transition: all 0.2s ease;
-      }
       
-      .sphere-mobile-gear:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: scale(1.1);
-      }
-      
-      .sphere-mobile-gear-icon {
-        font-size: 1.2rem;
-        color: #ffffff;
-        transition: transform 0.2s ease;
-      }
-      
-      .sphere-mobile-gear.open .sphere-mobile-gear-icon {
-        transform: rotate(0deg);
-      }
-      
-      /* Hide desktop controls on mobile */
-      .sphere-controls-dropdown {
-        display: none;
-      }
       
       /* Mobile preferences menu */
       .sphere-mobile-preferences {
@@ -941,56 +905,66 @@
       transform: translateY(-1px);
     }
     
-    .sphere-controls-dropdown {
+    
+    
+    /* Sphere preferences toggle */
+    .sphere-preferences-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
       margin: 0.5rem 0;
     }
     
-    .sphere-controls-toggle {
-      width: 40px;
-      height: 32px;
-      padding: 0;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      backdrop-filter: blur(10px);
-      color: #ffffff;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.2s ease;
-    }
-    
-    .sphere-controls-toggle:hover {
+    .sphere-preferences-toggle:hover {
       background: rgba(0, 0, 0, 0.4);
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
     }
     
-    .dropdown-arrow {
+    .preferences-label {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .sphere-preferences-toggle .dropdown-arrow {
+      color: #ffffff;
+      font-size: 0.8rem;
       transition: transform 0.2s ease;
-      font-size: 0.7rem;
-      opacity: 0.7;
     }
     
-    .sphere-controls-toggle.expanded .dropdown-arrow {
+    .sphere-preferences-toggle.expanded .dropdown-arrow {
       transform: rotate(180deg);
     }
     
-    .sphere-controls {
-      margin-top: 0.5rem;
-      padding: 0.5rem;
+    .sphere-preferences-menu {
       background: rgba(0, 0, 0, 0.2);
-      border-radius: 8px;
-      backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      backdrop-filter: blur(10px);
     }
     
-    .sphere-controls .control-group {
-      margin-bottom: 0.5rem;
+    .preference-group {
+      margin-bottom: 1rem;
     }
     
-    .sphere-controls .control-group:last-child {
+    .preference-group:last-child {
       margin-bottom: 0;
+    }
+    
+    .preference-label {
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: block;
     }
     
     /* Sphere mode toggle (always visible) */
@@ -2004,11 +1978,11 @@
             </div>
             
             <div class="control-group">
-              <label class="control-label" for="rarityRange">Rarity</label>
+              <label class="control-label" for="temperatureRange">Creativity</label>
               <div class="slider-container">
-                <span class="slider-label">Common</span>
-                <input id="rarityRange" type="range" class="slider" min="0" max="100" value="0" />
-                <span class="slider-label">Rare</span>
+                <span class="slider-label">Focused</span>
+                <input id="temperatureRange" type="range" class="slider" min="0" max="100" value="30" />
+                <span class="slider-label">Creative</span>
               </div>
             </div>
             
@@ -2071,12 +2045,49 @@
     const spinner     = document.getElementById('spinner');
     const contextInput = document.getElementById('contextInput');
     const guidanceTip = document.getElementById('guidanceTip');
-    const sliders     = ['eraRange','regionRange','rarityRange','emotionRange','formalityRange','sentimentRange'];
+    const sliders     = ['eraRange','regionRange','temperatureRange','emotionRange','formalityRange','sentimentRange'];
     
     // Track existing results (synonyms or antonyms) for "Find More" functionality
     let existingResults = [];
     let isFirstSearch = true;
     let lastSearchedWord = ''; // Track the last word searched
+    let searchCount = 0; // Track number of searches for current word
+    const MAX_SEARCHES = 3; // Limit to 3 searches per word
+    
+    // Debouncing variables
+    let searchTimeout = null;
+    let isSearching = false; // Prevent multiple simultaneous searches
+    
+    // User-based rate limiting
+    const userRateLimit = new Map();
+    const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+    const MAX_REQUESTS_PER_WINDOW = 10; // 10 requests per minute per user
+    
+    
+    function checkUserRateLimit() {
+      const now = Date.now();
+      const userId = 'user'; // In a real app, this would be a user ID
+      
+      if (!userRateLimit.has(userId)) {
+        userRateLimit.set(userId, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+        return true;
+      }
+      
+      const userData = userRateLimit.get(userId);
+      
+      if (now > userData.resetTime) {
+        userData.count = 1;
+        userData.resetTime = now + RATE_LIMIT_WINDOW;
+        return true;
+      }
+      
+      if (userData.count >= MAX_REQUESTS_PER_WINDOW) {
+        return false;
+      }
+      
+      userData.count++;
+      return true;
+    }
     
     // Single source of truth for inputs - tracks most recently updated values
     let Input1 = ''; // Either MainInput1 or SphereInput1, whichever was most recently updated
@@ -2129,20 +2140,60 @@
       return commonWords.includes(searchWord) && !contextInput.value.trim();
     }
 
-    // 5. ——— Main fetch routine ———
+    // 5. ——— Debounced search function ———
+    function debouncedSearch() {
+      // Clear any existing timeout
+      if (searchTimeout) {
+        clearTimeout(searchTimeout);
+      }
+      
+      // Set new timeout
+      searchTimeout = setTimeout(() => {
+        fetchSynonyms();
+      }, 300); // 300ms debounce delay
+    }
+    
+    // 6. ——— Main fetch routine ———
     async function fetchSynonyms() {
       const word = Input1; // Use single source of truth
       if (!word) return;
+      
+      // Prevent multiple simultaneous searches
+      if (isSearching) {
+        return;
+      }
+      isSearching = true;
+      
+      // Check user rate limit
+      if (!checkUserRateLimit()) {
+        synonymList.innerHTML = '<li class="empty-state">Rate limit exceeded. Please wait a moment before searching again.</li>';
+        isSearching = false;
+        return;
+      }
+      
 
       // Check if this is a new word (different from last search)
       const isNewWord = word !== lastSearchedWord;
+      
+      // Reset search count for new words
+      if (isNewWord) {
+        searchCount = 0;
+        lastSearchedWord = word;
+      }
+      
+      // Check if we've hit the search limit
+      if (searchCount >= MAX_SEARCHES) {
+        searchBtn.disabled = true;
+        searchText.textContent = 'Max searches reached';
+        return;
+      }
       
       // Clear results and show loading state
       if (isFirstSearch || isNewWord) {
         const wordType = appState.isAntonymMode ? 'antonyms' : 'synonyms';
         synonymList.innerHTML = `<li class="empty-state">Finding ${wordType}...</li>`;
         existingResults = [];
-        lastSearchedWord = word; // Update the tracked word
+        searchCount = 0; // Reset for new word
       } else {
         // Add "Thinking..." at the top and slide existing words right
         const thinkingLi = document.createElement('li');
@@ -2163,7 +2214,7 @@
       searchText.style.display = 'none';
       spinner.classList.add('show');
       
-      const state = sliderState();
+      const sliderValues = sliderState();
 
       // Build dynamic system prompt based on toggle states
       const wordType = appState.isAntonymMode ? 'antonyms' : 'synonyms';
@@ -2178,49 +2229,26 @@
           '[{"word": "intelligent"}, {"word": "bright"}, {"word": "clever"}]' :
           '[{"word": "ecstatic"}, {"word": "thrilled"}, {"word": "blissful"}]');
 
-      const system = `You are an assistant that returns ${wordType}${appState.includeDefinitions ? ' with brief explanations' : ''}. Return ONLY a JSON array of objects, with no additional text or formatting. ${returnFormat}
+      const system = `Thesaurus assistant. Return JSON array only. ${returnFormat}
 
-${appState.isAntonymMode ? `ANTONYM GUIDELINES:
-- Return words that are OPPOSITES in meaning to the input word
-- For "dumb" return words like "smart", "intelligent", "bright", "clever"
-- For "happy" return words like "sad", "miserable", "depressed", "gloomy"
-- Focus on direct opposites, not just different words
+${appState.isAntonymMode ? `ANTONYM: Direct opposites. "dumb"→["smart","intelligent"], "happy"→["sad","miserable"]` : ''}
 
-` : ''}${appState.includeDefinitions ? `EXPLANATION GUIDELINES:
-- Avoid circular definitions (don't define "happy" as "full of happiness")
-- Use specific contexts, emotions, or situations
-- Include brief usage examples when helpful
-- Focus on nuances and subtle differences
-- Keep explanations 2-4 words or short phrases
-
-` : ''}Example: ${exampleFormat}
-
-Slider Definitions:
-- Era (0-100): 0 = modern/contemporary words, 100 = historical/archaic words
-- Region (0-100): 0 = American English, 100 = British English
-- Rarity (0-100): 0 = common/everyday words, 100 = rare/unusual words
-- Emotion (0-100): 0 = neutral/plain words, 100 = emotionally vivid/expressive words
-- Formality (0-100): 0 = casual/informal words, 100 = formal/professional words
-- Sentiment (0-100): 0 = negative words, 100 = positive words
-
-Context Interpretation:
-- If context is specified, prioritize synonyms that match this style/context
-- Examples: 'Gen Z' = modern internet slang, 'Old English' = archaic/Shakespearean, 'Regional' = dialect-specific
-- 'Academic' = scholarly/formal, 'Military' = service-specific jargon, 'Tech' = Silicon Valley speak
-- If no context specified, use standard thesaurus approach
+${appState.includeDefinitions ? `Include brief explanations (2-4 words).` : ''}
 
 Mode: ${appState.isCreativeMode ? 'CREATIVE PHRASES' : 'THESAURUS'}
-- THESAURUS MODE: Return traditional single-word synonyms
-- CREATIVE PHRASES MODE: Return varied, contextual phrases. Avoid repetitive combinations (e.g., don't return both "personal symbol" and "unique symbol" - pick one creative phrase). Focus on capturing the essence and voice of the context.
+${appState.isCreativeMode ? 'CREATIVE: Varied phrases, avoid repetition.' : 'THESAURUS: Single words.'}
 
-When handling sentiment:
-- For positive sentiment: Use uplifting, positive, and respectful alternatives
-- For negative sentiment: Use neutral or negative alternatives
-- For potentially sensitive words: Always prefer respectful and appropriate alternatives
-- This is a thesaurus, so you should return a wide range of words, including words that can be mean, offensive, or negative.
+Sliders: Era(modern→historical), Region(US→UK), Creativity(focused→creative), Emotion(neutral→vivid), Formality(casual→formal), Sentiment(negative→positive).
 
-const wordType = appState.isAntonymMode ? 'antonyms' : 'synonyms';
-Return 12-15 high-quality ${wordType} with brief explanations that match the specified parameters and context. Avoid circular definitions - instead provide specific contexts, emotions, or usage situations that distinguish each word from the original and from each other.`;
+Context: 'Gen Z'=slang, 'Old English'=archaic, 'Academic'=scholarly, 'Military'=jargon, 'Tech'=startup, 'rare'=uncommon/unusual types.
+
+Return same part of speech and category as input word. For nouns, return other nouns of the same type, not descriptive nouns.
+
+Gender awareness: If context relates togender, only return items appropriate for that gender. Example: Avoid gender-inappropriate clothing items.
+
+Example: ${exampleFormat}
+
+Return 12-15 ${wordType}.`;
       const context = Context1; // Use single source of truth
       const wordTypeLabel = appState.isAntonymMode ? 'antonyms' : 'synonyms';
       const existingWords = existingResults.length > 0 ? `\nExisting ${wordTypeLabel} to avoid: ${existingResults.map(item => typeof item === 'string' ? item : item.word).join(', ')}` : '';
@@ -2229,12 +2257,12 @@ Return 12-15 high-quality ${wordType} with brief explanations that match the spe
       
       if (isAdvancedEnabled) {
         userPrompt += `
-Era slider ${state.eraRange} (0=modern,100=historical)
-Region slider ${state.regionRange} (0=US,100=UK)
-Rarity slider ${state.rarityRange} (0=common,100=rare)
-Emotion slider ${state.emotionRange} (0=neutral,100=vivid)
-Formality slider ${state.formalityRange} (0=casual,100=formal)
-Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
+Era slider ${sliderValues.eraRange} (0=modern,100=historical)
+Region slider ${sliderValues.regionRange} (0=US,100=UK)
+Creativity slider ${sliderValues.temperatureRange} (0=focused,100=creative)
+Emotion slider ${sliderValues.emotionRange} (0=neutral,100=vivid)
+Formality slider ${sliderValues.formalityRange} (0=casual,100=formal)
+Sentiment slider ${sliderValues.sentimentRange} (0=negative,100=positive)`;
       }
       
       if (context) {
@@ -2265,9 +2293,9 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
               { role: 'system', content: system },
               { role: 'user',   content: user   }
             ],
-            temperature: 0.7,
-            max_tokens: 500,
-            model: appState.isThoughtfulMode ? 'gpt-4o' : 'gpt-3.5-turbo'
+            temperature: isAdvancedEnabled ? (sliderValues.temperatureRange / 100) : ((isFirstSearch || isNewWord) ? 0.3 : 0.7),
+            max_tokens: appState.includeDefinitions ? 500 : 150,
+            model: (appState.isThoughtfulMode || (!isFirstSearch && !isNewWord)) ? 'gpt-4o' : 'gpt-3.5-turbo-1106'
           })
         });
 
@@ -2277,6 +2305,8 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
 
         const data = await response.json();
         const content = data?.choices?.[0]?.message?.content || '[]';
+        
+        
         let synonyms;
         try {
           // Check if content looks like incomplete JSON
@@ -2307,6 +2337,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
             }
             return item;
           });
+          
         } catch (err) {
           // Error logging removed for production
           
@@ -2330,9 +2361,9 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
         
         if (isFirstSearch || isNewWord) {
           existingResults = [...synonyms];
-        renderSynonyms(synonyms);
+          renderSynonyms(synonyms);
           isFirstSearch = false;
-          
+          searchCount = 1; // First search
           updateButtonText();
         } else {
           // Filter out duplicates and prepend new synonyms (context change)
@@ -2351,6 +2382,8 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
           
           existingResults = [...newSynonyms, ...existingResults];
           renderSynonymsWithAnimation(newSynonyms, existingResults);
+          searchCount++; // Increment search count
+          updateButtonText();
         }
         
         // Update sphere if it's currently visible
@@ -2365,6 +2398,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
         searchBtn.disabled = false;
         searchText.style.display = 'inline';
         spinner.classList.remove('show');
+        isSearching = false; // Reset searching flag
       }
     }
 
@@ -2556,6 +2590,7 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
       isFirstSearch = true;
       existingResults = [];
       lastSearchedWord = ''; // Reset tracked word
+      searchCount = 0; // Reset search count
       updateButtonText();
     }
     
@@ -2563,6 +2598,10 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
     searchBtn.addEventListener('click', fetchSynonyms);
     searchInput.addEventListener('keydown', e => (e.key === 'Enter') && fetchSynonyms());
     contextInput.addEventListener('keydown', e => (e.key === 'Enter') && fetchSynonyms());
+    
+    // Debounced search for input changes (optional - uncomment if you want auto-search)
+    // searchInput.addEventListener('input', debouncedSearch);
+    // contextInput.addEventListener('input', debouncedSearch);
     
     // Reset when word or context changes and update single source of truth
     searchInput.addEventListener('input', () => {
@@ -2667,8 +2706,17 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
     // Function to update button text and results title based on toggle states
     function updateButtonText() {
       const wordType = appState.isAntonymMode ? 'Antonyms' : 'Synonyms';
+      
+      // Check if we've hit the search limit
+      if (searchCount >= MAX_SEARCHES) {
+        searchText.textContent = 'Max searches reached';
+        searchBtn.disabled = true;
+        return;
+      }
+      
       const action = isFirstSearch ? 'Find' : 'Find More';
       searchText.textContent = `${action} ${wordType}`;
+      searchBtn.disabled = false;
       
       // Also update the results section title
       const resultsTitle = document.getElementById('resultsTitle');
@@ -3508,54 +3556,20 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
       hideSphere();
     });
     
-    // Mobile gear icon functionality
-    const sphereMobileGear = document.getElementById('sphereMobileGear');
-    const sphereMobilePreferences = document.getElementById('sphereMobilePreferences');
+    // Sphere preferences toggle functionality
+    const spherePreferencesToggle = document.getElementById('spherePreferencesToggle');
+    const spherePreferencesMenu = document.getElementById('spherePreferencesMenu');
     
-    if (sphereMobileGear && sphereMobilePreferences) {
-      // Toggle menu on gear click
-      sphereMobileGear.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleMobilePreferences();
-      });
-      
-      sphereMobileGear.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        toggleMobilePreferences();
-      });
-      
-      // Close menu when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!sphereMobileGear.contains(e.target) && !sphereMobilePreferences.contains(e.target)) {
-          closeMobilePreferences();
-        }
-      });
-      
-      // Close menu when clicking on the gear again
-      function toggleMobilePreferences() {
-        if (sphereMobilePreferences.classList.contains('open')) {
-          closeMobilePreferences();
+    if (spherePreferencesToggle && spherePreferencesMenu) {
+      spherePreferencesToggle.addEventListener('click', () => {
+        if (spherePreferencesMenu.style.display === 'none' || spherePreferencesMenu.style.display === '') {
+          spherePreferencesMenu.style.display = 'block';
+          spherePreferencesToggle.classList.add('expanded');
         } else {
-          openMobilePreferences();
+          spherePreferencesMenu.style.display = 'none';
+          spherePreferencesToggle.classList.remove('expanded');
         }
-      }
-      
-      function openMobilePreferences() {
-        sphereMobilePreferences.classList.add('open');
-        sphereMobileGear.classList.add('open');
-        // Change gear to V when opened
-        const gearIcon = sphereMobileGear.querySelector('.sphere-mobile-gear-icon');
-        gearIcon.textContent = '▼';
-      }
-      
-      function closeMobilePreferences() {
-        sphereMobilePreferences.classList.remove('open');
-        sphereMobileGear.classList.remove('open');
-        // Change V back to gear when closed
-        const gearIcon = sphereMobileGear.querySelector('.sphere-mobile-gear-icon');
-        gearIcon.textContent = '⚙️';
-      }
+      });
     }
 
     // Pause/Resume button functionality
@@ -3575,19 +3589,6 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
       }
     });
 
-    // Dropdown toggle functionality
-    document.getElementById('sphereControlsToggle').addEventListener('click', () => {
-      const controls = document.getElementById('sphereControls');
-      const toggle = document.getElementById('sphereControlsToggle');
-      
-      if (controls.style.display === 'none' || controls.style.display === '') {
-        controls.style.display = 'block';
-        toggle.classList.add('expanded');
-      } else {
-        controls.style.display = 'none';
-        toggle.classList.remove('expanded');
-      }
-    });
 
     // iOS toggle functionality
     document.getElementById('sphereSpeedToggle').addEventListener('click', () => {
@@ -3694,12 +3695,9 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
     <div class="sphere-container" id="sphereContainer">
       <button class="sphere-close" id="sphereClose">×</button>
       <div class="sphere-input-controls" id="sphereInputControls">
-        <!-- Mobile gear icon for preferences -->
-        <div class="sphere-mobile-gear" id="sphereMobileGear">
-          <span class="sphere-mobile-gear-icon">⚙️</span>
-        </div>
         
         <div class="sphere-brand">wordcompass.io</div>
+        
         <div class="input-group">
           <label>Word:</label>
           <input type="text" id="sphereWordInput" class="sphere-input" placeholder="Enter word">
@@ -3718,87 +3716,48 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
           <span class="toggle-label" id="sphereAntonymsLabel">Antonyms</span>
         </div>
         
-        <!-- Mobile Preferences Menu -->
-        <div class="sphere-mobile-preferences" id="sphereMobilePreferences">
-          <div class="mobile-prefs-header">
-            <h3>Preferences</h3>
+        <!-- Collapsible Preferences Menu -->
+        <div class="sphere-preferences-toggle" id="spherePreferencesToggle">
+          <span class="preferences-label">⚙️ Preferences</span>
+          <span class="dropdown-arrow">▼</span>
+        </div>
+        
+        <div class="sphere-preferences-menu" id="spherePreferencesMenu" style="display: none;">
+          <div class="preference-group">
+            <label class="preference-label">Speed</label>
+            <div class="ios-toggle-container">
+              <span class="toggle-label">Fast</span>
+              <div class="ios-toggle" id="sphereSpeedToggle">
+                <div class="ios-toggle-slider"></div>
+              </div>
+              <span class="toggle-label">Thoughtful</span>
+            </div>
           </div>
-          <div class="mobile-prefs-content">
-            <div class="control-group">
-              <label class="control-label">Speed</label>
-              <div class="ios-toggle-container">
-                <span class="toggle-label">Fast</span>
-                <div class="ios-toggle" id="sphereSpeedToggle">
-                  <div class="ios-toggle-slider"></div>
-                </div>
-                <span class="toggle-label">Thoughtful</span>
+          
+          <div class="preference-group">
+            <label class="preference-label">Style</label>
+            <div class="ios-toggle-container">
+              <span class="toggle-label">Thesaurus</span>
+              <div class="ios-toggle" id="sphereStyleToggle">
+                <div class="ios-toggle-slider"></div>
               </div>
+              <span class="toggle-label">Creative</span>
             </div>
-            
-            <div class="control-group">
-              <label class="control-label">Style</label>
-              <div class="ios-toggle-container">
-                <span class="toggle-label">Thesaurus</span>
-                <div class="ios-toggle" id="sphereStyleToggle">
-                  <div class="ios-toggle-slider"></div>
-                </div>
-                <span class="toggle-label">Creative</span>
+          </div>
+          
+          <div class="preference-group">
+            <label class="preference-label">Definitions</label>
+            <div class="ios-toggle-container">
+              <span class="toggle-label">Hide</span>
+              <div class="ios-toggle" id="sphereDefinitionsToggle">
+                <div class="ios-toggle-slider"></div>
               </div>
-            </div>
-            
-            <div class="control-group">
-              <label class="control-label">Include Definitions</label>
-              <div class="ios-toggle-container">
-                <span class="toggle-label">Off</span>
-                <div class="ios-toggle" id="sphereDefinitionsToggle">
-                  <div class="ios-toggle-slider"></div>
-                </div>
-                <span class="toggle-label">On</span>
-              </div>
+              <span class="toggle-label">Show</span>
             </div>
           </div>
         </div>
+        
 
-        <!-- Search Mode Controls -->
-        <div class="sphere-controls-dropdown">
-          <button class="sphere-controls-toggle" id="sphereControlsToggle">
-            <span class="dropdown-arrow">▼</span>
-          </button>
-          <div class="sphere-controls" id="sphereControls" style="display: none;">
-            <div class="control-group">
-              <label class="control-label">Speed</label>
-              <div class="ios-toggle-container">
-                <span class="toggle-label">Fast</span>
-                <div class="ios-toggle" id="sphereSpeedToggle">
-                  <div class="ios-toggle-slider"></div>
-                </div>
-                <span class="toggle-label">Thoughtful</span>
-              </div>
-            </div>
-            
-            <div class="control-group">
-              <label class="control-label">Style</label>
-              <div class="ios-toggle-container">
-                <span class="toggle-label">Thesaurus</span>
-                <div class="ios-toggle" id="sphereStyleToggle">
-                  <div class="ios-toggle-slider"></div>
-                </div>
-                <span class="toggle-label">Creative</span>
-              </div>
-            </div>
-            
-            <div class="control-group">
-              <label class="control-label">Definitions</label>
-              <div class="ios-toggle-container">
-                <span class="toggle-label">Hide</span>
-                <div class="ios-toggle" id="sphereDefinitionsToggle">
-                  <div class="ios-toggle-slider"></div>
-                </div>
-                <span class="toggle-label">Show</span>
-              </div>
-            </div>
-          </div>
-        </div>
         
         <button id="sphereSearchBtn" class="sphere-search-btn">
           <span class="btn-text">Search</span>
@@ -3817,6 +3776,11 @@ Sentiment slider ${state.sentimentRange} (0=negative,100=positive)`;
       <div class="sphere-canvas-container">
         <canvas id="sphereCanvas"></canvas>
       </div>
+    </div>
+    
+    <!-- Disclaimer -->
+    <div style="text-align: center; padding: 1rem; margin-top: 2rem; color: #64748b; font-size: 0.875rem; border-top: 1px solid #e2e8f0;">
+      Disclaimer: This is an AI-powered thesaurus. Sometimes the AI makes errors. Please verify results before using.
     </div>
     
 </body>
