@@ -1661,6 +1661,185 @@
       padding: 2rem;
     }
     
+    /* ——— Feedback Components ——— */
+    .feedback-container {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    
+    .feedback-button {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #475569;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .feedback-button:hover {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      border-color: #1d4ed8;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+    
+    .feedback-button:active {
+      transform: translateY(0);
+    }
+    
+    .feedback-emoji {
+      transition: transform 0.3s ease;
+    }
+    
+    .feedback-button:hover .feedback-emoji {
+      transform: scale(1.2) rotate(10deg);
+    }
+    
+    /* Feedback Modal */
+    .feedback-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .feedback-modal {
+      background: #fff;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 500px;
+      max-height: 80vh;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      animation: slideIn 0.3s ease;
+      overflow: hidden;
+    }
+    
+    .feedback-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 1.5rem 0 1.5rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .feedback-modal-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #374151;
+      margin: 0;
+    }
+    
+    .feedback-modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #64748b;
+      padding: 0.25rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    
+    .feedback-modal-close:hover {
+      background: #f1f5f9;
+      color: #374151;
+    }
+    
+    .feedback-modal-body {
+      padding: 1.5rem;
+    }
+    
+    .feedback-textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: vertical;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .feedback-modal-actions {
+      margin-top: 1rem;
+      text-align: right;
+    }
+    
+    .feedback-submit-btn {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .feedback-submit-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+    }
+    
+    .feedback-submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .feedback-submit-spinner {
+      animation: spin 1s linear infinite;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideIn {
+      from { 
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
     /* ——— Responsive ——— */
     @media (max-width: 768px) {
       header { padding: 1rem; }
@@ -1924,6 +2103,14 @@
       <div id="guidanceTip" class="guidance-tip">
         💡 Try adding context like "Gen Z" or "Old English" for more specific results
         </div>
+      
+      <!-- Feedback Button -->
+      <div class="feedback-container" id="feedbackContainer" style="display: none;">
+        <button class="feedback-button" id="feedbackButton">
+          <span class="feedback-text">We value your feedback! Share now 🙏</span>
+          <span class="feedback-emoji">✨</span>
+        </button>
+      </div>
       </div>
 
     <!-- Advanced Controls Section -->
@@ -2448,6 +2635,7 @@ Sentiment slider ${sliderValues.sentimentRange} (0=negative,100=positive)`;
       if (arr.length === 0) {
         const wordType = appState.isAntonymMode ? 'antonyms' : 'synonyms';
         synonymList.innerHTML = `<li class="empty-state">No ${wordType} found. Try a different word.</li>`;
+        hideFeedbackButton(); // Hide feedback button when no results
         return;
       }
       
@@ -2527,6 +2715,9 @@ Sentiment slider ${sliderValues.sentimentRange} (0=negative,100=positive)`;
       if (shouldShowGuidance(arr)) {
         setTimeout(showGuidance, 1000);
       }
+      
+      // Show feedback button when synonyms are displayed
+      showFeedbackButton();
     }
     
     // 7. ——— Animated render for "Find More" ———
@@ -2582,6 +2773,9 @@ Sentiment slider ${sliderValues.sentimentRange} (0=negative,100=positive)`;
       if (shouldShowGuidance(allSynonyms)) {
         setTimeout(showGuidance, 1000);
       }
+      
+      // Show feedback button when new synonyms are added
+      showFeedbackButton();
     }
 
     // 8. ——— Reset search state when inputs change ———
@@ -2591,6 +2785,7 @@ Sentiment slider ${sliderValues.sentimentRange} (0=negative,100=positive)`;
       lastSearchedWord = ''; // Reset tracked word
       searchCount = 0; // Reset search count
       updateButtonText();
+      hideFeedbackButton(); // Hide feedback button when resetting
     }
     
     // 9. ——— Event wiring ———
@@ -3687,6 +3882,206 @@ Sentiment slider ${sliderValues.sentimentRange} (0=negative,100=positive)`;
         renderer.setSize(window.innerWidth, window.innerHeight);
       }
     });
+
+    // ——— Feedback System ———
+    
+    // Show feedback button when synonyms are displayed
+    function showFeedbackButton() {
+      const feedbackContainer = document.getElementById('feedbackContainer');
+      const synonymsGrid = document.getElementById('synonyms');
+      const emptyState = document.getElementById('emptyState');
+      
+      // Show feedback button if there are actual synonyms (not just empty state)
+      if (synonymsGrid && synonymsGrid.children.length > 1 || 
+          (synonymsGrid && synonymsGrid.children.length === 1 && !emptyState)) {
+        feedbackContainer.style.display = 'block';
+      }
+    }
+    
+    // Hide feedback button when results are cleared
+    function hideFeedbackButton() {
+      const feedbackContainer = document.getElementById('feedbackContainer');
+      feedbackContainer.style.display = 'none';
+    }
+    
+    // Feedback modal functionality
+    const feedbackButton = document.getElementById('feedbackButton');
+    const feedbackModalOverlay = document.getElementById('feedbackModalOverlay');
+    const feedbackModalClose = document.getElementById('feedbackModalClose');
+    const feedbackTextarea = document.getElementById('feedbackTextarea');
+    const feedbackSubmitBtn = document.getElementById('feedbackSubmitBtn');
+    const feedbackSubmitText = document.querySelector('.feedback-submit-text');
+    const feedbackSubmitSpinner = document.querySelector('.feedback-submit-spinner');
+    
+    // Open modal
+    feedbackButton.addEventListener('click', () => {
+      feedbackModalOverlay.style.display = 'flex';
+      feedbackTextarea.focus();
+    });
+    
+    // Close modal
+    feedbackModalClose.addEventListener('click', closeFeedbackModal);
+    feedbackModalOverlay.addEventListener('click', (e) => {
+      if (e.target === feedbackModalOverlay) {
+        closeFeedbackModal();
+      }
+    });
+    
+    function closeFeedbackModal() {
+      feedbackModalOverlay.style.display = 'none';
+      feedbackTextarea.value = '';
+      feedbackSubmitBtn.disabled = false;
+      feedbackSubmitText.style.display = 'inline';
+      feedbackSubmitSpinner.style.display = 'none';
+    }
+    
+    // Submit feedback
+    feedbackSubmitBtn.addEventListener('click', async () => {
+      const feedback = feedbackTextarea.value.trim();
+      
+      if (!feedback) {
+        feedbackTextarea.focus();
+        return;
+      }
+      
+      // Show loading state
+      feedbackSubmitBtn.disabled = true;
+      feedbackSubmitText.style.display = 'none';
+      feedbackSubmitSpinner.style.display = 'inline';
+      
+      try {
+        const response = await fetch('/.netlify/functions/feedback', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            feedback: feedback,
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent,
+            url: window.location.href
+          })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          // Show success message
+          showFeedbackSuccess(result.response, result.feedbackType);
+          closeFeedbackModal();
+        } else {
+          throw new Error(result.error || 'Failed to submit feedback');
+        }
+        
+      } catch (error) {
+        console.error('Feedback submission error:', error);
+        alert('Sorry, there was an issue submitting your feedback. Please try again later.');
+      } finally {
+        // Reset button state
+        feedbackSubmitBtn.disabled = false;
+        feedbackSubmitText.style.display = 'inline';
+        feedbackSubmitSpinner.style.display = 'none';
+      }
+    });
+    
+    // Show success message
+    function showFeedbackSuccess(response, feedbackType) {
+      // Create success notification
+      const notification = document.createElement('div');
+      notification.className = 'feedback-success-notification';
+      notification.innerHTML = `
+        <div class="feedback-success-content">
+          <div class="feedback-success-icon">🎉</div>
+          <div class="feedback-success-text">
+            <div class="feedback-success-title">Thanks for your feedback!</div>
+            <div class="feedback-success-message">${response}</div>
+          </div>
+        </div>
+      `;
+      
+      // Add styles for the notification
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        z-index: 2000;
+        max-width: 400px;
+        animation: slideInRight 0.5s ease;
+        font-family: inherit;
+      `;
+      
+      // Add animation styles
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideInRight {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        .feedback-success-content {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+        }
+        .feedback-success-icon {
+          font-size: 1.5rem;
+          animation: bounce 0.6s ease;
+        }
+        .feedback-success-text {
+          flex: 1;
+        }
+        .feedback-success-title {
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+          font-size: 1rem;
+        }
+        .feedback-success-message {
+          font-size: 0.9rem;
+          opacity: 0.9;
+          line-height: 1.4;
+        }
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+          }
+          40% {
+            transform: translateY(-10px);
+          }
+          60% {
+            transform: translateY(-5px);
+          }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Add to page
+      document.body.appendChild(notification);
+      
+      // Remove after 5 seconds
+      setTimeout(() => {
+        notification.style.animation = 'slideInRight 0.3s ease reverse';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 5000);
+    }
+    
+    // Call showFeedbackButton when synonyms are rendered
+    // We'll add this call directly to the existing renderSynonyms function
+    // and also to renderSynonymsWithAnimation
+    
   </script>
 
 
@@ -3780,6 +4175,30 @@ Sentiment slider ${sliderValues.sentimentRange} (0=negative,100=positive)`;
     <!-- Disclaimer -->
     <div style="text-align: center; padding: 1rem; margin-top: 2rem; color: #64748b; font-size: 0.875rem; border-top: 1px solid #e2e8f0;">
       Disclaimer: This is an AI-powered thesaurus. Sometimes the AI makes errors. Please verify results before using.
+    </div>
+    
+    <!-- Feedback Modal -->
+    <div class="feedback-modal-overlay" id="feedbackModalOverlay" style="display: none;">
+      <div class="feedback-modal">
+        <div class="feedback-modal-header">
+          <h3 class="feedback-modal-title">Share Your Feedback</h3>
+          <button class="feedback-modal-close" id="feedbackModalClose">&times;</button>
+        </div>
+        <div class="feedback-modal-body">
+          <textarea 
+            class="feedback-textarea" 
+            id="feedbackTextarea" 
+            placeholder="Tell us what you think! Found a bug? Have a suggestion? We'd love to hear it..."
+            rows="4"
+          ></textarea>
+          <div class="feedback-modal-actions">
+            <button class="feedback-submit-btn" id="feedbackSubmitBtn">
+              <span class="feedback-submit-text">Submit feedback</span>
+              <span class="feedback-submit-spinner" style="display: none;">⏳</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     
 </body>
